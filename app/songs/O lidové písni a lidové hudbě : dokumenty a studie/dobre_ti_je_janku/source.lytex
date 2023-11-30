@@ -1,0 +1,22 @@
+scoredata = {
+  \version "2.24.3"
+  \clef violin
+  \key c \major
+  \time 4/4
+\relative c''{
+g16 g8. a16 d,8. e4 c4 f16 f8. g16 f8. d4 g,4 |
+\repeat volta 2 {g8 g8 f'4 f8 c a4 f'16 8. e16 d8. c4 c4}
+}
+}
+
+scorelyrics = \lyricmode{Do16 -- bre8. ti16 je8. Jan4 -- ku,4 |v_tom16 tren8. -- čan16 -- ském8. zám4 -- ku.4| Ne8 -- o8 -- reš,4 ne8 -- se8 -- ješ,4 len16 si8. se16 -- díš8. v_chlád4 -- ku4.}
+
+\score {
+  <<
+    \new Staff \scoredata
+    \new Lyrics \scorelyrics    
+  >>
+  \layout{ }
+}
+
+
