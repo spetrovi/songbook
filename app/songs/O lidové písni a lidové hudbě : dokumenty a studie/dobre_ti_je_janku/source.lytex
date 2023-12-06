@@ -14,9 +14,7 @@ scorelyrics = \lyricmode{Do16 -- bre8. ti16 je8. Jan4 -- ku,4 |v_tom16 tren8. --
 \score {
   <<
     \new Staff \scoredata
-    \new Lyrics \scorelyrics    
+    \new Lyrics \scorelyrics
   >>
   \layout{ }
 }
-
-

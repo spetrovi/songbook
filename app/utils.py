@@ -1,6 +1,7 @@
 import json
-from pydantic import BaseModel, error_wrappers
+from pydantic import BaseModel
 from pydantic.error_wrappers import ValidationError
+
 
 def valid_schema_data_or_error(raw_data: dict, SchemaModel: BaseModel):
     data = {}
@@ -14,6 +15,6 @@ def valid_schema_data_or_error(raw_data: dict, SchemaModel: BaseModel):
     if error_str is not None:
         try:
             errors = json.loads(error_str)
-        except Exception as e:
+        except Exception:
             errors = [{"loc": "non_field_error", "msg": "Unknown error"}]
     return data, errors
