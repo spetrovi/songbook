@@ -1,25 +1,25 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Login</h1>
+    <h1>Login</h1>
 
-{% include 'snippets/form_errors.html' %}
+    {% include 'snippets/form_errors.html' %}
 
-{% if logged_in %}
-    <p>You are already logged in!</p>
-{% else %}
+    {% if logged_in %}
+        <p>You are already logged in!</p>
+    {% else %}
 
-<form method='POST'>
-    <div>
-        <label for='email'>Email</label>
-        <input type='email' name='email' placeholder='your@email.com' />
-    </div>
+        <form method='POST'>
+            <div>
+                <label for='email'>Email</label>
+                <input type='email' name='email' placeholder='your@email.com' />
+            </div>
 
-    <div>
-        <label for='password'>Password</label>
-        <input type='password' name='password' placeholder='your password' />
-    </div>
-    <button type='submit' >Login </button>
-</form>
-{% endif %}
+            <div>
+                <label for='password'>Password</label>
+                <input type='password' name='password' placeholder='your password' />
+            </div>
+            <button type='submit' >Login </button>
+        </form>
+    {% endif %}
 {% endblock %}

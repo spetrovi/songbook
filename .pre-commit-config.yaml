@@ -27,9 +27,7 @@ repos:
       - id: end-of-file-fixer
       - id: trailing-whitespace
 
-  - repo: https://github.com/motet-a/jinjalint
-    rev: 01e0a4d8
+  - repo: https://github.com/rtts/djhtml
+    rev: main
     hooks:
-      - id: jinjalint
-        types: [file]  # restore the default `types` matching
-        files: \.(html|sls)$
+      - id: djhtml
