@@ -1,7 +1,8 @@
 from email_validator import EmailNotValidError, validate_email
 
+
 def _validate_email(email):
-    msg =  ""
+    msg = ""
     valid = False
     try:
         valid = validate_email(email)
