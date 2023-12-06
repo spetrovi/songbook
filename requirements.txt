@@ -9,3 +9,4 @@ argon2-cffi
 jinja2
 python-multipart
 python-jose[cryptography]
+pre-commit

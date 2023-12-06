@@ -3,6 +3,7 @@ from sqlmodel import Field, SQLModel
 from app.db import get_session
 from . import validators, security
 
+
 # Define the User model
 class User(SQLModel, table=True):
     user_id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True, index=True)
@@ -39,7 +40,6 @@ class User(SQLModel, table=True):
             user.set_password(password)
             session.add(user)
             session.commit()
-
 
     @staticmethod
     def get_by_email(email):

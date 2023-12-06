@@ -1,13 +1,8 @@
-from pydantic import (
-    BaseModel,
-    EmailStr,
-    SecretStr,
-    validator,
-    root_validator
-)
+from pydantic import BaseModel, EmailStr, SecretStr, validator, root_validator
 from .models import User
 from app.db import get_session
 from . import auth
+
 
 class UserLoginSchema(BaseModel):
     email: EmailStr
@@ -28,6 +23,7 @@ class UserLoginSchema(BaseModel):
         token = auth.login(user_obj)
         return {"session_id": token}
 
+
 class UserSignupSchema(BaseModel):
     email: EmailStr
     password: SecretStr
@@ -42,8 +38,8 @@ class UserSignupSchema(BaseModel):
 
     @validator("password_confirm")
     def passwords_match(cls, v, values, **kwargs):
-       password = values.get('password')
-       password_confirm = v
-       if password != password_confirm:
-          raise ValueError("Passwords do not match")
-       return v
+        password = values.get("password")
+        password_confirm = v
+        if password != password_confirm:
+            raise ValueError("Passwords do not match")
+        return v
