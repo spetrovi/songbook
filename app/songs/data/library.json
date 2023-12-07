@@ -1,0 +1,9 @@
+{
+"authors": [
+{"name": "Leoš", "surname": "Janáček", "born": 1854, "died": 1928, "nationality": "czech"}
+    ],
+
+"sources": [
+{"type": "book", "title": "O lidové písni a lidové hudbě : dokumenty a studie", "author_name": "Leoš Janáček", "year": 1955, "publisher":  "Státní nakladatelství krásné literatury, hudby a umění", "pages": 661}
+]
+}
