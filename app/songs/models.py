@@ -1,6 +1,7 @@
 import uuid
 from sqlmodel import Field, SQLModel, Relationship, Enum
 from typing import Optional
+from sqlalchemy import Column, LargeBinary
 
 
 class SourceType(str, Enum):
@@ -61,6 +62,7 @@ class Song(SQLModel, table=True):
     verses: Optional[str]
     source_id: Optional[uuid.UUID] = Field(default=None, foreign_key="source.id")
     source: Optional["Source"] = Relationship()
+    pdf_partial: Optional[bytes] = Column(LargeBinary, nullable=True)
 
     def __str__(self):
         return self.__repr__()
