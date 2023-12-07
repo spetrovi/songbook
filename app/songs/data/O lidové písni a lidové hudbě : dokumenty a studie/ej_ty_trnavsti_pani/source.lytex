@@ -1,5 +1,4 @@
 scoredata = {
-  \version "2.24.3"
   \clef violin
   \key c \major
   \time 7/4

@@ -2,9 +2,29 @@ import json
 from models import Person, Source, Song
 from pathlib import Path
 from sqlmodel import Session, SQLModel, create_engine
+import subprocess
+
+# import abjad
+import tempfile
+
+
+def create_pdf(lytex_source):
+    # if you wonder why we do it like this,
+    # it's because lilypond dies when encountering whitespace
+    # in file path
+    # Also, we don't get logs to clutter our filesystem
+    with tempfile.TemporaryDirectory() as temp_dir:
+        temp_path = Path(temp_dir)
+        source = temp_path / "source.lytex"
+        pdf_path = temp_path / "source.pdf"
+        with source.open(mode="w") as file:
+            file.write(lytex_source)
+        subprocess.run(["lilypond", "-o", temp_path, source])
+        return pdf_path.read_bytes()
 
 
 def process_song(meta_path, source_list):
+    print(f"\033[32mOpening file {meta_path}\033[0m")
     with open(meta_path, "r") as meta_source:
         try:
             meta = json.load(meta_source)
@@ -17,6 +37,7 @@ def process_song(meta_path, source_list):
     lytex_path = meta_path.parent / "source.lytex"
     if lytex_path.exists():
         lytex_source = lytex_path.read_text()
+        pdf_content = create_pdf(lytex_source)
     else:
         lytex_source = None
 
@@ -26,7 +47,11 @@ def process_song(meta_path, source_list):
     else:
         verses_source = None
     return Song(
-        title=meta["title"], source=source, lytex=lytex_source, verses=verses_source
+        title=meta["title"],
+        source=source,
+        lytex=lytex_source,
+        verses=verses_source,
+        pdf_partial=pdf_content,
     )
 
 
