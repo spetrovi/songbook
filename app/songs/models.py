@@ -1,24 +1,12 @@
 import uuid
 from sqlmodel import Field, SQLModel, Relationship, Enum
 from typing import Optional
-from sqlalchemy import Column, LargeBinary
-from typing import Any
-
-from pydantic_core import CoreSchema, core_schema
-
-from pydantic import GetCoreSchemaHandler
 
 
 class SourceType(str, Enum):
     book = "book"
     cd = "cd"
     lp = "lp"
-
-    @classmethod
-    def __get_pydantic_core_schema__(
-        cls, source_type: Any, handler: GetCoreSchemaHandler
-    ) -> CoreSchema:
-        return core_schema.no_info_after_validator_function(cls, handler(str))
 
 
 class Person(SQLModel, table=True):
@@ -73,7 +61,7 @@ class Song(SQLModel, table=True):
     verses: Optional[str]
     source_id: Optional[uuid.UUID] = Field(default=None, foreign_key="source.id")
     source: Optional["Source"] = Relationship()
-    pdf_partial: Optional[bytes] = Column(LargeBinary, nullable=True)
+    #    pdf_partial: Optional[bytes] = Column(LargeBinary, nullable=True)
 
     def __str__(self):
         return self.__repr__()
