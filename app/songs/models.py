@@ -62,6 +62,7 @@ class Song(SQLModel, table=True):
     source_id: Optional[uuid.UUID] = Field(default=None, foreign_key="source.id")
     source: Optional["Source"] = Relationship()
     #    pdf_partial: Optional[bytes] = Column(LargeBinary, nullable=True)
+    pdf_path: Optional[str] = Field(default=None)
 
     def __str__(self):
         return self.__repr__()
