@@ -9,7 +9,8 @@ from .users.backend import JWTCookieBackend
 from .users.decorators import login_required
 from .shortcuts import render, redirect
 from .songs.models import Song
-from sqlmodel import select
+from pathlib import Path
+import subprocess
 
 app = FastAPI()
 app.add_middleware(AuthenticationMiddleware, backend=JWTCookieBackend())
@@ -18,12 +19,32 @@ settings = config.get_settings()
 from .handlers import *  # noqa
 
 
+def create_pdf(song):
+    dest_path = Path("./tmp/" + str(song.id))
+    dest_path.mkdir(parents=True, exist_ok=True)
+    source = dest_path / "source.lytex"
+    pdf_path = dest_path / "source.pdf"
+    with source.open(mode="w") as file:
+        file.write(song.lytex)
+    subprocess.run(["lilypond", "-o", dest_path, source])
+    return str(pdf_path)
+
+
+def generate_all_pdfs():
+    with db.get_library_session() as session:
+        songs = session.query(Song).all()
+        for song in songs:
+            song.pdf_path = create_pdf(song)
+        session.commit()
+
+
 @app.on_event("startup")
 def on_startup():
     # triggered when fastapi starts
     # Create all tables
     #   SQLModel.metadata.create_all(engine)
     print("startup")
+    generate_all_pdfs()
 
 
 @app.get("/", response_class=HTMLResponse)
@@ -97,13 +118,22 @@ def users_list_view():
         return users
 
 
-@app.get("/songs")
-def song_list_view():
+@app.get("/songs_list")
+def songs_list_view():
     with db.get_library_session() as session:
         songs = session.query(Song).all()
-        statement = select(Song).where(Song.title == "Dobre ti je, Janku")
-        result = session.exec(statement)
-        song = result.first()
-        print("First song", song)
-        print("Title: ", song.source.title)
+        return songs
+
+
+@app.get("/songs", response_class=HTMLResponse)
+def song_list_view(request: Request):
+    context = {}
+    return render(request, "songs.html", context)
+    with db.get_library_session() as session:
+        songs = session.query(Song).all()
+        #        statement = select(Song).where(Song.title == "Dobre ti je, Janku")
+        #        result = session.exec(statement)
+        #        song = result.first()
+        #        print("First song", song)
+        #        print("Title: ", song.source.title)
         return songs
