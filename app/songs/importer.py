@@ -37,7 +37,7 @@ def process_song(meta_path, source_list):
     lytex_path = meta_path.parent / "source.lytex"
     if lytex_path.exists():
         lytex_source = lytex_path.read_text()
-        pdf_content = create_pdf(lytex_source)
+    #        pdf_content = create_pdf(lytex_source)
     else:
         lytex_source = None
 
@@ -51,7 +51,7 @@ def process_song(meta_path, source_list):
         source=source,
         lytex=lytex_source,
         verses=verses_source,
-        pdf_partial=pdf_content,
+        #        pdf_partial=pdf_content,
     )
 
 

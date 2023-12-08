@@ -6,9 +6,10 @@ from .users.models import User
 from .users.schemas import UserSignupSchema, UserLoginSchema
 from . import db, utils
 from .users.backend import JWTCookieBackend
-from .db import engine, SQLModel
 from .users.decorators import login_required
 from .shortcuts import render, redirect
+from .songs.models import Song
+from sqlmodel import select
 
 app = FastAPI()
 app.add_middleware(AuthenticationMiddleware, backend=JWTCookieBackend())
@@ -21,7 +22,8 @@ from .handlers import *  # noqa
 def on_startup():
     # triggered when fastapi starts
     # Create all tables
-    SQLModel.metadata.create_all(engine)
+    #   SQLModel.metadata.create_all(engine)
+    print("startup")
 
 
 @app.get("/", response_class=HTMLResponse)
@@ -93,3 +95,15 @@ def users_list_view():
     with db.get_session() as session:
         users = session.query(User).all()
         return users
+
+
+@app.get("/songs")
+def song_list_view():
+    with db.get_library_session() as session:
+        songs = session.query(Song).all()
+        statement = select(Song).where(Song.title == "Dobre ti je, Janku")
+        result = session.exec(statement)
+        song = result.first()
+        print("First song", song)
+        print("Title: ", song.source.title)
+        return songs
