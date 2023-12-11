@@ -11,6 +11,7 @@ from .shortcuts import render, redirect
 from .songs.models import Song
 from pathlib import Path
 import subprocess
+from fastapi.staticfiles import StaticFiles
 
 app = FastAPI()
 app.add_middleware(AuthenticationMiddleware, backend=JWTCookieBackend())
@@ -19,23 +20,31 @@ settings = config.get_settings()
 from .handlers import *  # noqa
 
 
-def create_pdf(song):
-    dest_path = Path("./tmp/" + str(song.id))
+def build_song(song):
+    dest_path = Path("app/tmp/" + str(song.id))
+    pdf_path = dest_path / "source.pdf"
+    if pdf_path.exists():
+        return
     dest_path.mkdir(parents=True, exist_ok=True)
     source = dest_path / "source.lytex"
-    pdf_path = dest_path / "source.pdf"
+
     with source.open(mode="w") as file:
-        file.write(song.lytex)
+        source_lytex = "#(ly:set-option 'crop #t)\n" + song.lytex
+        file.write(source_lytex)
+
     subprocess.run(["lilypond", "-o", dest_path, source])
-    return str(pdf_path)
+    return
 
 
-def generate_all_pdfs():
+def build_all_songs():
     with db.get_library_session() as session:
         songs = session.query(Song).all()
         for song in songs:
-            song.pdf_path = create_pdf(song)
-        session.commit()
+            build_song(song)
+
+
+#            song.pdf_path = create_pdf(song)
+#        session.commit()
 
 
 @app.on_event("startup")
@@ -44,7 +53,10 @@ def on_startup():
     # Create all tables
     #   SQLModel.metadata.create_all(engine)
     print("startup")
-    generate_all_pdfs()
+    build_all_songs()
+    # Mount the "tmp" folder to serve files
+    tmp_path = Path(__file__).parent / "tmp"
+    app.mount("/tmp", StaticFiles(directory=tmp_path), name="tmp")
 
 
 @app.get("/", response_class=HTMLResponse)
@@ -118,22 +130,15 @@ def users_list_view():
         return users
 
 
-@app.get("/songs_list")
-def songs_list_view():
+@app.get("/get_songs")
+def get_songs():
     with db.get_library_session() as session:
-        songs = session.query(Song).all()
-        return songs
+        songs_all = session.query(Song).all()
+        songs = [song.dict() for song in songs_all]
+        return {"songs": songs}
 
 
+# Get songs from the database
 @app.get("/songs", response_class=HTMLResponse)
-def song_list_view(request: Request):
-    context = {}
-    return render(request, "songs.html", context)
-    with db.get_library_session() as session:
-        songs = session.query(Song).all()
-        #        statement = select(Song).where(Song.title == "Dobre ti je, Janku")
-        #        result = session.exec(statement)
-        #        song = result.first()
-        #        print("First song", song)
-        #        print("Title: ", song.source.title)
-        return songs
+def songs_view(request: Request):
+    return render(request, "songs.html", context=get_songs())
