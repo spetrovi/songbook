@@ -1,6 +1,10 @@
 import uuid
-from sqlmodel import Field, SQLModel, Relationship, Enum
 from typing import Optional
+
+from sqlmodel import Enum
+from sqlmodel import Field
+from sqlmodel import Relationship
+from sqlmodel import SQLModel
 
 
 class SourceType(str, Enum):

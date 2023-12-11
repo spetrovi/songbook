@@ -1,9 +1,8 @@
-from starlette.authentication import (
-    AuthenticationBackend,
-    SimpleUser,
-    UnauthenticatedUser,
-    AuthCredentials,
-)
+from starlette.authentication import AuthCredentials
+from starlette.authentication import AuthenticationBackend
+from starlette.authentication import SimpleUser
+from starlette.authentication import UnauthenticatedUser
+
 from . import auth
 
 

@@ -1,8 +1,11 @@
-from .models import User
-from app.db import get_session
 import datetime
-from jose import jwt, ExpiredSignatureError
+
+from jose import ExpiredSignatureError
+from jose import jwt
+
+from .models import User
 from app import config
+from app.db import get_session
 
 settings = config.get_settings()
 
