@@ -1,17 +1,24 @@
-from fastapi import FastAPI, Request, Form
+import subprocess
+from pathlib import Path
+
+from fastapi import FastAPI
+from fastapi import Form
+from fastapi import Request
 from fastapi.responses import HTMLResponse
+from fastapi.staticfiles import StaticFiles
 from starlette.middleware.authentication import AuthenticationMiddleware
+
 from . import config
-from .users.models import User
-from .users.schemas import UserSignupSchema, UserLoginSchema
-from . import db, utils
+from . import db
+from . import utils
+from .shortcuts import redirect
+from .shortcuts import render
+from .songs.models import Song
 from .users.backend import JWTCookieBackend
 from .users.decorators import login_required
-from .shortcuts import render, redirect
-from .songs.models import Song
-from pathlib import Path
-import subprocess
-from fastapi.staticfiles import StaticFiles
+from .users.models import User
+from .users.schemas import UserLoginSchema
+from .users.schemas import UserSignupSchema
 
 app = FastAPI()
 app.add_middleware(AuthenticationMiddleware, backend=JWTCookieBackend())

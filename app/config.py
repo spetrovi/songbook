@@ -1,6 +1,7 @@
-from pydantic import Field
-from pydantic import BaseSettings
 from pathlib import Path
+
+from pydantic import BaseSettings
+from pydantic import Field
 
 
 class Settings(BaseSettings):
