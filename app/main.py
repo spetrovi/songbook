@@ -6,6 +6,8 @@ from fastapi import Form
 from fastapi import Request
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
+from sqlmodel import create_engine
+from sqlmodel import SQLModel
 from starlette.middleware.authentication import AuthenticationMiddleware
 
 from . import config
@@ -13,6 +15,7 @@ from . import db
 from . import utils
 from .shortcuts import redirect
 from .shortcuts import render
+from .songbooks.models import Songbook
 from .songs.models import Song
 from .users.backend import JWTCookieBackend
 from .users.decorators import login_required
@@ -29,6 +32,9 @@ from .handlers import *  # noqa
 
 @app.on_event("startup")
 def on_startup():
+    DATABASE_URL = "sqlite:///database.db"
+    engine = create_engine(DATABASE_URL)
+    SQLModel.metadata.create_all(engine)
     # Use Lilypond to build song fragments
     utils.build_all_songs()
 
@@ -123,4 +129,6 @@ def songs_view(request: Request):
 
 @app.get("/create_songbook", response_class=HTMLResponse)
 def create_songbook(request: Request):
+    new_id = uuid.uuid4()
+    Songbook.create_songbook(new_id, request.user.username)
     return render(request, "snippets/songbook_card.html", {"id": str(uuid.uuid4())})
