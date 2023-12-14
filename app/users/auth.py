@@ -1,8 +1,11 @@
-from .models import User
-from app.db import get_session
 import datetime
-from jose import jwt, ExpiredSignatureError
+
+from jose import ExpiredSignatureError
+from jose import jwt
+
+from .models import User
 from app import config
+from app.db import get_session
 
 settings = config.get_settings()
 
@@ -19,7 +22,7 @@ def authenticate(email, password):
     return user_obj
 
 
-def login(user_obj, expires=5):
+def login(user_obj, expires=settings.session_duration):
     # step 2
     raw_data = {
         "user_id": f"{user_obj.user_id}",
