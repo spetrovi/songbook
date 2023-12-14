@@ -2,6 +2,9 @@ from sqlmodel import create_engine
 from sqlmodel import Session
 from sqlmodel import SQLModel
 
+# from app.users.models import User
+# from app.songbooks.models import Songbook
+
 # Define the database URL (adjust accordingly)
 DATABASE_URL = "sqlite:///database.db"
 LIBRARY_URL = "sqlite:///app/songs/library.db"
