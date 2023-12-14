@@ -3,5 +3,184 @@
 
 {% block content %}
 
-    <h1>Welcome back user</h1>
+
+    <title>Your Dashboard</title>
+    <!-- Include Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Include Swiper.js CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+    <!-- Include your custom CSS -->
+    <style>
+        .swiper-container {
+            overflow-x: auto;
+        }
+
+        .swiper-slide {
+            display: inline-block;
+            width: 18rem; /* Adjust the width as needed */
+            margin-right: 10px; /* Adjust the spacing between cards */
+            vertical-align: top;
+        }
+
+        .card:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow on hover */
+
+
+        }
+
+    </style>
+
+
+    <div class="container">
+        <h1>Your Dashboard</h1>
+
+    <!-- Custom Songbook Section -->
+        <h2>My songbooks</h2>
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+            <!-- Book Cards -->
+                <div class="swiper-slide">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Create a new playlist</h5>
+                            <p class="card-text">Click the button and a new editable playlist will appear</p>
+                            <a href="#" class="btn btn-primary" hx-get="/create_songbook" hx-target="#new_card_placeholder" hx-swap="outerHTML" >Create!</a>
+                        </div>
+                    </div>
+                </div>
+                <div id="new_card_placeholder" style="display: none;">
+                </div>
+            </div>
+        </div>
+    <!-- Books Section -->
+        <h2>Available Books</h2>
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+            <!-- Book Cards -->
+                <div class="swiper-slide">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Book Title 1</h5>
+                            <p class="card-text">Book description goes here.</p>
+                            <a href="#" class="btn btn-primary">Read More</a>
+                        </div>
+                    </div>
+                </div>
+            <!-- Repeat the above structure for each book placeholder card -->
+                <div class="swiper-slide">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Book Title 2</h5>
+                            <p class="card-text">Book description goes here.</p>
+                            <a href="#" class="btn btn-primary">Read More</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="swiper-slide">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Book Title 3</h5>
+                            <p class="card-text">Book description goes here.</p>
+                            <a href="#" class="btn btn-primary">Read More</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="swiper-slide">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Book Title 4</h5>
+                            <p class="card-text">Book description goes here.</p>
+                            <a href="#" class="btn btn-primary">Read More</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="swiper-slide">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Book Title 5</h5>
+                            <p class="card-text">Book description goes here.</p>
+                            <a href="#" class="btn btn-primary">Read More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <!-- Books Section -->
+        <h2>Available Songs</h2>
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+            <!-- Song Cards -->
+                <div class="swiper-slide">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Song Title 1</h5>
+                            <p class="card-text">Song description goes here.</p>
+                            <a href="#" class="btn btn-primary">Read More</a>
+                        </div>
+                    </div>
+                </div>
+            <!-- Repeat the above structure for each book placeholder card -->
+                <div class="swiper-slide">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Song Title 1</h5>
+                            <p class="card-text">Song description goes here.</p>
+                            <a href="#" class="btn btn-primary">Read More</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="swiper-slide">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Song Title 1</h5>
+                            <p class="card-text">Song description goes here.</p>
+                            <a href="#" class="btn btn-primary">Read More</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="swiper-slide">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Song Title 1</h5>
+                            <p class="card-text">Song description goes here.</p>
+                            <a href="#" class="btn btn-primary">Read More</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="swiper-slide">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Song Title 1</h5>
+                            <p class="card-text">Song description goes here.</p>
+                            <a href="#" class="btn btn-primary">Read More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!-- Include Bootstrap JS and Popper.js -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<!-- Include Swiper.js for swiping functionality on mobile -->
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script>
+    // Initialize Swiper
+        var swiper = new Swiper('.swiper-container', {
+            slidesPerView: 'auto',
+            spaceBetween: 10,
+            grabCursor: true
+        });
+    </script>
+
 {% endblock %}

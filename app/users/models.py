@@ -1,7 +1,11 @@
 import uuid
-from sqlmodel import Field, SQLModel
+
+from sqlmodel import Field
+from sqlmodel import SQLModel
+
+from . import security
+from . import validators
 from app.db import get_session
-from . import validators, security
 
 
 # Define the User model

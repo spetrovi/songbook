@@ -1,7 +1,7 @@
 fastapi
 uvicorn
 python-dotenv
-pydantic
+pydantic==1.10.13
 sqlmodel
 SQLAlchemy
 email-validator

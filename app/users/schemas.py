@@ -1,7 +1,12 @@
-from pydantic import BaseModel, EmailStr, SecretStr, validator, root_validator
+from pydantic import BaseModel
+from pydantic import EmailStr
+from pydantic import root_validator
+from pydantic import SecretStr
+from pydantic import validator
+
+from . import auth
 from .models import User
 from app.db import get_session
-from . import auth
 
 
 class UserLoginSchema(BaseModel):

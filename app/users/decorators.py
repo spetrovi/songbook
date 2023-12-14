@@ -1,5 +1,7 @@
 from functools import wraps
+
 from fastapi import Request
+
 from .exceptions import LoginRequiredException
 
 

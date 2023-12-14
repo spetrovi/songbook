@@ -1,6 +1,8 @@
-from app import config
-from fastapi.responses import HTMLResponse, RedirectResponse
+from fastapi.responses import HTMLResponse
+from fastapi.responses import RedirectResponse
 from fastapi.templating import Jinja2Templates
+
+from app import config
 
 settings = config.get_settings()
 templates = Jinja2Templates(directory=str(settings.templates_dir))
