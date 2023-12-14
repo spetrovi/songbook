@@ -1,7 +1,9 @@
+import sys
 from pathlib import Path
 
 from pydantic import BaseSettings
 from pydantic import Field
+from pydantic.error_wrappers import ValidationError
 
 
 class Settings(BaseSettings):
@@ -16,4 +18,8 @@ class Settings(BaseSettings):
 
 
 def get_settings():
-    return Settings()
+    try:
+        return Settings()
+    except ValidationError as e:
+        print(f"Couldn't configure Settings: \n{e}")
+        sys.exit()
