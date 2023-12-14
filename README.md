@@ -1,5 +1,6 @@
 # songbook
 
-pip install -r requirements.dev.txt
+dnf install lilypond -y
+pip install -r requirements.txt
 
 uvicorn app.main:app --reload
