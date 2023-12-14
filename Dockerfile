@@ -1,4 +1,10 @@
 #
+FROM fedora:latest
+
+#
+RUN dnf update -y && dnf install -y lilypond
+
+#
 FROM python:3.9
 
 #
