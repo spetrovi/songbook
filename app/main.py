@@ -1,4 +1,4 @@
-import subprocess
+import uuid
 from pathlib import Path
 
 from fastapi import FastAPI
@@ -27,40 +27,11 @@ settings = config.get_settings()
 from .handlers import *  # noqa
 
 
-def build_song(song):
-    dest_path = Path("app/tmp/" + str(song.id))
-    pdf_path = dest_path / "source.pdf"
-    if pdf_path.exists():
-        return
-    dest_path.mkdir(parents=True, exist_ok=True)
-    source = dest_path / "source.lytex"
-
-    with source.open(mode="w") as file:
-        source_lytex = "#(ly:set-option 'crop #t)\n" + song.lytex
-        file.write(source_lytex)
-
-    subprocess.run(["lilypond", "-o", dest_path, source])
-    return
-
-
-def build_all_songs():
-    with db.get_library_session() as session:
-        songs = session.query(Song).all()
-        for song in songs:
-            build_song(song)
-
-
-#            song.pdf_path = create_pdf(song)
-#        session.commit()
-
-
 @app.on_event("startup")
 def on_startup():
-    # triggered when fastapi starts
-    # Create all tables
-    #   SQLModel.metadata.create_all(engine)
-    print("startup")
-    build_all_songs()
+    # Use Lilypond to build song fragments
+    utils.build_all_songs()
+
     # Mount the "tmp" folder to serve files
     tmp_path = Path(__file__).parent / "tmp"
     app.mount("/tmp", StaticFiles(directory=tmp_path), name="tmp")
@@ -83,8 +54,7 @@ def account_view(request: Request):
 
 @app.get("/login", response_class=HTMLResponse)
 def login_get_view(request: Request):
-    session_id = request.cookies.get("session_id") or None
-    return render(request, "auth/login.html", {"logged_in": session_id is not None})
+    return render(request, "auth/login.html", {})
 
 
 @app.post("/login", response_class=HTMLResponse)
@@ -149,3 +119,8 @@ def get_songs():
 @app.get("/songs", response_class=HTMLResponse)
 def songs_view(request: Request):
     return render(request, "songs.html", context=get_songs())
+
+
+@app.get("/create_songbook", response_class=HTMLResponse)
+def create_songbook(request: Request):
+    return render(request, "snippets/songbook_card.html", {"id": str(uuid.uuid4())})
