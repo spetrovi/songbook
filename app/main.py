@@ -7,6 +7,7 @@ from fastapi import Request
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from sqlmodel import create_engine
+from sqlmodel import select
 from sqlmodel import SQLModel
 from starlette.middleware.authentication import AuthenticationMiddleware
 
@@ -17,6 +18,7 @@ from .shortcuts import redirect
 from .shortcuts import render
 from .songbooks.models import Songbook
 from .songs.models import Song
+from .songs.models import Source
 from .users.backend import JWTCookieBackend
 from .users.decorators import login_required
 from .users.models import User
@@ -43,10 +45,33 @@ def on_startup():
     app.mount("/tmp", StaticFiles(directory=tmp_path), name="tmp")
 
 
+@login_required
+def dashboard_view(request: Request):
+    # we need to get user's songbooks, all books and all songs
+    context = {}
+    with db.get_library_session() as session:
+        songs_all = session.query(Song).all()
+        songs = [song.dict() for song in songs_all]
+        context["songs"] = songs
+
+        sources_all = session.query(Source).all()
+        sources = [source.dict() for source in sources_all]
+        context["sources"] = sources
+
+    with db.get_session() as session:
+        statement = select(Songbook).where(Songbook.user_id == request.user.username)
+        result = session.exec(statement)
+        songbooks_all = result.all()
+        songbooks = [songbook.dict() for songbook in songbooks_all]
+        context["songbooks"] = songbooks
+
+    return render(request, "dashboard.html", context, status_code=200)
+
+
 @app.get("/", response_class=HTMLResponse)
 def homepage(request: Request):
     if request.user.is_authenticated:
-        return render(request, "dashboard.html", {}, status_code=200)
+        return dashboard_view(request)
     context = {}
     return render(request, "home.html", context)
 
