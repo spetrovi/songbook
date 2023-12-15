@@ -1,0 +1,9 @@
+<form hx-put="/rename_songbook/{{songbook_id}}" hx-target="this" hx-swap="outerHTML">
+    <div>
+        <label>Title</label>
+        <input type="text" name="title" value="{{title}}">
+    </div>
+    <p class="card-text">Your description goes here.</p>
+    <button class="btn btn-primary">Submit</button>
+    <button class="btn btn-primary" hx-get="/contact/1">Cancel</button>
+</form>

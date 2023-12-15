@@ -1,0 +1,5 @@
+
+<h5 class="card-title">{{ title }}</h5>
+<p class="card-text">Your description goes here.</p>
+<button class="btn btn-primary" hx-get="/rename_songbook/{{songbook_id}}" hx-target="#cardbody_{{songbook_id}}" hx-swap="innerHTML">Rename</button>
+<button class="btn btn-danger" hx-target="#slide_{{songbook_id}}" hx-delete="/delete_songbook/{{songbook_id}}" hx-swap="outerHTML">Delete</button>
