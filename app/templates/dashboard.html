@@ -27,7 +27,9 @@
 
 
         }
-
+        .smooth {
+            transition: all 1s ease-in;
+        }
     </style>
 
 
@@ -51,12 +53,13 @@
                 <div id="new_card_placeholder" style="display: none;">
                 </div>
                 {% for songbook in songbooks %}
-                    <div class="swiper-slide swiper-slide-active" style="margin-right: 10px;" role="group">
+                    <div class="swiper-slide swiper-slide-active" style="margin-right: 10px;" role="group" id="slide_{{songbook.songbook_id}}">
                         <div class="card">
-                            <div class="card-body">
+                            <div class="card-body" id="cardbody_{{songbook.songbook_id}}">
                                 <h5 class="card-title">{{ songbook.title }}</h5>
                                 <p class="card-text">Your description goes here.</p>
-                                <a href="#" class="btn btn-primary">Add songs</a>
+                                <button class="btn btn-primary" hx-get="/rename_songbook/{{songbook.songbook_id}}" hx-target="#cardbody_{{songbook.songbook_id}}" hx-swap="innerHTML">Rename</button>
+                                <button class="btn btn-danger" hx-target="#slide_{{songbook.songbook_id}}" hx-delete="/delete_songbook/{{songbook.songbook_id}}">Delete</button>
                             </div>
                         </div>
                     </div>
