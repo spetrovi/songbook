@@ -50,62 +50,37 @@
                 </div>
                 <div id="new_card_placeholder" style="display: none;">
                 </div>
+                {% for songbook in songbooks %}
+                    <div class="swiper-slide swiper-slide-active" style="margin-right: 10px;" role="group">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ songbook.title }}</h5>
+                                <p class="card-text">Your description goes here.</p>
+                                <a href="#" class="btn btn-primary">Add songs</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+
             </div>
         </div>
+
     <!-- Books Section -->
         <h2>Available Books</h2>
         <div class="swiper-container">
             <div class="swiper-wrapper">
             <!-- Book Cards -->
-                <div class="swiper-slide">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Book Title 1</h5>
-                            <p class="card-text">Book description goes here.</p>
-                            <a href="#" class="btn btn-primary">Read More</a>
+                {% for source in sources %}
+                    <div class="swiper-slide">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ source.title }}</h5>
+                                <p class="card-text">Description</p>
+                                <a href="#" class="btn btn-primary">Read More</a>
+                            </div>
                         </div>
                     </div>
-                </div>
-            <!-- Repeat the above structure for each book placeholder card -->
-                <div class="swiper-slide">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Book Title 2</h5>
-                            <p class="card-text">Book description goes here.</p>
-                            <a href="#" class="btn btn-primary">Read More</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="swiper-slide">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Book Title 3</h5>
-                            <p class="card-text">Book description goes here.</p>
-                            <a href="#" class="btn btn-primary">Read More</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="swiper-slide">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Book Title 4</h5>
-                            <p class="card-text">Book description goes here.</p>
-                            <a href="#" class="btn btn-primary">Read More</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="swiper-slide">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Book Title 5</h5>
-                            <p class="card-text">Book description goes here.</p>
-                            <a href="#" class="btn btn-primary">Read More</a>
-                        </div>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
         </div>
 
@@ -114,55 +89,17 @@
         <div class="swiper-container">
             <div class="swiper-wrapper">
             <!-- Song Cards -->
-                <div class="swiper-slide">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Song Title 1</h5>
-                            <p class="card-text">Song description goes here.</p>
-                            <a href="#" class="btn btn-primary">Read More</a>
+                {% for song in songs %}
+                    <div class="swiper-slide">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ song.title }}</h5>
+                                <p class="card-text">Song description goes here.</p>
+                                <a href="#" class="btn btn-primary">Read More</a>
+                            </div>
                         </div>
                     </div>
-                </div>
-            <!-- Repeat the above structure for each book placeholder card -->
-                <div class="swiper-slide">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Song Title 1</h5>
-                            <p class="card-text">Song description goes here.</p>
-                            <a href="#" class="btn btn-primary">Read More</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="swiper-slide">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Song Title 1</h5>
-                            <p class="card-text">Song description goes here.</p>
-                            <a href="#" class="btn btn-primary">Read More</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="swiper-slide">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Song Title 1</h5>
-                            <p class="card-text">Song description goes here.</p>
-                            <a href="#" class="btn btn-primary">Read More</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="swiper-slide">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Song Title 1</h5>
-                            <p class="card-text">Song description goes here.</p>
-                            <a href="#" class="btn btn-primary">Read More</a>
-                        </div>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
         </div>
     </div>
