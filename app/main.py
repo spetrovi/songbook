@@ -152,8 +152,63 @@ def songs_view(request: Request):
     return render(request, "songs.html", context=get_songs())
 
 
+@app.delete("/delete_songbook/{songbook_id}", response_class=HTMLResponse)
+def delete_songbook(request: Request, songbook_id: str):
+    with db.get_session() as session:
+        statement = (
+            select(Songbook)
+            .where(Songbook.user_id == request.user.username)
+            .where(Songbook.songbook_id == songbook_id)
+        )
+        result = session.exec(statement)
+        songbook = result.first()
+        session.delete(songbook)
+        session.commit()
+        return HTMLResponse("", status_code=200)
+
+
 @app.get("/create_songbook", response_class=HTMLResponse)
 def create_songbook(request: Request):
     new_id = uuid.uuid4()
     Songbook.create_songbook(new_id, request.user.username)
-    return render(request, "snippets/songbook_card.html", {"id": str(uuid.uuid4())})
+    return render(
+        request,
+        "snippets/songbook_card.html",
+        {"songbook_id": str(new_id), "title": "Untitled"},
+    )
+
+
+@app.put("/rename_songbook/{songbook_id}", response_class=HTMLResponse)
+def rename_songbook(request: Request, songbook_id: str, title: str = Form(...)):
+    with db.get_session() as session:
+        statement = (
+            select(Songbook)
+            .where(Songbook.user_id == request.user.username)
+            .where(Songbook.songbook_id == songbook_id)
+        )
+        result = session.exec(statement)
+        songbook = result.first()
+        songbook.title = title
+        session.commit()
+        return render(
+            request,
+            "snippets/songbook_body.html",
+            {"title": title, "songbook_id": songbook.songbook_id},
+        )
+
+
+@app.get("/rename_songbook/{songbook_id}", response_class=HTMLResponse)
+def get_rename_songbook(request: Request, songbook_id: str):
+    with db.get_session() as session:
+        statement = (
+            select(Songbook)
+            .where(Songbook.user_id == request.user.username)
+            .where(Songbook.songbook_id == songbook_id)
+        )
+        result = session.exec(statement)
+        songbook = result.first()
+        return render(
+            request,
+            "snippets/rename_songbook_card.html",
+            {"title": songbook.title, "songbook_id": songbook.songbook_id},
+        )
