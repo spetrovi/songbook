@@ -1,26 +1,23 @@
-#
-FROM fedora:latest
+# Use Fedora as the base image
+FROM fedora:37
 
-#
-RUN dnf update -y && dnf install -y lilypond
+# Update and install LilyPond, Python 3.9, and other dependencies
+RUN dnf update -y && \
+    dnf install -y lilypond python3 python3-pip && \
+    dnf clean all
 
-#
-FROM python:3.9
-
-#
+# Set the working directory
 WORKDIR /code
 
-#
+# Copy requirements.txt and install dependencies
 COPY ./requirements.txt /code/requirements.txt
+RUN pip3 install --no-cache-dir --upgrade -r /code/requirements.txt
 
-#
-RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
-
-# Run the importer script
-CMD ["python", "./app/songs/importer.py"]
-
-#
+# Copy the application code
 COPY ./app /code/app
 
-#
+# Run the importer script
+RUN python3 /code/app/songs/importer.py
+
+# Define the command to run your application
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80"]
