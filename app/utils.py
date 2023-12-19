@@ -38,7 +38,7 @@ def build_song(song):
         source_lytex = "#(ly:set-option 'crop #t)\n" + song.lytex
         file.write(source_lytex)
 
-    subprocess.run(["lilypond", "-o", dest_path, source])
+    subprocess.run(["lilypond", "-o", dest_path.resolve(), source.resolve()])
     return
 
 
