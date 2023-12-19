@@ -95,7 +95,7 @@ def import_library(source_path):
         filter(None, [process_song(meta_path, source_list) for meta_path in meta_paths])
     )
 
-    db_file_name = "library.db"
+    db_file_name = str(Path(__file__).parent / "library.db")
     sqlite_url = f"sqlite:///{db_file_name}"
 
     engine = create_engine(sqlite_url, echo=True)
@@ -116,4 +116,4 @@ def import_library(source_path):
 
 
 if __name__ == "__main__":
-    import_library("./data")
+    import_library(Path(__file__).parent / "data")
