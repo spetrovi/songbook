@@ -82,7 +82,12 @@ def import_library(source_path):
     library_path = root / "library.json"
 
     with open(library_path, "r") as library_source:
-        library = json.load(library_source)
+        try:
+            library = json.load(library_source)
+        except json.decoder.JSONDecodeError as e:
+            print("Couldn't load library.json")
+            print(e)
+            return 0
 
     person_list = [Person.from_dict(author) for author in library["authors"]]
     source_list = []
