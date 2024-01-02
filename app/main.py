@@ -16,6 +16,7 @@ from . import db
 from . import utils
 from .shortcuts import redirect
 from .shortcuts import render
+from .songbooks.models import Entry
 from .songbooks.models import Songbook
 from .songs.models import Song
 from .songs.models import Source
@@ -212,3 +213,64 @@ def get_rename_songbook(request: Request, songbook_id: str):
             "snippets/rename_songbook_card.html",
             {"title": songbook.title, "songbook_id": songbook.songbook_id},
         )
+
+
+@app.get("/song/{song_id}", response_class=HTMLResponse)
+def get_song_detail(request: Request, song_id: str):
+    with db.get_library_session() as session:
+        statement = select(Song).where(Song.id == song_id)
+        result = session.exec(statement)
+        song = result.first()
+
+    with db.get_session() as session:
+        statement = select(Songbook).where(Songbook.user_id == request.user.username)
+        result = session.exec(statement)
+        songbooks = result.all()
+
+    return render(
+        request,
+        "song_detail.html",
+        {"song": song, "songbooks": songbooks},
+    )
+
+
+@app.get("/source/{source_id}", response_class=HTMLResponse)
+def get_source_detail(request: Request, source_id: str):
+    with db.get_library_session() as session:
+        statement = select(Source).where(Source.id == source_id)
+        result = session.exec(statement)
+        source = result.first()
+
+        statement = select(Song).where(Song.source_id == source_id)
+        result = session.exec(statement)
+        songs = result.all()
+
+        return render(
+            request,
+            "source_detail.html",
+            {"source": source, "songs": songs},
+        )
+
+
+@app.get("/songbook/{songbook_id}", response_class=HTMLResponse)
+def get_ssongbook_detail(request: Request, songbook_id: str):
+    with db.get_session() as session:
+        statement = (
+            select(Songbook)
+            .where(Songbook.user_id == request.user.username)
+            .where(Songbook.songbook_id == songbook_id)
+        )
+        songbook = session.exec(statement).first()
+
+        songs = Entry.get_songs(songbook.songbook_id)
+        return render(
+            request,
+            "songbook_detail.html",
+            {"songbook": songbook, "songs": songs},
+        )
+
+
+@app.post("/add_song_to_songbook/{songbook_id}/{song_id}", response_class=HTMLResponse)
+def add_song_to_songbook(request: Request, songbook_id: str, song_id: str):
+    Entry.add_song(songbook_id, song_id)
+    return HTMLResponse("", status_code=200)
