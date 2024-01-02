@@ -59,6 +59,7 @@
                                 <h5 class="card-title">{{ songbook.title }}</h5>
                                 <p class="card-text">Your description goes here.</p>
                                 <button class="btn btn-primary" hx-get="/rename_songbook/{{songbook.songbook_id}}" hx-target="#cardbody_{{songbook.songbook_id}}" hx-swap="innerHTML">Rename</button>
+                                <a href="songbook/{{songbook.songbook_id}}" class="btn btn-primary">Read More</a>
                                 <button class="btn btn-danger" hx-target="#slide_{{songbook.songbook_id}}" hx-delete="/delete_songbook/{{songbook.songbook_id}}">Delete</button>
                             </div>
                         </div>
@@ -79,7 +80,7 @@
                             <div class="card-body">
                                 <h5 class="card-title">{{ source.title }}</h5>
                                 <p class="card-text">Description</p>
-                                <a href="#" class="btn btn-primary">Read More</a>
+                                <a href="source/{{ source.id }}" class="btn btn-primary">Read More</a>
                             </div>
                         </div>
                     </div>
@@ -98,7 +99,7 @@
                             <div class="card-body">
                                 <h5 class="card-title">{{ song.title }}</h5>
                                 <p class="card-text">Song description goes here.</p>
-                                <a href="#" class="btn btn-primary">Read More</a>
+                                <a href="song/{{ song.id }}" class="btn btn-primary">Read More</a>
                             </div>
                         </div>
                     </div>

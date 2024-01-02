@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Song detail</h1>
+  <div >
+    <li><strong>{{ song.title }}</strong> </li>
+    <li><img src="/tmp/{{ song.id }}/source.cropped.png" /></li>
+  </div>
+  <!-- Default dropend button -->
+  <br>
+  <div class="btn-group dropend mt-auto">
+    <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+      Add to songbook!
+    </button>
+    <ul class="dropdown-menu">
+      {% for songbook in songbooks %}
+        <li><a class="dropdown-item" hx-post="/add_song_to_songbook/{{songbook.songbook_id}}/{{song.id}}" href="#">{{songbook.title}}</a></li>
+      {% endfor %}
+    </ul>
+  </div>
+
+{% endblock %}
