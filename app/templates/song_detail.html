@@ -1,9 +1,8 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h1>Song detail</h1>
+  <h1>{{ song.title }}</h1>
   <div >
-    <li><strong>{{ song.title }}</strong> </li>
     <li><img src="/tmp/{{ song.id }}/source.cropped.png" /></li>
   </div>
   <!-- Default dropend button -->
