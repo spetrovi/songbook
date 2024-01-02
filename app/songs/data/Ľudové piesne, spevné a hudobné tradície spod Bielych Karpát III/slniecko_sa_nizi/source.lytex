@@ -1,0 +1,18 @@
+scoredata = {
+  \version "2.24.1"
+  \clef violin
+  \key c \major
+  \time 4/4
+\relative c'{
+c8 e e f e d4. | c8 e e f e d4. | g4 g a g | \break
+f e d2| \repeat volta 2 { g4. a8 b c4. | b2 a | c4 g g f \break | e2 d| c4 c8 e g g4. d4 e c r }
+
+}
+}
+
+\score {
+  <<
+    \new Staff \scoredata
+  >>
+  \layout{ }
+}

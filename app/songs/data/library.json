@@ -1,9 +1,11 @@
 {
 "authors": [
-{"name": "Leoš", "surname": "Janáček", "born": 1854, "died": 1928, "nationality": "czech"}
+{"name": "Leoš", "surname": "Janáček", "born": 1854, "died": 1928, "nationality": "czech"},
+{"name": "Jozef", "surname": "Lehocký", "nationality": "slovak"}
     ],
 
 "sources": [
-{"type": "book", "title": "O lidové písni a lidové hudbě : dokumenty a studie", "author_name": "Leoš Janáček", "year": 1955, "publisher":  "Státní nakladatelství krásné literatury, hudby a umění", "pages": 661}
+{"type": "book", "title": "O lidové písni a lidové hudbě : dokumenty a studie", "author_name": "Leoš Janáček", "year": 1955, "publisher":  "Státní nakladatelství krásné literatury, hudby a umění", "pages": 661},
+{"type": "book", "title": "Ľudové piesne, spevné a hudobné tradície spod Bielych Karpát III", "author_name": "Jozef Lehocký", "year": 2007}
 ]
 }
