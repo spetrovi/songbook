@@ -17,7 +17,7 @@ def authenticate(email, password):
             user_obj = User.get_by_email(email)
     except Exception:  # TODO catch other exceptions
         user_obj = None
-    if not user_obj.verify_password(password):
+    if not user_obj or not user_obj.verify_password(password):
         return None
     return user_obj
 
