@@ -3,6 +3,7 @@ import uuid
 from sqlmodel import Field
 from sqlmodel import SQLModel
 
+from . import exceptions
 from . import security
 from . import validators
 from app.db import get_session
@@ -36,10 +37,10 @@ class User(SQLModel, table=True):
     def create_user(email, password=None):
         with get_session() as session:
             if session.query(User).where(User.email == email).all():
-                raise Exception("Email already registered")
+                raise exceptions.UserHasAccountException("User already has an account.")
             valid, msg, email = validators._validate_email(email)
             if not valid:
-                raise Exception(f"Invalid email: {msg}")
+                raise exceptions.InvalidEmailException(f"Invalid email: {msg}")
             user = User(email=email)
             user.set_password(password)
             session.add(user)
