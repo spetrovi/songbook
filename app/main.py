@@ -122,10 +122,14 @@ def signup_post_view(
         "password": password,
         "password_confirm": password_confirm,
     }
-
     data, errors = utils.valid_schema_data_or_error(raw_data, UserSignupSchema)
-    # TODO create user after email verify
-    User.create_user(data["email"], data["password"].get_secret_value())
+    context = {"data": data, "errors": errors}
+    if len(errors) > 0:
+        return render(request, "auth/signup.html", context, status_code=400)
+    try:
+        User.create_user(data["email"], data["password"].get_secret_value())
+    except Exception as e:
+        errors.append({"msg": e})
     context = {"data": data, "errors": errors}
     if len(errors) > 0:
         return render(request, "auth/signup.html", context, status_code=400)
