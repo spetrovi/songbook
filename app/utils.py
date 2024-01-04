@@ -22,7 +22,7 @@ def valid_schema_data_or_error(raw_data: dict, SchemaModel: BaseModel):
         try:
             errors = json.loads(error_str)
         except Exception:
-            errors = [{"loc": "non_field_error", "msg": "Unknown error"}]
+            errors = [{"msg": "Unknown error"}]
     return data, errors
 
 
