@@ -13,3 +13,15 @@ def login_required(func):
         return func(request, *args, **kwargs)
 
     return wrapper
+
+
+def admin_login_required(func):
+    @wraps(func)
+    def wrapper(request: Request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            raise LoginRequiredException(status_code=401)
+        # if not request.user.is_admin:
+        #    raise LoginRequiredException(stat
+        return func(request, *args, **kwargs)
+
+    return wrapper

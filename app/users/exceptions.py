@@ -15,3 +15,7 @@ class InvalidEmailException(Exception):
 
 class InvalidUserIDException(Exception):
     """Invalid user id"""
+
+
+class UserDoesntExistException(Exception):
+    """User doesn't exist"""
