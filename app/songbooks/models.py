@@ -4,10 +4,10 @@ from sqlmodel import Field
 from sqlmodel import select
 from sqlmodel import SQLModel
 
+import app.users.models
 from app.db import get_library_session
 from app.db import get_session
 from app.songs.models import Song
-from app.users.models import User
 
 
 class Songbook(SQLModel, table=True):
@@ -26,7 +26,11 @@ class Songbook(SQLModel, table=True):
     @staticmethod
     def create_songbook(songbook_id, user_id):
         with get_session() as session:
-            if not session.query(User).where(User.user_id == user_id).all():
+            if (
+                not session.query(app.users.models.User)
+                .where(app.users.models.User.user_id == user_id)
+                .all()
+            ):
                 raise Exception("User doesn't exists")
             songbook = Songbook(songbook_id=songbook_id, user_id=user_id)
             session.add(songbook)
@@ -43,6 +47,17 @@ class Songbook(SQLModel, table=True):
             return (
                 session.query(Songbook).where(Songbook.songbook_id == songbook_id).one()
             )
+
+    @staticmethod
+    def delete_songbook(songbook_id):
+        Entry.remove_songbook(songbook_id)
+        with get_session() as session:
+            #            if not session.query(Songbook).where(Songbook.songbook_id == songbook_id).one():
+            #                raise exceptions.SongbookDoesntExistException("Songbook doesn't exist")
+            statement = select(Songbook).where(Songbook.songbook_id == songbook_id)
+            songbook = session.exec(statement).one()
+            session.delete(songbook)
+            session.commit()
 
 
 class Entry(SQLModel, table=True):
@@ -79,3 +94,17 @@ class Entry(SQLModel, table=True):
             statement = select(Song).where(Song.id.in_(song_ids))
             songs = session.exec(statement).all()
         return songs
+
+    @staticmethod
+    def remove_song(songbook_id, song_id):
+        # TODO
+        return 1
+
+    @staticmethod
+    def remove_songbook(songbook_id):
+        with get_session() as session:
+            statement = select(Entry).where(Entry.songbook_id == songbook_id)
+            entries = session.exec(statement).all()
+            for entry in entries:
+                session.delete(entry)
+            session.commit()

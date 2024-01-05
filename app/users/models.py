@@ -1,8 +1,10 @@
 import uuid
 
 from sqlmodel import Field
+from sqlmodel import select
 from sqlmodel import SQLModel
 
+import app.songbooks.models
 from . import exceptions
 from . import security
 from . import validators
@@ -44,6 +46,24 @@ class User(SQLModel, table=True):
             user = User(email=email)
             user.set_password(password)
             session.add(user)
+            session.commit()
+
+    @staticmethod
+    def delete_user(user_id):
+        with get_session() as session:
+            if not session.query(User).where(User.user_id == user_id).one():
+                raise exceptions.UserDoesntExistException("User doesn't exist")
+            statement = select(app.songbooks.models.Songbook).where(
+                app.songbooks.models.Songbook.user_id == user_id
+            )
+            songbooks = session.exec(statement).all()
+            for songbook in songbooks:
+                app.songbooks.models.Songbook.delete_songbook(songbook.songbook_id)
+            session.commit()
+
+            statement = select(User).where(User.user_id == user_id)
+            user = session.exec(statement).one()
+            session.delete(user)
             session.commit()
 
     @staticmethod

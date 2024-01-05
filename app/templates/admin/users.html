@@ -1,0 +1,17 @@
+{% extends "admin/admin_base.html" %}
+
+
+{% block content %}
+
+    {% for user in users %}
+
+        <div class="card" id="card_{{user.user_id}}">
+            <div class="card-body">
+                <h5 class="card-title">User</h5>
+                <p class="card-text">{{user.email}}</p>
+                <button class="btn btn-danger" hx-target="#card_{{user.user_id}}" hx-delete="/admin/delete/user/{{user.user_id}}">Delete</button>
+            </div>
+        </div>
+
+    {% endfor %}
+{% endblock %}

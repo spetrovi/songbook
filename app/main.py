@@ -21,6 +21,7 @@ from .songbooks.models import Songbook
 from .songs.models import Song
 from .songs.models import Source
 from .users.backend import JWTCookieBackend
+from .users.decorators import admin_login_required
 from .users.decorators import login_required
 from .users.models import User
 from .users.schemas import UserLoginSchema
@@ -166,9 +167,10 @@ def delete_songbook(request: Request, songbook_id: str):
             .where(Songbook.songbook_id == songbook_id)
         )
         result = session.exec(statement)
-        songbook = result.first()
-        session.delete(songbook)
-        session.commit()
+        songbook = result.one()
+
+        Songbook.delete_songbook(songbook.songbook_id)
+
         return HTMLResponse("", status_code=200)
 
 
@@ -277,4 +279,37 @@ def get_ssongbook_detail(request: Request, songbook_id: str):
 @app.post("/add_song_to_songbook/{songbook_id}/{song_id}", response_class=HTMLResponse)
 def add_song_to_songbook(request: Request, songbook_id: str, song_id: str):
     Entry.add_song(songbook_id, song_id)
+    return HTMLResponse("", status_code=200)
+
+
+@admin_login_required
+@app.get("/admin", response_class=HTMLResponse)
+def admin_view(request: Request):
+    context = {}
+    return render(request, "admin/admin.html", context, status_code=200)
+
+
+@admin_login_required
+@app.get("/admin/users", response_class=HTMLResponse)
+def admin_users_view(request: Request):
+    context = {}
+    with db.get_session() as session:
+        statement = select(User)
+        user_objects = session.exec(statement).all()
+        users = [user.dict() for user in user_objects]
+        context["users"] = users
+    return render(request, "admin/users.html", context, status_code=200)
+
+
+@admin_login_required
+@app.delete("/admin/delete/songbook/{songbook_id}", response_class=HTMLResponse)
+def admin_delete__songbook(request: Request, songbook_id: str):
+    Songbook.delete_songbook(songbook_id)
+    return HTMLResponse("", status_code=200)
+
+
+@admin_login_required
+@app.delete("/admin/delete/user/{user_id}", response_class=HTMLResponse)
+def admin_delete_user(request: Request, user_id: str):
+    User.delete_user(user_id)
     return HTMLResponse("", status_code=200)
