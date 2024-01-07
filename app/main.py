@@ -290,26 +290,46 @@ def admin_view(request: Request):
 
 
 @admin_login_required
-@app.get("/admin/users", response_class=HTMLResponse)
-def admin_users_view(request: Request):
-    context = {}
+@app.get("/admin/{object}", response_class=HTMLResponse)
+def admin_users_view(request: Request, object: str):
+    cls = None
+    # TODO do some clever mapping here
+    if object == "users":
+        cls = User
+        id_name = "user_id"
+        display_fields = ["email"]
+    if object == "songbooks":
+        cls = Songbook
+        id_name = "songbook_id"
+        display_fields = ["user_id", "songbook_id"]
+    if object == "entries":
+        cls = Entry
+        id_name = "id"
+        display_fields = ["songbook_id", "song_id"]
+
     with db.get_session() as session:
-        statement = select(User)
-        user_objects = session.exec(statement).all()
-        users = [user.dict() for user in user_objects]
-        context["users"] = users
-    return render(request, "admin/users.html", context, status_code=200)
+        objects = session.exec(select(cls)).all()
+        context_objects = [item.dict() for item in objects]
+        for item in context_objects:
+            item["id"] = item[id_name]
+            item["cls_name"] = cls.__name__
+            item["display_fields"] = display_fields
+    return render(
+        request,
+        "admin/objects.html",
+        {"context_objects": context_objects},
+        status_code=200,
+    )
 
 
 @admin_login_required
-@app.delete("/admin/delete/songbook/{songbook_id}", response_class=HTMLResponse)
-def admin_delete__songbook(request: Request, songbook_id: str):
-    Songbook.delete_songbook(songbook_id)
-    return HTMLResponse("", status_code=200)
-
-
-@admin_login_required
-@app.delete("/admin/delete/user/{user_id}", response_class=HTMLResponse)
-def admin_delete_user(request: Request, user_id: str):
-    User.delete_user(user_id)
+@app.delete("/admin/delete/{object}/{id}", response_class=HTMLResponse)
+def admin_delete_object(request: Request, object: str, id: str):
+    # TODO do some clever mapping here
+    if object == "User":
+        User.delete_user(id)
+    if object == "Songbook":
+        Songbook.delete_songbook(id)
+    if object == "Entry":
+        Entry.delete_entry(id)
     return HTMLResponse("", status_code=200)

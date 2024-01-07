@@ -108,3 +108,11 @@ class Entry(SQLModel, table=True):
             for entry in entries:
                 session.delete(entry)
             session.commit()
+
+    @staticmethod
+    def delete_entry(entry_id):
+        with get_session() as session:
+            statement = select(Entry).where(Entry.id == entry_id)
+            entry = session.exec(statement).one()
+            session.delete(entry)
+            session.commit()
