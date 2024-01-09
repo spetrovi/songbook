@@ -16,6 +16,7 @@ class User(SQLModel, table=True):
     user_id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True, index=True)
     email: str = Field(..., unique=True, nullable=False)
     password: str
+    is_admin: bool = Field(default=False)
 
     def __str__(self):
         return self.__repr__()
@@ -36,14 +37,14 @@ class User(SQLModel, table=True):
         return True
 
     @staticmethod
-    def create_user(email, password=None):
+    def create_user(email, password=None, is_admin=False):
         with get_session() as session:
             if session.query(User).where(User.email == email).all():
                 raise exceptions.UserHasAccountException("User already has an account.")
             valid, msg, email = validators._validate_email(email)
             if not valid:
                 raise exceptions.InvalidEmailException(f"Invalid email: {msg}")
-            user = User(email=email)
+            user = User(email=email, is_admin=is_admin)
             user.set_password(password)
             session.add(user)
             session.commit()

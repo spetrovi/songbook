@@ -282,22 +282,22 @@ def add_song_to_songbook(request: Request, songbook_id: str, song_id: str):
     return HTMLResponse("", status_code=200)
 
 
-@admin_login_required
 @app.get("/admin", response_class=HTMLResponse)
+@admin_login_required
 def admin_view(request: Request):
     context = {}
     return render(request, "admin/admin.html", context, status_code=200)
 
 
-@admin_login_required
 @app.get("/admin/{object}", response_class=HTMLResponse)
+@admin_login_required
 def admin_users_view(request: Request, object: str):
     cls = None
     # TODO do some clever mapping here
     if object == "users":
         cls = User
         id_name = "user_id"
-        display_fields = ["email"]
+        display_fields = ["email", "is_admin"]
     if object == "songbooks":
         cls = Songbook
         id_name = "songbook_id"
@@ -322,8 +322,8 @@ def admin_users_view(request: Request, object: str):
     )
 
 
-@admin_login_required
 @app.delete("/admin/delete/{object}/{id}", response_class=HTMLResponse)
+@admin_login_required
 def admin_delete_object(request: Request, object: str, id: str):
     # TODO do some clever mapping here
     if object == "User":
