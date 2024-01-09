@@ -103,7 +103,7 @@ def import_library(source_path):
     db_file_name = str(Path(__file__).parent / "library.db")
     sqlite_url = f"sqlite:///{db_file_name}"
 
-    engine = create_engine(sqlite_url, echo=True)
+    engine = create_engine(sqlite_url)
 
     SQLModel.metadata.create_all(engine)
 
