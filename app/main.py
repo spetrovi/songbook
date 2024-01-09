@@ -178,10 +178,11 @@ def delete_songbook(request: Request, songbook_id: str):
 def create_songbook(request: Request):
     new_id = uuid.uuid4()
     Songbook.create_songbook(new_id, request.user.username)
+    songbook = {"title": "Untitled", "songbook_id": str(new_id)}
     return render(
         request,
-        "snippets/songbook_card.html",
-        {"songbook_id": str(new_id), "title": "Untitled"},
+        "snippets/new_songbook_slide.html",
+        {"songbook": songbook},
     )
 
 
@@ -193,15 +194,10 @@ def rename_songbook(request: Request, songbook_id: str, title: str = Form(...)):
             .where(Songbook.user_id == request.user.username)
             .where(Songbook.songbook_id == songbook_id)
         )
-        result = session.exec(statement)
-        songbook = result.first()
+        songbook = session.exec(statement).one()
         songbook.title = title
         session.commit()
-        return render(
-            request,
-            "snippets/songbook_body.html",
-            {"title": title, "songbook_id": songbook.songbook_id},
-        )
+        return render(request, "snippets/songbook_body.html", {"songbook": songbook})
 
 
 @app.get("/rename_songbook/{songbook_id}", response_class=HTMLResponse)
@@ -216,8 +212,24 @@ def get_rename_songbook(request: Request, songbook_id: str):
         songbook = result.first()
         return render(
             request,
-            "snippets/rename_songbook_card.html",
+            "snippets/rename_songbook_form.html",
             {"title": songbook.title, "songbook_id": songbook.songbook_id},
+        )
+
+
+@app.get("/songbook_card_body/{songbook_id}", response_class=HTMLResponse)
+def get_songbook_card_body(request: Request, songbook_id: str):
+    with db.get_session() as session:
+        statement = (
+            select(Songbook)
+            .where(Songbook.user_id == request.user.username)
+            .where(Songbook.songbook_id == songbook_id)
+        )
+        songbook = session.exec(statement).one()
+        return render(
+            request,
+            "snippets/songbook_body.html",
+            {"songbook": songbook},
         )
 
 

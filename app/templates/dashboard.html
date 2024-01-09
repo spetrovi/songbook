@@ -46,24 +46,14 @@
                         <div class="card-body">
                             <h5 class="card-title">Create a new playlist</h5>
                             <p class="card-text">Click the button and a new editable playlist will appear</p>
-                            <a href="#" class="btn btn-primary" hx-get="/create_songbook" hx-target="#new_card_placeholder" hx-swap="outerHTML" >Create!</a>
+                            <a href="#" class="btn btn-primary" hx-get="/create_songbook" hx-target="#new_slide_placeholder" hx-swap="outerHTML" >Create!</a>
                         </div>
                     </div>
                 </div>
-                <div id="new_card_placeholder" style="display: none;">
+                <div id="new_slide_placeholder" style="display: none;">
                 </div>
                 {% for songbook in songbooks %}
-                    <div class="swiper-slide swiper-slide-active" style="margin-right: 10px;" role="group" id="slide_{{songbook.songbook_id}}">
-                        <div class="card">
-                            <div class="card-body" id="cardbody_{{songbook.songbook_id}}">
-                                <h5 class="card-title">{{ songbook.title }}</h5>
-                                <p class="card-text">Your description goes here.</p>
-                                <button class="btn btn-primary" hx-get="/rename_songbook/{{songbook.songbook_id}}" hx-target="#cardbody_{{songbook.songbook_id}}" hx-swap="innerHTML">Rename</button>
-                                <a href="songbook/{{songbook.songbook_id}}" class="btn btn-primary">Read More</a>
-                                <button class="btn btn-danger" hx-target="#slide_{{songbook.songbook_id}}" hx-delete="/delete_songbook/{{songbook.songbook_id}}">Delete</button>
-                            </div>
-                        </div>
-                    </div>
+                    {% include "snippets/songbook_slide.html" %}
                 {% endfor %}
 
             </div>
