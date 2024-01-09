@@ -14,6 +14,7 @@ from starlette.middleware.authentication import AuthenticationMiddleware
 from . import config
 from . import db
 from . import utils
+from .routers.admin_router import router as admin_router
 from .shortcuts import redirect
 from .shortcuts import render
 from .songbooks.models import Entry
@@ -21,7 +22,6 @@ from .songbooks.models import Songbook
 from .songs.models import Song
 from .songs.models import Source
 from .users.backend import JWTCookieBackend
-from .users.decorators import admin_login_required
 from .users.decorators import login_required
 from .users.models import User
 from .users.schemas import UserLoginSchema
@@ -29,6 +29,7 @@ from .users.schemas import UserSignupSchema
 
 app = FastAPI()
 app.add_middleware(AuthenticationMiddleware, backend=JWTCookieBackend())
+app.include_router(admin_router)
 settings = config.get_settings()
 
 from .handlers import *  # noqa
@@ -291,57 +292,4 @@ def get_ssongbook_detail(request: Request, songbook_id: str):
 @app.post("/add_song_to_songbook/{songbook_id}/{song_id}", response_class=HTMLResponse)
 def add_song_to_songbook(request: Request, songbook_id: str, song_id: str):
     Entry.add_song(songbook_id, song_id)
-    return HTMLResponse("", status_code=200)
-
-
-@app.get("/admin", response_class=HTMLResponse)
-@admin_login_required
-def admin_view(request: Request):
-    context = {}
-    return render(request, "admin/admin.html", context, status_code=200)
-
-
-@app.get("/admin/{object}", response_class=HTMLResponse)
-@admin_login_required
-def admin_users_view(request: Request, object: str):
-    cls = None
-    # TODO do some clever mapping here
-    if object == "users":
-        cls = User
-        id_name = "user_id"
-        display_fields = ["email", "is_admin"]
-    if object == "songbooks":
-        cls = Songbook
-        id_name = "songbook_id"
-        display_fields = ["user_id", "songbook_id"]
-    if object == "entries":
-        cls = Entry
-        id_name = "id"
-        display_fields = ["songbook_id", "song_id"]
-
-    with db.get_session() as session:
-        objects = session.exec(select(cls)).all()
-        context_objects = [item.dict() for item in objects]
-        for item in context_objects:
-            item["id"] = item[id_name]
-            item["cls_name"] = cls.__name__
-            item["display_fields"] = display_fields
-    return render(
-        request,
-        "admin/objects.html",
-        {"context_objects": context_objects},
-        status_code=200,
-    )
-
-
-@app.delete("/admin/delete/{object}/{id}", response_class=HTMLResponse)
-@admin_login_required
-def admin_delete_object(request: Request, object: str, id: str):
-    # TODO do some clever mapping here
-    if object == "User":
-        User.delete_user(id)
-    if object == "Songbook":
-        Songbook.delete_songbook(id)
-    if object == "Entry":
-        Entry.delete_entry(id)
     return HTMLResponse("", status_code=200)
