@@ -36,7 +36,7 @@ def admin_users_view(request: Request, object: str):
     if object == "entries":
         cls = Entry
         id_name = "id"
-        display_fields = ["songbook_id", "song_id"]
+        display_fields = ["songbook_id", "song_id", "order"]
 
     with db.get_session() as session:
         objects = session.exec(select(cls)).all()

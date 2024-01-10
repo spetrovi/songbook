@@ -7,7 +7,15 @@
         <div class="card" id="card_{{object.id}}">
             <div class="card-body">
                 <h5 class="card-title">{{object.cls_name}}</h5>
-                <p class="card-text">{% for field in object.display_fields %} {{object[field]}} {% endfor %}</p>
+
+
+                <p class="card-text">{% for field in object.display_fields %}
+
+                    <p>{{field}}: {{object[field]}} </p>
+
+                {% endfor %}</p>
+
+
                 <button class="btn btn-danger" hx-target="#card_{{object.id}}" hx-delete="/admin/delete/{{object.cls_name}}/{{object.id}}">Delete</button>
             </div>
         </div>
