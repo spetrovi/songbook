@@ -253,6 +253,22 @@ def get_song_detail(request: Request, song_id: str):
     )
 
 
+@app.post("/songbook/sort_form", response_class=HTMLResponse)
+async def post_songbook_sortform(request: Request):
+    form_data = await request.form()
+    songbook_id = form_data.get("songbook_id")
+    item_list = list(form_data.items())
+    songbook = Songbook.get_by_user_songbook_id(request.user.username, songbook_id)
+    sorted_entry_ids = Entry.reorder_songs(item_list)
+    songs = [Entry.get_song_by_entry_id(entry_id) for entry_id in sorted_entry_ids]
+
+    return render(
+        request,
+        "snippets/songbook_accordion.html",
+        {"songs": songs, "songbook": songbook},
+    )
+
+
 @app.get("/source/{source_id}", response_class=HTMLResponse)
 def get_source_detail(request: Request, source_id: str):
     with db.get_library_session() as session:
@@ -273,20 +289,13 @@ def get_source_detail(request: Request, source_id: str):
 
 @app.get("/songbook/{songbook_id}", response_class=HTMLResponse)
 def get_ssongbook_detail(request: Request, songbook_id: str):
-    with db.get_session() as session:
-        statement = (
-            select(Songbook)
-            .where(Songbook.user_id == request.user.username)
-            .where(Songbook.songbook_id == songbook_id)
-        )
-        songbook = session.exec(statement).first()
-
-        songs = Entry.get_songs(songbook.songbook_id)
-        return render(
-            request,
-            "songbook_detail.html",
-            {"songbook": songbook, "songs": songs},
-        )
+    songbook = Songbook.get_by_user_songbook_id(request.user.username, songbook_id)
+    songs = Entry.get_songs(songbook.songbook_id)
+    return render(
+        request,
+        "songbook_detail.html",
+        {"songbook": songbook, "songs": songs},
+    )
 
 
 @app.post("/add_song_to_songbook/{songbook_id}/{song_id}", response_class=HTMLResponse)
