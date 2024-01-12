@@ -4,6 +4,7 @@ from pathlib import Path
 from fastapi import FastAPI
 from fastapi import Form
 from fastapi import Request
+from fastapi.responses import FileResponse
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from sqlmodel import create_engine
@@ -14,6 +15,7 @@ from starlette.middleware.authentication import AuthenticationMiddleware
 from . import config
 from . import db
 from . import utils
+from .press.book import bake
 from .routers.admin_router import router as admin_router
 from .shortcuts import redirect
 from .shortcuts import render
@@ -287,10 +289,22 @@ def get_source_detail(request: Request, source_id: str):
         )
 
 
+@app.get("/songbook_pdf/{songbook_id}", response_class=FileResponse)
+def get_songbook_pdf(request: Request, songbook_id: str):
+    pdf_path = Path("app/tmp/songbooks/") / songbook_id / "output/songbook.pdf"
+    if pdf_path.exists():
+        return FileResponse(pdf_path)
+    songbook = Songbook.get_by_user_songbook_id(request.user.username, songbook_id)
+    songs = Entry.get_songs(songbook.songbook_id)
+    pdf_path = bake(songs, songbook, settings.templates_dir)
+    return FileResponse(pdf_path)
+
+
 @app.get("/songbook/{songbook_id}", response_class=HTMLResponse)
 def get_songbook_detail(request: Request, songbook_id: str):
     songbook = Songbook.get_by_user_songbook_id(request.user.username, songbook_id)
     songs = Entry.get_songs(songbook.songbook_id)
+    bake(songs, songbook, settings.templates_dir)
     return render(
         request,
         "songbook_detail.html",

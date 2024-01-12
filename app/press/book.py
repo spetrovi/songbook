@@ -1,6 +1,6 @@
-import os
 import re
 import subprocess
+from pathlib import Path
 
 import jinja2
 from jinja2 import Environment
@@ -26,7 +26,7 @@ def compile_lytex(src):
     return "\\begin{lilypond}\n" + src + "\n\\end{lilypond}"
 
 
-def bake(songs, templates_dir):
+def bake(songs, songbook, templates_dir):
     for song in songs:
         song.verses = compile_verses(song.verses)
         song.lytex = compile_lytex(song.lytex)
@@ -37,22 +37,31 @@ def bake(songs, templates_dir):
         loader=jinja2.FileSystemLoader(templates_dir),
     )
     book_template = env.get_template("book.jinja2")
-    book = book_template.render({"songs": songs})
+    book = book_template.render({"songs": songs, "songbook": songbook})
 
-    lytex_path = "test" + ".lytex"
+    dest_path = Path("app/tmp/songbooks/" + str(songbook.songbook_id))
+    dest_path.mkdir(parents=True, exist_ok=True)
+    lytex_path = dest_path / ("songbook" + ".lytex")
+    output_path = dest_path / "output"
+    tex_path = output_path / ("songbook" + ".tex")
     save(book, lytex_path)
 
     proc = subprocess.Popen(
-        ["lilypond-book", "--output=" + "output", "--pdf", lytex_path],
+        ["lilypond-book", "--output=" + str(output_path), "--pdf", lytex_path],
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
     )
     proc.communicate()
     #    subprocess.run(['lilypond-book', '--output=' + "output", '--pdf', lytex_path])
-    orig_dir = os.path.abspath(".")
-    os.chdir("output")
+    #    orig_dir = os.path.abspath(".")
+    #    os.chdir("output")
     proc = subprocess.Popen(
-        ["pdflatex", "-interaction=nonstopmode", "test"],
+        [
+            "pdflatex",
+            "--interaction=nonstopmode",
+            "--output-directory=" + str(output_path),
+            str(tex_path),
+        ],
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
     )
@@ -60,5 +69,9 @@ def bake(songs, templates_dir):
         proc.communicate()
     except Exception as e:
         print(e)
-        os.chdir(orig_dir)
-    os.chdir(orig_dir)
+
+    return output_path / "songbook.pdf"
+
+
+#        os.chdir(orig_dir)
+#    os.chdir(orig_dir)
