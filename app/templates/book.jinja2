@@ -1,0 +1,45 @@
+\documentclass[a4paper]{book}
+\usepackage[paper=a4paper]{geometry}% Just for this example
+\title{Pre Trenčianskeho gajdoša príručka}
+\usepackage{graphics}
+\usepackage{multicol}
+\usepackage{calc}
+
+\newcounter{versecounter} % Define a counter for verse numbering
+\newenvironment{song}
+{%
+    \begin{center}%
+        \begin{minipage}{\textwidth}%
+            \vfill
+            \begin{multicols}{2}%
+                \begin{samepage}%
+                    \setcounter{versecounter}{0}%
+                    \renewcommand{\verse}{%
+                        \stepcounter{versecounter}%
+                        \textbf{\footnotesize\theversecounter.}\hspace{1em}%
+                        \fontsize{13}{16}\selectfont%
+                    }%
+}
+{%
+                \end{samepage}%
+            \end{multicols}%
+        \end{minipage}%
+        \vfill
+    \end{center}%
+}
+\begin{document}
+{+ for song in songs +}
+    \header {
+    "{{ song.title }}"
+    }
+
+    {+ if song.lytex is defined +}
+        {{ song.lytex }}
+    {+ endif +}
+
+    {+ if song.verses is defined +}
+        {{ song.verses }}
+    {+ endif +}
+{+ endfor +}
+\end{center}
+\end{document}
