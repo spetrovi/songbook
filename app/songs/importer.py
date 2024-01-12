@@ -69,7 +69,7 @@ def find_person_by_name(person_list, author_name):
 
 def find_source_by_title(source_list, title):
     for source in source_list:
-        if title in source.title:
+        if title == source.title:
             return source
     return None
 
