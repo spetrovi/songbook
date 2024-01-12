@@ -1,6 +1,6 @@
 \documentclass[a4paper]{book}
 \usepackage[paper=a4paper]{geometry}% Just for this example
-\title{Pre Trenčianskeho gajdoša príručka}
+\title{ {{songbook.title}} }
 \usepackage{graphics}
 \usepackage{multicol}
 \usepackage{calc}
@@ -28,10 +28,12 @@
     \end{center}%
 }
 \begin{document}
+\maketitle
 {+ for song in songs +}
-    \header {
-    "{{ song.title }}"
-    }
+\begin{center}
+    {\Huge {{ song.title }} }
+\end{center}
+
 
     {+ if song.lytex is defined +}
         {{ song.lytex }}
