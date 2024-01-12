@@ -39,7 +39,7 @@ class Source(SQLModel, table=True):
     id: Optional[uuid.UUID] = Field(
         default_factory=uuid.uuid4, primary_key=True, index=True
     )
-    title: str = Field(..., nullable=False)
+    title: Optional[str] = Field(..., nullable=False)
     year: Optional[int]
     type: Optional[SourceType]
     author_id: Optional[uuid.UUID] = Field(default=None, foreign_key="person.id")
@@ -60,7 +60,7 @@ class Song(SQLModel, table=True):
     id: Optional[uuid.UUID] = Field(
         default_factory=uuid.uuid4, primary_key=True, index=True
     )
-    title: str = Field(..., nullable=False)
+    title: Optional[str] = Field(..., nullable=False)
     lytex: Optional[str]
     verses: Optional[str]
     source_id: Optional[uuid.UUID] = Field(default=None, foreign_key="source.id")
