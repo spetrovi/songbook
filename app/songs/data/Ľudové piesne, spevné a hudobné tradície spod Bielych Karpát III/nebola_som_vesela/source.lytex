@@ -4,6 +4,7 @@ scoredata = {
   \key d \minor
   \time 4/4
 \relative c'{
+\autoBeamOff
 \repeat volta 2 {f8 e f g f d c4 | f8 e f g a a4. | g2. r4|} \break
 
 \repeat volta 2 {f4 f c2 | c'4 c bes2 | a8 g f g a g4. | f2. r4 | }
