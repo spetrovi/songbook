@@ -288,7 +288,7 @@ def get_source_detail(request: Request, source_id: str):
 
 
 @app.get("/songbook/{songbook_id}", response_class=HTMLResponse)
-def get_ssongbook_detail(request: Request, songbook_id: str):
+def get_songbook_detail(request: Request, songbook_id: str):
     songbook = Songbook.get_by_user_songbook_id(request.user.username, songbook_id)
     songs = Entry.get_songs(songbook.songbook_id)
     return render(
