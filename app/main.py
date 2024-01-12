@@ -291,9 +291,11 @@ def get_source_detail(request: Request, source_id: str):
 
 @app.get("/songbook_pdf/{songbook_id}", response_class=FileResponse)
 def get_songbook_pdf(request: Request, songbook_id: str):
-    pdf_path = Path("app/tmp/songbooks/") / songbook_id / "output/songbook.pdf"
-    if pdf_path.exists():
-        return FileResponse(pdf_path)
+    # TODO This is not good, because we won't generate new pdf if
+    # user rearanges songs
+    #    pdf_path = Path("app/tmp/songbooks/") / songbook_id / "output/songbook.pdf"
+    #    if pdf_path.exists():
+    #        return FileResponse(pdf_path)
     songbook = Songbook.get_by_user_songbook_id(request.user.username, songbook_id)
     songs = Entry.get_songs(songbook.songbook_id)
     pdf_path = bake(songs, songbook, settings.templates_dir)
@@ -304,7 +306,6 @@ def get_songbook_pdf(request: Request, songbook_id: str):
 def get_songbook_detail(request: Request, songbook_id: str):
     songbook = Songbook.get_by_user_songbook_id(request.user.username, songbook_id)
     songs = Entry.get_songs(songbook.songbook_id)
-    bake(songs, songbook, settings.templates_dir)
     return render(
         request,
         "songbook_detail.html",
