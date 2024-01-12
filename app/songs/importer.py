@@ -6,11 +6,21 @@ from pathlib import Path
 from models import Person
 from models import Song
 from models import Source
+from sqlalchemy.exc import NoResultFound
 from sqlmodel import create_engine
+from sqlmodel import select
 from sqlmodel import Session
 from sqlmodel import SQLModel
 
 # import abjad
+
+
+db_file_name = str(Path(__file__).parent / "library.db")
+sqlite_url = f"sqlite:///{db_file_name}"
+
+engine = create_engine(sqlite_url)
+
+SQLModel.metadata.create_all(engine)
 
 
 def create_pdf(lytex_source):
@@ -37,12 +47,12 @@ def process_song(meta_path, source_list):
             print(f"\033[32mBad song at {meta_path}\033[0m")
             print(e)
             return None
+    song_id = None
+    song_id_path = meta_path.parent / "id"
 
-    source = find_source_by_title(source_list, meta["source"]["title"])
     lytex_path = meta_path.parent / "source.lytex"
     if lytex_path.exists():
         lytex_source = lytex_path.read_text()
-    #        pdf_content = create_pdf(lytex_source)
     else:
         lytex_source = None
 
@@ -51,13 +61,29 @@ def process_song(meta_path, source_list):
         verses_source = verses_path.read_text()
     else:
         verses_source = None
-    return Song(
-        title=meta["title"],
-        source=source,
-        lytex=lytex_source,
-        verses=verses_source,
-        #        pdf_partial=pdf_content,
-    )
+
+    if song_id_path.exists():
+        with open(song_id_path, "r") as f:
+            song_id = f.read()
+
+    with Session(engine) as session:
+        statement = select(Song).where(Song.id == song_id)
+        try:
+            song = session.exec(statement).one()
+        except NoResultFound:
+            source = find_source_by_title(source_list, meta["source"]["title"])
+            song = Song(
+                title=meta["title"],
+                source=source,
+                lytex=lytex_source,
+                verses=verses_source,
+            )
+    if song_id:
+        song.id = song_id
+    else:
+        with open(song_id_path, "w") as f:
+            f.write(str(song.id))
+    return song
 
 
 def find_person_by_name(person_list, author_name):
@@ -99,13 +125,6 @@ def import_library(source_path):
     song_list = list(
         filter(None, [process_song(meta_path, source_list) for meta_path in meta_paths])
     )
-
-    db_file_name = str(Path(__file__).parent / "library.db")
-    sqlite_url = f"sqlite:///{db_file_name}"
-
-    engine = create_engine(sqlite_url)
-
-    SQLModel.metadata.create_all(engine)
 
     with Session(engine) as session:
         for person in person_list:
