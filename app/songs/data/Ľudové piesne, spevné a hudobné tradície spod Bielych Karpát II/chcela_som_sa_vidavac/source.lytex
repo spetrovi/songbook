@@ -1,0 +1,18 @@
+scoredata = {
+  \version "2.24.1"
+  \clef violin
+  \key g \major
+  \time 2/4
+\relative c''{
+  \autoBeamOff
+\repeat volta 2 {g8 g b b | g g b4 | a8 a d c | b a4. | a4 r |}\break
+\repeat volta 2 {a4. b8 | c4 c | b a | b g | a8 a b b | a g4. | g4 r}
+}
+}
+
+\score {
+  <<
+    \new Staff \scoredata
+  >>
+  \layout{ }
+}
