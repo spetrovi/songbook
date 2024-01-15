@@ -65,8 +65,37 @@ class Song(SQLModel, table=True):
     verses: Optional[str]
     source_id: Optional[uuid.UUID] = Field(default=None, foreign_key="source.id")
     source: Optional["Source"] = Relationship()
-    #    pdf_partial: Optional[bytes] = Column(LargeBinary, nullable=True)
-    pdf_path: Optional[str] = Field(default=None)
+
+    tempo: Optional[int]
+    type: Optional[str]
+    year: Optional[int]
+    location: Optional[str]
+
+    recorded_by_id: Optional[uuid.UUID] = Field(default=None, foreign_key="person.id")
+    #    recorded_person_id: Optional[uuid.UUID] = Field(default=None, foreign_key="person.id")
+    recorded_by: Optional["Person"] = Relationship(
+        sa_relationship_kwargs={
+            "primaryjoin": "Song.recorded_by_id==Person.id",
+            "lazy": "joined",
+        }
+    )
+    #    recorded_person: Optional["Person"] = Relationship(
+    #        sa_relationship_kwargs={"primaryjoin": "Song.recorded_person_id==Person.id", "lazy": "joined"}
+    #    )
+
+    @classmethod
+    def from_dict(
+        cls,
+        data: dict,
+        source: "Source",
+        lytex: str,
+        verses: str,
+        recorded_by: "Person",
+    ):
+        print(data)
+        return cls(
+            **data, source=source, lytex=lytex, verses=verses, recorded_by=recorded_by
+        )
 
     def __str__(self):
         return self.__repr__()

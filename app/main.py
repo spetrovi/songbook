@@ -55,22 +55,18 @@ def dashboard_view(request: Request):
     # we need to get user's songbooks, all books and all songs
     context = {}
     with db.get_library_session() as session:
-        songs_all = session.query(Song).all()
-        songs = [song.dict() for song in songs_all]
-        context["songs"] = songs
+        context["songs"] = session.query(Song).all()
+        context["sources"] = session.query(Source).all()
+        with db.get_session() as session:
+            statement = select(Songbook).where(
+                Songbook.user_id == request.user.username
+            )
+            result = session.exec(statement)
+            songbooks_all = result.all()
+            songbooks = [songbook.dict() for songbook in songbooks_all]
+            context["songbooks"] = songbooks
 
-        sources_all = session.query(Source).all()
-        sources = [source.dict() for source in sources_all]
-        context["sources"] = sources
-
-    with db.get_session() as session:
-        statement = select(Songbook).where(Songbook.user_id == request.user.username)
-        result = session.exec(statement)
-        songbooks_all = result.all()
-        songbooks = [songbook.dict() for songbook in songbooks_all]
-        context["songbooks"] = songbooks
-
-    return render(request, "dashboard.html", context, status_code=200)
+            return render(request, "dashboard.html", context, status_code=200)
 
 
 @app.get("/", response_class=HTMLResponse)

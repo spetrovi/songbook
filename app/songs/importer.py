@@ -1,6 +1,4 @@
 import json
-import subprocess
-import tempfile
 from pathlib import Path
 
 from models import Person
@@ -23,22 +21,22 @@ engine = create_engine(sqlite_url)
 SQLModel.metadata.create_all(engine)
 
 
-def create_pdf(lytex_source):
-    # if you wonder why we do it like this,
-    # it's because lilypond dies when encountering whitespace
-    # in file path
-    # Also, we don't get logs to clutter our filesystem
-    with tempfile.TemporaryDirectory() as temp_dir:
-        temp_path = Path(temp_dir)
-        source = temp_path / "source.lytex"
-        pdf_path = temp_path / "source.pdf"
-        with source.open(mode="w") as file:
-            file.write(lytex_source)
-        subprocess.run(["lilypond", "-o", temp_path, source])
-        return pdf_path.read_bytes()
+def reformat_meta(metadata):
+    # Create a new dictionary without the 'record' field
+    transformed_metadata = metadata.copy()
+    print(transformed_metadata["source"])
+    transformed_metadata["page"] = transformed_metadata["source"].pop("page", None)
+
+    record_data = transformed_metadata.pop("record", {})
+
+    transformed_metadata["recorded_by"] = record_data.pop("recorded_by", None)
+    transformed_metadata["location"] = record_data.pop("location", None)
+    transformed_metadata["year"] = record_data.pop("year", None)
+    transformed_metadata["recorded_person"] = record_data.pop("source", {})
+    return transformed_metadata
 
 
-def process_song(meta_path, source_list):
+def process_song(meta_path, source_list, person_list):
     print(f"\033[32mOpening file {meta_path}\033[0m")
     with open(meta_path, "r") as meta_source:
         try:
@@ -47,9 +45,13 @@ def process_song(meta_path, source_list):
             print(f"\033[32mBad song at {meta_path}\033[0m")
             print(e)
             return None
-    song_id = None
-    song_id_path = meta_path.parent / "id"
-
+    #    with open(meta_path.parent / "id", "r") as id_source:
+    #        song_id = id_source.read()
+    #        meta["id"] = song_id
+    #    with open(meta_path, "w", encoding='utf8') as meta_source:
+    #        meta = reformat_meta(meta)
+    #        json.dump(meta, meta_source, indent=4, ensure_ascii=False)
+    #    print(f"Meta: {meta}")
     lytex_path = meta_path.parent / "source.lytex"
     if lytex_path.exists():
         lytex_source = lytex_path.read_text()
@@ -62,27 +64,29 @@ def process_song(meta_path, source_list):
     else:
         verses_source = None
 
-    if song_id_path.exists():
-        with open(song_id_path, "r") as f:
-            song_id = f.read()
-
     with Session(engine) as session:
-        statement = select(Song).where(Song.id == song_id)
+        statement = select(Song).where(Song.id == meta["id"])
         try:
             song = session.exec(statement).one()
         except NoResultFound:
             source = find_source_by_title(source_list, meta["source"]["title"])
-            song = Song(
-                title=meta["title"],
+            if meta["recorded_by"]:
+                recorded_by = find_person_by_name(person_list, meta["recorded_by"])
+            else:
+                recorded_by = None
+            #            recorded_person = find_person_by_dict(person_list, meta["recorded_person"])
+            meta.pop("source", None)
+            meta.pop("recorded_by", None)
+            meta.pop("recorded_person", None)
+            song = Song.from_dict(
+                meta,
                 source=source,
                 lytex=lytex_source,
                 verses=verses_source,
+                recorded_by=recorded_by,
             )
-    if song_id:
-        song.id = song_id
-    else:
-        with open(song_id_path, "w") as f:
-            f.write(str(song.id))
+            print(song.location)
+
     return song
 
 
@@ -91,6 +95,19 @@ def find_person_by_name(person_list, author_name):
         if person.name in author_name and person.surname in author_name:
             return person
     return None
+
+
+def find_person_by_dict(person_list, person_dict):
+    if not person_dict:
+        return None
+    for person in person_list:
+        if (
+            person.name in person_dict["name"]
+            and person.surname in person_dict["surname"]
+            and person.born == person_dict["born"]
+        ):
+            return person
+    return Person.from_dict(person_dict)
 
 
 def find_source_by_title(source_list, title):
@@ -120,11 +137,10 @@ def import_library(source_path):
     for source in library["sources"]:
         person_obj = find_person_by_name(person_list, source["author_name"])
         source_list.append(Source.from_dict(source, author=person_obj))
-
     meta_paths = root.glob("**/metadata.json")
-    song_list = list(
-        filter(None, [process_song(meta_path, source_list) for meta_path in meta_paths])
-    )
+    song_list = []
+    for meta_path in meta_paths:
+        song_list.append(process_song(meta_path, source_list, person_list))
 
     with Session(engine) as session:
         for person in person_list:
