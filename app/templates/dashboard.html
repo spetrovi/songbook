@@ -88,7 +88,8 @@
                         <div class="card">
                             <div class="card-body">
                                 <h5 class="card-title">{{ song.title }}</h5>
-                                <p class="card-text">Song description goes here.</p>
+                                <p class="card-text">{{song.location}}, {{song.year}}</p>
+                                <p class="card-text">{{song.source.title}}</p>
                                 <a href="song/{{ song.id }}" class="btn btn-primary">Read More</a>
                             </div>
                         </div>
