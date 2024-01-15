@@ -10,9 +10,6 @@ from sqlmodel import select
 from sqlmodel import Session
 from sqlmodel import SQLModel
 
-# import abjad
-
-
 db_file_name = str(Path(__file__).parent / "library.db")
 sqlite_url = f"sqlite:///{db_file_name}"
 
@@ -36,7 +33,7 @@ def reformat_meta(metadata):
     return transformed_metadata
 
 
-def process_song(meta_path, source_list, person_list):
+def process_song(meta_path):
     print(f"\033[32mOpening file {meta_path}\033[0m")
     with open(meta_path, "r") as meta_source:
         try:
@@ -69,9 +66,20 @@ def process_song(meta_path, source_list, person_list):
         try:
             song = session.exec(statement).one()
         except NoResultFound:
-            source = find_source_by_title(source_list, meta["source"]["title"])
+            source = session.exec(
+                select(Source).where(Source.title == meta["source"]["title"])
+            ).one()
             if meta["recorded_by"]:
-                recorded_by = find_person_by_name(person_list, meta["recorded_by"])
+                name, surname = meta["recorded_by"].split(" ")
+                try:
+                    recorded_by = session.exec(
+                        select(Person)
+                        .where(Person.name == name)
+                        .where(Person.surname == surname)
+                    ).one()
+                except NoResultFound:
+                    recorded_by = Person(name=name, surname=surname)
+                    session.add(recorded_by)
             else:
                 recorded_by = None
             #            recorded_person = find_person_by_dict(person_list, meta["recorded_person"])
@@ -85,36 +93,43 @@ def process_song(meta_path, source_list, person_list):
                 verses=verses_source,
                 recorded_by=recorded_by,
             )
-            print(song.location)
-
+            session.add(song)
+            session.commit()
     return song
 
 
-def find_person_by_name(person_list, author_name):
-    for person in person_list:
-        if person.name in author_name and person.surname in author_name:
-            return person
-    return None
+def obj_in_db(cls, cls_dict):
+    with Session(engine) as session:
+        objects = session.exec(select(cls)).all()
+    for obj in objects:
+        db_dict = obj.dict()
+        del db_dict["id"]
+        common_keys = set(db_dict.keys()).intersection(cls_dict.keys())
+        match = all(
+            cls_dict.get(key) == db_dict[key] or db_dict[key] is None
+            for key in common_keys
+        )
+        if match:
+            return obj
+    return False
 
 
-def find_person_by_dict(person_list, person_dict):
-    if not person_dict:
-        return None
-    for person in person_list:
-        if (
-            person.name in person_dict["name"]
-            and person.surname in person_dict["surname"]
-            and person.born == person_dict["born"]
-        ):
-            return person
-    return Person.from_dict(person_dict)
+def add_person(person_dict):
+    person = Person.from_dict(person_dict)
+    with Session(engine) as session:
+        session.add(person)
+        session.commit()
 
 
-def find_source_by_title(source_list, title):
-    for source in source_list:
-        if title == source.title:
-            return source
-    return None
+def add_source(source_dict):
+    with Session(engine) as session:
+        name, surname = source_dict["author_name"].split(" ")
+        person = session.exec(
+            select(Person).where(Person.name == name).where(Person.surname == surname)
+        ).one()
+        source = Source.from_dict(source_dict, author=person)
+        session.add(source)
+        session.commit()
 
 
 def import_library(source_path):
@@ -132,27 +147,17 @@ def import_library(source_path):
             print(e)
             return 0
 
-    person_list = [Person.from_dict(author) for author in library["authors"]]
-    source_list = []
+    for author in library["authors"]:
+        if not obj_in_db(Person, author):
+            add_person(author)
+
     for source in library["sources"]:
-        person_obj = find_person_by_name(person_list, source["author_name"])
-        source_list.append(Source.from_dict(source, author=person_obj))
-    meta_paths = root.glob("**/metadata.json")
-    song_list = []
-    for meta_path in meta_paths:
-        song_list.append(process_song(meta_path, source_list, person_list))
+        if not obj_in_db(Source, source):
+            add_source(source)
 
-    with Session(engine) as session:
-        for person in person_list:
-            session.add(person)
-
-        for source in source_list:
-            session.add(source)
-
-        for song in song_list:
-            session.add(song)
-
-        session.commit()
+    songs = root.glob("**/metadata.json")
+    for song in songs:
+        process_song(song)
 
 
 if __name__ == "__main__":
