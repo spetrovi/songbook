@@ -1,0 +1,20 @@
+
+<h1>{{ song.title }}</h1>
+<img src="/tmp/{{ song.id }}/source.cropped.png" />
+<div class="container mx-0">
+  <div class="row row-cols-auto">
+    {% set verses = song.verses.split('\n\n') %}
+    {% for verse in verses %}
+      <div class="col-md-2">
+        <div class="verse">
+          {{ loop.index }}.
+          {% set lines = verse.split('\n') %}
+          {% for line in lines %}
+            {{ line }}<br />
+          {% endfor %}
+          <br />
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
