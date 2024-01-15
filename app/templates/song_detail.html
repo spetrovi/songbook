@@ -4,17 +4,12 @@
 
   {% include "snippets/song.html" %}
 
-  <!-- Default dropend button -->
-  <br>
-  <div class="btn-group dropend mt-auto">
-    <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-      Add to songbook!
-    </button>
-    <ul class="dropdown-menu">
-      {% for songbook in songbooks %}
-        <li><a class="dropdown-item" hx-post="/add_song_to_songbook/{{songbook.songbook_id}}/{{song.id}}" href="#">{{songbook.title}}</a></li>
-      {% endfor %}
-    </ul>
+  <div class="row row-cols-auto">
+    <div class="col">Location: {{song.location}}</div>
+    <div class="col">Year: {{song.year}}</div>
+    <div class="col">Source: {{song.source.title}}, {{song.source.author.name}} {{song.source.author.surname}}, {{song.source.year}} </div>
   </div>
+  <br>
+  {% include "snippets/song_add_button.html" %}
 
 {% endblock %}

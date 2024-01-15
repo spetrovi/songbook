@@ -14,6 +14,13 @@
       <div id="collapse{{song.id}}" class="accordion-collapse collapse" aria-labelledby="heading{{song.id}}" data-bs-parent="#accordionExample">
         <div class="accordion-body">
           {% include "snippets/song.html" %}
+          <a href="/song/{{song.id}}" class="btn btn-primary">Detail</a>
+          {% if include_add_button %}
+            {% include "snippets/song_add_button.html" %}
+          {% endif %}
+          {% if include_remove_button %}
+            <a href="/#" class="btn btn-danger">Remove</a>
+          {% endif %}
         </div>
       </div>
     </div>
