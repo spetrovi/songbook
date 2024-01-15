@@ -7,24 +7,5 @@
     <li><strong>{{ source.author.name }} {{ source.author.surname }}</strong> </li>
   </div>
 
-  <div class="accordion" id="songAccordion">
-
-    {% for song in songs %}
-
-
-      <div class="accordion-item">
-        <h2 class="accordion-header" id="heading{{song.id}}">
-          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{song.id}}" aria-expanded="false" aria-controls="collapse{{song.id}}">
-            {{ song.title }}
-          </button>
-        </h2>
-        <div id="collapse{{song.id}}" class="accordion-collapse collapse" aria-labelledby="heading{{song.id}}" data-bs-parent="#accordionExample">
-          <div class="accordion-body">
-            <li><strong>{{ song.title }}</strong> </li>
-            <li><img src="/tmp/{{ song.id }}/source.cropped.png" /></li>
-          </div>
-        </div>
-      </div>
-    {% endfor %}
-  </div>
+  {% include "snippets/songbook_accordion.html" %}
 {% endblock %}

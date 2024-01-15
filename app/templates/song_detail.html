@@ -1,10 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h1>{{ song.title }}</h1>
-  <div >
-    <li><img src="/tmp/{{ song.id }}/source.cropped.png" /></li>
-  </div>
+
+  {% include "snippets/song.html" %}
+
   <!-- Default dropend button -->
   <br>
   <div class="btn-group dropend mt-auto">
