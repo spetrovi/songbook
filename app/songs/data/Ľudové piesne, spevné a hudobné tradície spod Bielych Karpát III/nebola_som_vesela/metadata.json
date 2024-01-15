@@ -1,7 +1,27 @@
 {
     "title": "Ňebola som veselá",
-    "source": {"type": "book", "title": "Ľudové piesne, spevné a hudobné tradície spod Bielych Karpát III", "author": "Jozef Lehocký", "page": 182},
-    "record": {"recorded_by": "Jozef lehocký", "source": [{"name":"Zuzana", "surname": "Repová", "born": 1917}, {"name":"Imrich", "surname": "Biras", "born": 1918}], "year": 2006, "location": "Horná Súča"},
+    "source": {
+        "type": "book",
+        "title": "Ľudové piesne, spevné a hudobné tradície spod Bielych Karpát III",
+        "author": "Jozef Lehocký"
+    },
     "type": "lašunk",
-    "tempo": 144
+    "tempo": 144,
+    "id": "53e9480f-3804-409c-b7e0-248ac826b4da",
+    "page": 182,
+    "recorded_by": "Jozef lehocký",
+    "location": "Horná Súča",
+    "year": 2006,
+    "recorded_person": [
+        {
+            "name": "Zuzana",
+            "surname": "Repová",
+            "born": 1917
+        },
+        {
+            "name": "Imrich",
+            "surname": "Biras",
+            "born": 1918
+        }
+    ]
 }

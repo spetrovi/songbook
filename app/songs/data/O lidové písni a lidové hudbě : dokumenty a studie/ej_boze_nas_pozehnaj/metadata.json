@@ -1,5 +1,23 @@
 {
     "title": "Ej, Bože nás požehnaj",
-    "source": {"type": "book", "title": "O lidové písni a lidové hudbě : dokumenty a studie", "author": "Leoš Janáček", "page": 584},
-    "record": {"recorded_by": "Leoš Janáček", "type": "rukopis", "source": {"name":"Adam", "surname": "Krchnavý", "alias": "Uhelný", "born": 1835, "location": "Lubina", "notes": ["gajdoš"]}, "year": 1906, "location": "Lubina"}
+    "source": {
+        "type": "book",
+        "title": "O lidové písni a lidové hudbě : dokumenty a studie",
+        "author": "Leoš Janáček"
+    },
+    "id": "f34a2941-368c-4505-aa30-4d5bf388dc15",
+    "page": 584,
+    "recorded_by": "Leoš Janáček",
+    "location": "Lubina",
+    "year": 1906,
+    "recorded_person": {
+        "name": "Adam",
+        "surname": "Krchnavý",
+        "alias": "Uhelný",
+        "born": 1835,
+        "location": "Lubina",
+        "notes": [
+            "gajdoš"
+        ]
+    }
 }

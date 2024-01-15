@@ -1,6 +1,19 @@
 {
     "title": "Uš tá baba umrela",
-    "source": {"type": "book", "title": "Ľudové piesne, spevné a hudobné tradície spod Bielych Karpát III", "author": "Jozef Lehocký", "page": 233},
-    "record": {"recorded_by": "Jozef Lehocký", "source": {"name":"Katarína", "surname": "Masárová", "born": 1936}, "year": 2006, "location": "Horné Srnie"},
-    "tempo": 132
+    "source": {
+        "type": "book",
+        "title": "Ľudové piesne, spevné a hudobné tradície spod Bielych Karpát III",
+        "author": "Jozef Lehocký"
+    },
+    "tempo": 132,
+    "id": "3496038b-d580-480b-b07b-739a6431e9ab",
+    "page": 233,
+    "recorded_by": "Jozef Lehocký",
+    "location": "Horné Srnie",
+    "year": 2006,
+    "recorded_person": {
+        "name": "Katarína",
+        "surname": "Masárová",
+        "born": 1936
+    }
 }

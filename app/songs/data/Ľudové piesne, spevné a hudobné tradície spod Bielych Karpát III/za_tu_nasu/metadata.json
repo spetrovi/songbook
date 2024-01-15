@@ -1,7 +1,19 @@
 {
     "title": "Za tú našu stodoljénku",
-    "source": {"type": "book", "title": "Ľudové piesne, spevné a hudobné tradície spod Bielych Karpát III", "author": "Jozef Lehocký", "page": 203},
-    "record": {"recorded_by": "Jozef lehocký", "source": {"name":"ženy", "born": "1921-1934"}, "year": 2006, "location": "Dolná Súča"},
+    "source": {
+        "type": "book",
+        "title": "Ľudové piesne, spevné a hudobné tradície spod Bielych Karpát III",
+        "author": "Jozef Lehocký"
+    },
     "type": "valčík",
-    "tempo": 176
+    "tempo": 176,
+    "id": "61604484-5e79-43af-9745-bb38511bc4bb",
+    "page": 203,
+    "recorded_by": "Jozef lehocký",
+    "location": "Dolná Súča",
+    "year": 2006,
+    "recorded_person": {
+        "name": "ženy",
+        "born": "1921-1934"
+    }
 }

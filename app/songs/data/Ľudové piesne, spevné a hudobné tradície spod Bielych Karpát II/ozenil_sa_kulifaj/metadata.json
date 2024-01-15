@@ -1,6 +1,19 @@
 {
     "title": "Oženil sa Kulifaj",
-    "source": {"type": "book", "title": "Ľudové piesne, spevné a hudobné tradície spod Bielych Karpát II", "author": "Jozef Lehocký", "page": 216},
-    "record": {"recorded_by": "Jozef lehocký", "source": {"name":"Magdaléna", "surname": "Forgáčová", "born": 1905}, "year": 1992, "location": "Drietoma"},
-    "tempo": 116
+    "source": {
+        "type": "book",
+        "title": "Ľudové piesne, spevné a hudobné tradície spod Bielych Karpát II",
+        "author": "Jozef Lehocký"
+    },
+    "tempo": 116,
+    "id": "0016323e-5214-4f4f-ad6c-efef2e2ffef5",
+    "page": 216,
+    "recorded_by": "Jozef lehocký",
+    "location": "Drietoma",
+    "year": 1992,
+    "recorded_person": {
+        "name": "Magdaléna",
+        "surname": "Forgáčová",
+        "born": 1905
+    }
 }

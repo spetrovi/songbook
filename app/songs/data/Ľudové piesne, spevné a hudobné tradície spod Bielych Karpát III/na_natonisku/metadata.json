@@ -1,6 +1,15 @@
 {
     "title": "Na nátonisku",
-    "source": {"type": "book", "title": "Ľudové piesne, spevné a hudobné tradície spod Bielych Karpát III", "author": "Jozef Lehocký", "page": 168},
-    "record": {"recorded_by": "František Hečko", "type": "rukopis", "location": "Dolná Súča"},
-    "type": "čardáš"
+    "source": {
+        "type": "book",
+        "title": "Ľudové piesne, spevné a hudobné tradície spod Bielych Karpát III",
+        "author": "Jozef Lehocký"
+    },
+    "type": "čardáš",
+    "id": "edd670a2-9857-4aa5-accc-1c60a635a3af",
+    "page": 168,
+    "recorded_by": "František Hečko",
+    "location": "Dolná Súča",
+    "year": null,
+    "recorded_person": {}
 }

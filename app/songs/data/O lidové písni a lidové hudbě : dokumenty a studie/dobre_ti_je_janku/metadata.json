@@ -1,5 +1,23 @@
 {
     "title": "Dobre ti je, Janku",
-    "source": {"type": "book", "title": "O lidové písni a lidové hudbě : dokumenty a studie", "author": "Leoš Janáček", "page": 583},
-    "record": {"recorded_by": "Leoš Janáček", "type": "rukopis", "source": {"name":"Adam", "surname": "Krchnavý", "alias": "Uhelný", "born": 1835, "location": "Lubina", "notes": ["gajdoš"]}, "year": 1906, "location": "Lubina"}
+    "source": {
+        "type": "book",
+        "title": "O lidové písni a lidové hudbě : dokumenty a studie",
+        "author": "Leoš Janáček"
+    },
+    "id": "95c874ba-d0df-46a9-9a42-67e0d98c6ec6",
+    "page": 583,
+    "recorded_by": "Leoš Janáček",
+    "location": "Lubina",
+    "year": 1906,
+    "recorded_person": {
+        "name": "Adam",
+        "surname": "Krchnavý",
+        "alias": "Uhelný",
+        "born": 1835,
+        "location": "Lubina",
+        "notes": [
+            "gajdoš"
+        ]
+    }
 }

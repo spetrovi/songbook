@@ -1,6 +1,19 @@
 {
     "title": "Mám ja ženu starú",
-    "source": {"type": "book", "title": "Ľudové piesne, spevné a hudobné tradície spod Bielych Karpát III", "author": "Jozef Lehocký", "page": 237},
-    "record": {"recorded_by": "Jozef lehocký?", "source": {"name":"ženy", "surname": "", "born": "1921-1934"}, "year": 2006, "location": "Dolná Súča"},
-    "tempo": 120
+    "source": {
+        "type": "book",
+        "title": "Ľudové piesne, spevné a hudobné tradície spod Bielych Karpát III",
+        "author": "Jozef Lehocký"
+    },
+    "tempo": 120,
+    "id": "29228b85-8585-4a09-8301-3f88de46c228",
+    "page": 237,
+    "recorded_by": "Jozef lehocký?",
+    "location": "Dolná Súča",
+    "year": 2006,
+    "recorded_person": {
+        "name": "ženy",
+        "surname": "",
+        "born": "1921-1934"
+    }
 }

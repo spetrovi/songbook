@@ -1,7 +1,20 @@
 {
     "title": "Pot tú našu breskiňú",
-    "source": {"type": "book", "title": "Ľudové piesne, spevné a hudobné tradície spod Bielych Karpát II", "author": "Jozef Lehocký", "page": 153},
-    "record": {"recorded_by": "Jozef lehocký", "source": {"name":"Štefan", "surname": "Juríček", "born": 1904}, "year": 1988, "location": "Chocholná"},
+    "source": {
+        "type": "book",
+        "title": "Ľudové piesne, spevné a hudobné tradície spod Bielych Karpát II",
+        "author": "Jozef Lehocký"
+    },
     "tempo": 120,
-    "type": "lašunk, čardáš"
+    "type": "lašunk, čardáš",
+    "id": "08996976-9b73-4f13-99ac-b06665018612",
+    "page": 153,
+    "recorded_by": "Jozef lehocký",
+    "location": "Chocholná",
+    "year": 1988,
+    "recorded_person": {
+        "name": "Štefan",
+        "surname": "Juríček",
+        "born": 1904
+    }
 }

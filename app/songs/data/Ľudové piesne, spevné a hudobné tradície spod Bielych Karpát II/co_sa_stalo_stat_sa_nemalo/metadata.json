@@ -1,7 +1,20 @@
 {
     "title": "Stalo sa, čo stať sa ňemalo",
-    "source": {"type": "book", "title": "Ľudové piesne, spevné a hudobné tradície spod Bielych Karpát II", "author": "Jozef Lehocký", "page": 203},
-    "record": {"recorded_by": "Jozef lehocký", "source": {"name":"Štefan", "surname": "Juríček", "born": 1904}, "year": 1988, "location": "Chocholná"},
+    "source": {
+        "type": "book",
+        "title": "Ľudové piesne, spevné a hudobné tradície spod Bielych Karpát II",
+        "author": "Jozef Lehocký"
+    },
     "tempo": 112,
-    "type": "polka"
+    "type": "polka",
+    "id": "d6528341-5022-4012-84b5-38774104936c",
+    "page": 203,
+    "recorded_by": "Jozef lehocký",
+    "location": "Chocholná",
+    "year": 1988,
+    "recorded_person": {
+        "name": "Štefan",
+        "surname": "Juríček",
+        "born": 1904
+    }
 }

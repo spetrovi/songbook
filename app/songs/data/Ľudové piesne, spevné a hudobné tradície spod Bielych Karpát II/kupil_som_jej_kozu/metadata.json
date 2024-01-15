@@ -1,7 +1,20 @@
 {
     "title": "Kúpil som jej kozu",
-    "source": {"type": "book", "title": "Ľudové piesne, spevné a hudobné tradície spod Bielych Karpát II", "author": "Jozef Lehocký", "page": 160},
-    "record": {"recorded_by": "Jozef lehocký", "source": {"name":"Anna", "surname": "Blaželová", "born": 1912}, "year": 1977, "location": "Kostolná-Záriečie"},
+    "source": {
+        "type": "book",
+        "title": "Ľudové piesne, spevné a hudobné tradície spod Bielych Karpát II",
+        "author": "Jozef Lehocký"
+    },
     "tempo": 126,
-    "type": "Lašunk, Čardáš"
+    "type": "Lašunk, Čardáš",
+    "id": "2417d080-1597-4e34-87be-9a4bfc1ab35d",
+    "page": 160,
+    "recorded_by": "Jozef lehocký",
+    "location": "Kostolná-Záriečie",
+    "year": 1977,
+    "recorded_person": {
+        "name": "Anna",
+        "surname": "Blaželová",
+        "born": 1912
+    }
 }

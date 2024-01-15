@@ -1,7 +1,20 @@
 {
     "title": "Bežala liška po reži",
-    "source": {"type": "book", "title": "Ľudové piesne, spevné a hudobné tradície spod Bielych Karpát II", "author": "Jozef Lehocký", "page": 165},
-    "record": {"recorded_by": "Jozef lehocký", "source": {"name":"Magdaléna", "surname": "Forgáčová", "born": 1905}, "year": 1992, "location": "Drietoma"},
+    "source": {
+        "type": "book",
+        "title": "Ľudové piesne, spevné a hudobné tradície spod Bielych Karpát II",
+        "author": "Jozef Lehocký"
+    },
     "tempo": 168,
-    "type": "sellácka"
+    "type": "sellácka",
+    "id": "9b80bca1-41f9-4ac8-8fd3-19e30c1a9682",
+    "page": 165,
+    "recorded_by": "Jozef lehocký",
+    "location": "Drietoma",
+    "year": 1992,
+    "recorded_person": {
+        "name": "Magdaléna",
+        "surname": "Forgáčová",
+        "born": 1905
+    }
 }

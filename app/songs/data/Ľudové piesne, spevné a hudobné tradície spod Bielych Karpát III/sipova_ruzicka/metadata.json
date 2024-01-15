@@ -1,7 +1,20 @@
 {
     "title": "Šípová ružička",
-    "source": {"type": "book", "title": "Ľudové piesne, spevné a hudobné tradície spod Bielych Karpát III", "author": "Jozef Lehocký", "page": 197},
-    "record": {"recorded_by": "Jozef lehocký", "source": {"name":"Mária", "surname": "Macurová", "born": 1924}, "year": 2007, "location": "Hrabovka"},
+    "source": {
+        "type": "book",
+        "title": "Ľudové piesne, spevné a hudobné tradície spod Bielych Karpát III",
+        "author": "Jozef Lehocký"
+    },
     "type": "valčík",
-    "tempo": 176
+    "tempo": 176,
+    "id": "9e4ee0fd-66a3-4a0e-b08e-96234ac3aafa",
+    "page": 197,
+    "recorded_by": "Jozef lehocký",
+    "location": "Hrabovka",
+    "year": 2007,
+    "recorded_person": {
+        "name": "Mária",
+        "surname": "Macurová",
+        "born": 1924
+    }
 }

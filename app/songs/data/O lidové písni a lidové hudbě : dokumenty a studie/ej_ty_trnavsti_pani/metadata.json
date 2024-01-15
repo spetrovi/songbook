@@ -1,5 +1,23 @@
 {
     "title": "Ej, ty trnavští páni",
-    "source": {"type": "book", "title": "O lidové písni a lidové hudbě : dokumenty a studie", "author": "Leoš Janáček", "page": 584},
-    "record": {"recorded_by": "Leoš Janáček", "type": "rukopis", "source": {"name":"Adam", "surname": "Krchnavý", "alias": "Uhelný", "born": 1835, "location": "Lubina", "notes": ["gajdoš"]}, "year": 1906, "location": "Lubina"}
+    "source": {
+        "type": "book",
+        "title": "O lidové písni a lidové hudbě : dokumenty a studie",
+        "author": "Leoš Janáček"
+    },
+    "id": "bc8e6638-6b76-4061-a38f-ce992843b2e8",
+    "page": 584,
+    "recorded_by": "Leoš Janáček",
+    "location": "Lubina",
+    "year": 1906,
+    "recorded_person": {
+        "name": "Adam",
+        "surname": "Krchnavý",
+        "alias": "Uhelný",
+        "born": 1835,
+        "location": "Lubina",
+        "notes": [
+            "gajdoš"
+        ]
+    }
 }

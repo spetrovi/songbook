@@ -1,7 +1,20 @@
 {
     "title": "Počúvam, počúvam",
-    "source": {"type": "book", "title": "Ľudové piesne, spevné a hudobné tradície spod Bielych Karpát III", "author": "Jozef Lehocký", "page": 194},
-    "record": {"recorded_by": "Jozef lehocký?", "source": {"name":"Mária", "surname": "Minďárová", "born": 1924}, "year": 1973, "location": "Luborča"},
+    "source": {
+        "type": "book",
+        "title": "Ľudové piesne, spevné a hudobné tradície spod Bielych Karpát III",
+        "author": "Jozef Lehocký"
+    },
     "type": "valčík",
-    "tempo": 184
+    "tempo": 184,
+    "id": "64b0ca6c-5a19-4db6-8ee6-07a44d7656fe",
+    "page": 194,
+    "recorded_by": "Jozef lehocký?",
+    "location": "Luborča",
+    "year": 1973,
+    "recorded_person": {
+        "name": "Mária",
+        "surname": "Minďárová",
+        "born": 1924
+    }
 }

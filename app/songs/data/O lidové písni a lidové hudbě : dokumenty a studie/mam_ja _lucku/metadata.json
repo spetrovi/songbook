@@ -1,5 +1,23 @@
 {
     "title": "Mám ja lúčku",
-    "source": {"type": "book", "title": "O lidové písni a lidové hudbě : dokumenty a studie", "author": "Leoš Janáček", "page": 586},
-    "record": {"recorded_by": "Leoš Janáček", "type": "rukopis", "source": {"name":"Adam", "surname": "Krchnavý", "alias": "Uhelný", "born": 1835, "location": "Lubina", "notes": ["gajdoš"]}, "year": 1906, "location": "Lubina"}
+    "source": {
+        "type": "book",
+        "title": "O lidové písni a lidové hudbě : dokumenty a studie",
+        "author": "Leoš Janáček"
+    },
+    "id": "01c6ea96-9d51-4b2b-b20f-0ad12c1dab89",
+    "page": 586,
+    "recorded_by": "Leoš Janáček",
+    "location": "Lubina",
+    "year": 1906,
+    "recorded_person": {
+        "name": "Adam",
+        "surname": "Krchnavý",
+        "alias": "Uhelný",
+        "born": 1835,
+        "location": "Lubina",
+        "notes": [
+            "gajdoš"
+        ]
+    }
 }

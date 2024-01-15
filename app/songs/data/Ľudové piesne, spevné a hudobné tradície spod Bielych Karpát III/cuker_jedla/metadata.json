@@ -1,7 +1,20 @@
 {
     "title": "Cuker jedla, kávu pila",
-    "source": {"type": "book", "title": "Ľudové piesne, spevné a hudobné tradície spod Bielych Karpát III", "author": "Jozef Lehocký", "page": 174},
-    "record": {"recorded_by": "Jozef lehocký", "source": {"name":"Anna", "surname": "Štefánková", "born": 1920}, "year": 2006, "location": "Nemšová"},
+    "source": {
+        "type": "book",
+        "title": "Ľudové piesne, spevné a hudobné tradície spod Bielych Karpát III",
+        "author": "Jozef Lehocký"
+    },
     "type": "lašunk",
-    "tempo": 120
+    "tempo": 120,
+    "id": "31ec88ac-ea99-4522-8cf7-ae5b993c2994",
+    "page": 174,
+    "recorded_by": "Jozef lehocký",
+    "location": "Nemšová",
+    "year": 2006,
+    "recorded_person": {
+        "name": "Anna",
+        "surname": "Štefánková",
+        "born": 1920
+    }
 }

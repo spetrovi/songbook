@@ -1,7 +1,20 @@
 {
     "title": "Slniečko sa níži",
-    "source": {"type": "book", "title": "Ľudové piesne, spevné a hudobné tradície spod Bielych Karpát III", "author": "Jozef Lehocký", "page": 181},
-    "record": {"recorded_by": "Jozef lehocký", "source": {"name":"Anna", "surname": "Štefánková", "born": 1920}, "year": 2006, "location": "Nemšová"},
+    "source": {
+        "type": "book",
+        "title": "Ľudové piesne, spevné a hudobné tradície spod Bielych Karpát III",
+        "author": "Jozef Lehocký"
+    },
     "type": "lašunk",
-    "tempo": 144
+    "tempo": 144,
+    "id": "813e085e-9ac7-4044-9bec-8945678a3f81",
+    "page": 181,
+    "recorded_by": "Jozef lehocký",
+    "location": "Nemšová",
+    "year": 2006,
+    "recorded_person": {
+        "name": "Anna",
+        "surname": "Štefánková",
+        "born": 1920
+    }
 }

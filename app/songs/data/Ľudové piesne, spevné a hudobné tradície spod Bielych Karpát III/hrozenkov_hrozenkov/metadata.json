@@ -1,7 +1,20 @@
 {
     "title": "Hrozenkov, Hrozenkov",
-    "source": {"type": "book", "title": "Ľudové piesne, spevné a hudobné tradície spod Bielych Karpát III", "author": "Jozef Lehocký", "page": 169},
-    "record": {"recorded_by": "Jozef Lehocký", "source": {"name":"Johana", "surname": "Zemanovičová", "born": 1922}, "year": 2006, "location": "Horná Súča - Dúbrava"},
+    "source": {
+        "type": "book",
+        "title": "Ľudové piesne, spevné a hudobné tradície spod Bielych Karpát III",
+        "author": "Jozef Lehocký"
+    },
     "tempo": 168,
-    "type": "čardáš"
+    "type": "čardáš",
+    "id": "6095b42a-e68d-44ed-98e4-e7929c170df0",
+    "page": 169,
+    "recorded_by": "Jozef Lehocký",
+    "location": "Horná Súča - Dúbrava",
+    "year": 2006,
+    "recorded_person": {
+        "name": "Johana",
+        "surname": "Zemanovičová",
+        "born": 1922
+    }
 }
