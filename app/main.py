@@ -64,8 +64,9 @@ def dashboard_view(request: Request):
             result = session.exec(statement)
             songbooks_all = result.all()
             songbooks = [songbook.dict() for songbook in songbooks_all]
+            for songbook in songbooks:
+                songbook["song_count"] = Entry.count_songs(songbook["songbook_id"])
             context["songbooks"] = songbooks
-
             return render(request, "dashboard.html", context, status_code=200)
 
 
@@ -234,21 +235,21 @@ def get_songbook_card_body(request: Request, songbook_id: str):
 
 @app.get("/song/{song_id}", response_class=HTMLResponse)
 def get_song_detail(request: Request, song_id: str):
-    with db.get_library_session() as session:
+    with db.get_library_session() as lib_session:
         statement = select(Song).where(Song.id == song_id)
-        result = session.exec(statement)
-        song = result.first()
+        song = lib_session.exec(statement).one()
+        #        print(song.source.title)
+        with db.get_session() as session:
+            statement = select(Songbook).where(
+                Songbook.user_id == request.user.username
+            )
+            songbooks = session.exec(statement).all()
 
-    with db.get_session() as session:
-        statement = select(Songbook).where(Songbook.user_id == request.user.username)
-        result = session.exec(statement)
-        songbooks = result.all()
-
-    return render(
-        request,
-        "song_detail.html",
-        {"song": song, "songbooks": songbooks},
-    )
+            return render(
+                request,
+                "song_detail.html",
+                {"song": song, "songbooks": songbooks},
+            )
 
 
 @app.post("/songbook/sort_form", response_class=HTMLResponse)
@@ -278,11 +279,16 @@ def get_source_detail(request: Request, source_id: str):
         result = session.exec(statement)
         songs = result.all()
 
-        return render(
-            request,
-            "source_detail.html",
-            {"source": source, "songs": songs},
-        )
+        with db.get_session() as user_session:
+            statement = select(Songbook).where(
+                Songbook.user_id == request.user.username
+            )
+            songbooks = user_session.exec(statement).all()
+            return render(
+                request,
+                "source_detail.html",
+                {"source": source, "songs": songs, "songbooks": songbooks},
+            )
 
 
 @app.get("/songbook_pdf/{songbook_id}", response_class=FileResponse)

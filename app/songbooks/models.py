@@ -96,13 +96,18 @@ class Entry(SQLModel, table=True):
                 select(Songbook).where(Songbook.songbook_id == songbook_id)
             ).one():
                 raise Exception("Songbook doesn't exists")
-            entry = Entry(
-                songbook_id=songbook_id,
-                song_id=song_id,
-                order=Entry.count_songs(songbook_id),
-            )
-            session.add(entry)
-            session.commit()
+            if not session.exec(
+                select(Entry)
+                .where(Entry.songbook_id == songbook_id)
+                .where(Entry.song_id == song_id)
+            ):
+                entry = Entry(
+                    songbook_id=songbook_id,
+                    song_id=song_id,
+                    order=Entry.count_songs(songbook_id),
+                )
+                session.add(entry)
+                session.commit()
 
     @staticmethod
     def reorder_songs(song_list):

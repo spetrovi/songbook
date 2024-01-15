@@ -7,5 +7,7 @@
     <li><strong>{{ source.author.name }} {{ source.author.surname }}</strong> </li>
   </div>
 
-  {% include "snippets/songbook_accordion.html" %}
+  {% with include_add_button=True %}
+    {% include "snippets/songbook_accordion.html" %}
+  {% endwith %}
 {% endblock %}
