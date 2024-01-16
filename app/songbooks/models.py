@@ -100,7 +100,7 @@ class Entry(SQLModel, table=True):
                 select(Entry)
                 .where(Entry.songbook_id == songbook_id)
                 .where(Entry.song_id == song_id)
-            ):
+            ).first():
                 entry = Entry(
                     songbook_id=songbook_id,
                     song_id=song_id,
