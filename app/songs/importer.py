@@ -33,6 +33,41 @@ def reformat_meta(metadata):
     return transformed_metadata
 
 
+def make_entry(session, meta_orig, lytex_source, verses_source):
+    meta = meta_orig.copy()
+    source = session.exec(
+        select(Source).where(Source.title == meta["source"]["title"])
+    ).one()
+    if "recorded_by" in meta.keys():
+        name, surname = meta["recorded_by"].split(" ")
+        try:
+            recorded_by = session.exec(
+                select(Person)
+                .where(Person.name == name)
+                .where(Person.surname == surname)
+            ).one()
+        except NoResultFound:
+            recorded_by = Person(name=name, surname=surname)
+            session.add(recorded_by)
+    else:
+        recorded_by = None
+    #            recorded_person = find_person_by_dict(person_list, meta["recorded_person"])
+    meta.pop("source", None)
+    meta.pop("recorded_by", None)
+    meta.pop("recorded_person", None)
+    song = Song.from_dict(
+        meta,
+        source=source,
+        lytex=lytex_source,
+        verses=verses_source,
+        recorded_by=recorded_by,
+    )
+    session.add(song)
+    session.commit()
+
+    return song
+
+
 def process_song(meta_path):
     print(f"\033[32mOpening file {meta_path}\033[0m")
     with open(meta_path, "r") as meta_source:
@@ -62,39 +97,16 @@ def process_song(meta_path):
         verses_source = None
 
     with Session(engine) as session:
-        statement = select(Song).where(Song.id == meta["id"])
         try:
+            statement = select(Song).where(Song.id == meta["id"])
             song = session.exec(statement).one()
         except NoResultFound:
-            source = session.exec(
-                select(Source).where(Source.title == meta["source"]["title"])
-            ).one()
-            if meta["recorded_by"]:
-                name, surname = meta["recorded_by"].split(" ")
-                try:
-                    recorded_by = session.exec(
-                        select(Person)
-                        .where(Person.name == name)
-                        .where(Person.surname == surname)
-                    ).one()
-                except NoResultFound:
-                    recorded_by = Person(name=name, surname=surname)
-                    session.add(recorded_by)
-            else:
-                recorded_by = None
-            #            recorded_person = find_person_by_dict(person_list, meta["recorded_person"])
-            meta.pop("source", None)
-            meta.pop("recorded_by", None)
-            meta.pop("recorded_person", None)
-            song = Song.from_dict(
-                meta,
-                source=source,
-                lytex=lytex_source,
-                verses=verses_source,
-                recorded_by=recorded_by,
-            )
-            session.add(song)
-            session.commit()
+            song = make_entry(session, meta, lytex_source, verses_source)
+        except KeyError:
+            song = make_entry(session, meta, lytex_source, verses_source)
+            meta["id"] = str(song.id)
+            with open(meta_path, "w", encoding="utf8") as meta_source:
+                json.dump(meta, meta_source, indent=4, ensure_ascii=False)
     return song
 
 

@@ -1,6 +1,8 @@
 
 <h1>{{ song.title }}</h1>
-<img src="/tmp/{{ song.id }}/source.cropped.png" />
+{% if song.lytex %}
+  <img src="/tmp/{{ song.id }}/source.cropped.png" />
+{% endif %}
 <div class="container mx-0">
   <div class="row row-cols-auto">
     {% set verses = song.verses.split('\n\n') %}
