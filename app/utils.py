@@ -46,4 +46,5 @@ def build_all_songs():
     with db.get_library_session() as session:
         songs = session.query(Song).all()
         for song in songs:
-            build_song(song)
+            if song.lytex:
+                build_song(song)
