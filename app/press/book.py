@@ -29,7 +29,8 @@ def compile_lytex(src):
 def bake(songs, songbook, templates_dir):
     for song in songs:
         song.verses = compile_verses(song.verses)
-        song.lytex = compile_lytex(song.lytex)
+        if song.lytex:
+            song.lytex = compile_lytex(song.lytex)
 
     env = Environment(
         block_start_string="{+",
