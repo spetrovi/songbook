@@ -10,6 +10,7 @@ class Settings(BaseSettings):
     base_dir: Path = Path(__file__).resolve().parent
     templates_dir: Path = Path(__file__).resolve().parent / "templates"
     secret_key: str = Field(...)
+    register_enabled: bool = Field(...)
     jwt_algorithm: str = Field(default="HS256")
     session_duration: int = Field(default=86400)
 
