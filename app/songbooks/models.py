@@ -149,7 +149,15 @@ class Entry(SQLModel, table=True):
 
     @staticmethod
     def remove_song(songbook_id, song_id):
-        # TODO
+        with get_session() as session:
+            statement = (
+                select(Entry)
+                .where(Entry.songbook_id == songbook_id)
+                .where(Entry.song_id == song_id)
+            )
+            entry = session.exec(statement).one()
+            session.delete(entry)
+            session.commit()
         return 1
 
     @staticmethod

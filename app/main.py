@@ -55,7 +55,7 @@ def dashboard_view(request: Request):
     # we need to get user's songbooks, all books and all songs
     context = {}
     with db.get_library_session() as session:
-        context["songs"] = session.query(Song).all()
+        context["songs"] = session.exec(select(Song).limit(15))
         context["sources"] = session.query(Source).all()
         with db.get_session() as session:
             statement = select(Songbook).where(
@@ -319,4 +319,12 @@ def get_songbook_detail(request: Request, songbook_id: str):
 @app.post("/add_song_to_songbook/{songbook_id}/{song_id}", response_class=HTMLResponse)
 def add_song_to_songbook(request: Request, songbook_id: str, song_id: str):
     Entry.add_song(songbook_id, song_id)
+    return HTMLResponse("", status_code=200)
+
+
+@app.delete(
+    "/remove_song_from_songbook/{songbook_id}/{song_id}", response_class=HTMLResponse
+)
+def remove_song_from_songbook(request: Request, songbook_id: str, song_id: str):
+    Entry.remove_song(songbook_id, song_id)
     return HTMLResponse("", status_code=200)

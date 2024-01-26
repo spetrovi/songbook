@@ -3,7 +3,7 @@ FROM fedora:37
 
 # Update and install LilyPond, Python 3.9, and other dependencies
 RUN dnf update -y && \
-    dnf install -y lilypond python3 python3-pip && \
+    dnf install -y lilypond python3 python3-pip texlive-scheme-basic && \
     dnf clean all
 
 # Set the working directory
