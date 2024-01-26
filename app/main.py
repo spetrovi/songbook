@@ -74,8 +74,7 @@ def dashboard_view(request: Request):
 def homepage(request: Request):
     if request.user.is_authenticated:
         return dashboard_view(request)
-    context = {}
-    return render(request, "home.html", context)
+    return redirect("/login")
 
 
 @app.get("/account", response_class=HTMLResponse)
@@ -107,7 +106,7 @@ def login_post_view(
 
 @app.get("/signup", response_class=HTMLResponse)
 def signup_get_view(request: Request):
-    context = {}
+    context = {"register_enabled": settings.register_enabled}
     return render(request, "auth/signup.html", context)
 
 
@@ -118,6 +117,8 @@ def signup_post_view(
     password: str = Form(...),
     password_confirm: str = Form(...),
 ):
+    if not settings.register_enabled:
+        return redirect("/login")
     raw_data = {
         "email": email,
         "password": password,
