@@ -7,6 +7,7 @@
       var sortableInstance = new Sortable(accordion, {
         animation: 150,
         ghostClass: 'blue-background-class',
+        handle: '.draggable-area', // Specify the handle element
         filter: ".htmx-indicator", // Make the indicator unsortable
         onMove: function (evt) {
           return evt.related.className.indexOf('htmx-indicator') === -1;
