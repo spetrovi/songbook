@@ -24,7 +24,7 @@ class Songbook(SQLModel, table=True):
         return f"Songbook(title={self.title}, user_id={self.user_id})"
 
     @staticmethod
-    def create_songbook(songbook_id, user_id):
+    def create_songbook(user_id):
         with get_session() as session:
             if (
                 not session.query(app.users.models.User)
@@ -32,9 +32,10 @@ class Songbook(SQLModel, table=True):
                 .all()
             ):
                 raise Exception("User doesn't exists")
-            songbook = Songbook(songbook_id=songbook_id, user_id=user_id)
+            songbook = Songbook(user_id=user_id)
             session.add(songbook)
             session.commit()
+            return Songbook.get_by_user_songbook_id(user_id, songbook.songbook_id)
 
     @staticmethod
     def get_by_user_id(user_id):

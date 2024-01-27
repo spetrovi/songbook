@@ -1,10 +1,8 @@
-import uuid
 from pathlib import Path
 
 from fastapi import FastAPI
 from fastapi import Form
 from fastapi import Request
-from fastapi.responses import FileResponse
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from sqlmodel import create_engine
@@ -15,8 +13,9 @@ from starlette.middleware.authentication import AuthenticationMiddleware
 from . import config
 from . import db
 from . import utils
-from .press.book import bake
 from .routers.admin_router import router as admin_router
+from .routers.htmx_router import router as htmx_router
+from .routers.songbook_router import router as songbook_router
 from .shortcuts import redirect
 from .shortcuts import render
 from .songbooks.models import Entry
@@ -32,6 +31,8 @@ from .users.schemas import UserSignupSchema
 app = FastAPI()
 app.add_middleware(AuthenticationMiddleware, backend=JWTCookieBackend())
 app.include_router(admin_router)
+app.include_router(htmx_router)
+app.include_router(songbook_router)
 settings = config.get_settings()
 
 from .handlers import *  # noqa
@@ -159,87 +160,12 @@ def songs_view(request: Request):
     return render(request, "songs.html", context=get_songs())
 
 
-@app.delete("/delete_songbook/{songbook_id}", response_class=HTMLResponse)
-def delete_songbook(request: Request, songbook_id: str):
-    with db.get_session() as session:
-        statement = (
-            select(Songbook)
-            .where(Songbook.user_id == request.user.username)
-            .where(Songbook.songbook_id == songbook_id)
-        )
-        result = session.exec(statement)
-        songbook = result.one()
-
-        Songbook.delete_songbook(songbook.songbook_id)
-
-        return HTMLResponse("", status_code=200)
-
-
-@app.get("/create_songbook", response_class=HTMLResponse)
-def create_songbook(request: Request):
-    new_id = uuid.uuid4()
-    Songbook.create_songbook(new_id, request.user.username)
-    songbook = {"title": "Untitled", "songbook_id": str(new_id)}
-    return render(
-        request,
-        "snippets/new_songbook_slide.html",
-        {"songbook": songbook},
-    )
-
-
-@app.put("/rename_songbook/{songbook_id}", response_class=HTMLResponse)
-def rename_songbook(request: Request, songbook_id: str, title: str = Form(...)):
-    with db.get_session() as session:
-        statement = (
-            select(Songbook)
-            .where(Songbook.user_id == request.user.username)
-            .where(Songbook.songbook_id == songbook_id)
-        )
-        songbook = session.exec(statement).one()
-        songbook.title = title
-        session.commit()
-        return render(request, "snippets/songbook_body.html", {"songbook": songbook})
-
-
-@app.get("/rename_songbook/{songbook_id}", response_class=HTMLResponse)
-def get_rename_songbook(request: Request, songbook_id: str):
-    with db.get_session() as session:
-        statement = (
-            select(Songbook)
-            .where(Songbook.user_id == request.user.username)
-            .where(Songbook.songbook_id == songbook_id)
-        )
-        result = session.exec(statement)
-        songbook = result.first()
-        return render(
-            request,
-            "snippets/rename_songbook_form.html",
-            {"title": songbook.title, "songbook_id": songbook.songbook_id},
-        )
-
-
-@app.get("/songbook_card_body/{songbook_id}", response_class=HTMLResponse)
-def get_songbook_card_body(request: Request, songbook_id: str):
-    with db.get_session() as session:
-        statement = (
-            select(Songbook)
-            .where(Songbook.user_id == request.user.username)
-            .where(Songbook.songbook_id == songbook_id)
-        )
-        songbook = session.exec(statement).one()
-        return render(
-            request,
-            "snippets/songbook_body.html",
-            {"songbook": songbook},
-        )
-
-
+@login_required
 @app.get("/song/{song_id}", response_class=HTMLResponse)
 def get_song_detail(request: Request, song_id: str):
     with db.get_library_session() as lib_session:
         statement = select(Song).where(Song.id == song_id)
         song = lib_session.exec(statement).one()
-        #        print(song.source.title)
         with db.get_session() as session:
             statement = select(Songbook).where(
                 Songbook.user_id == request.user.username
@@ -251,22 +177,6 @@ def get_song_detail(request: Request, song_id: str):
                 "song_detail.html",
                 {"song": song, "songbooks": songbooks},
             )
-
-
-@app.post("/songbook/sort_form", response_class=HTMLResponse)
-async def post_songbook_sortform(request: Request):
-    form_data = await request.form()
-    songbook_id = form_data.get("songbook_id")
-    item_list = list(form_data.items())
-    songbook = Songbook.get_by_user_songbook_id(request.user.username, songbook_id)
-    sorted_entry_ids = Entry.reorder_songs(item_list)
-    songs = [Entry.get_song_by_entry_id(entry_id) for entry_id in sorted_entry_ids]
-
-    return render(
-        request,
-        "snippets/songbook_accordion.html",
-        {"songs": songs, "songbook": songbook},
-    )
 
 
 @app.get("/source/{source_id}", response_class=HTMLResponse)
@@ -290,41 +200,3 @@ def get_source_detail(request: Request, source_id: str):
                 "source_detail.html",
                 {"source": source, "songs": songs, "songbooks": songbooks},
             )
-
-
-@app.get("/songbook_pdf/{songbook_id}", response_class=FileResponse)
-def get_songbook_pdf(request: Request, songbook_id: str):
-    # TODO This is not good, because we won't generate new pdf if
-    # user rearanges songs
-    #    pdf_path = Path("app/tmp/songbooks/") / songbook_id / "output/songbook.pdf"
-    #    if pdf_path.exists():
-    #        return FileResponse(pdf_path)
-    songbook = Songbook.get_by_user_songbook_id(request.user.username, songbook_id)
-    songs = Entry.get_songs(songbook.songbook_id)
-    pdf_path = bake(songs, songbook, settings.templates_dir)
-    return FileResponse(pdf_path)
-
-
-@app.get("/songbook/{songbook_id}", response_class=HTMLResponse)
-def get_songbook_detail(request: Request, songbook_id: str):
-    songbook = Songbook.get_by_user_songbook_id(request.user.username, songbook_id)
-    songs = Entry.get_songs(songbook.songbook_id)
-    return render(
-        request,
-        "songbook_detail.html",
-        {"songbook": songbook, "songs": songs},
-    )
-
-
-@app.post("/add_song_to_songbook/{songbook_id}/{song_id}", response_class=HTMLResponse)
-def add_song_to_songbook(request: Request, songbook_id: str, song_id: str):
-    Entry.add_song(songbook_id, song_id)
-    return HTMLResponse("", status_code=200)
-
-
-@app.delete(
-    "/remove_song_from_songbook/{songbook_id}/{song_id}", response_class=HTMLResponse
-)
-def remove_song_from_songbook(request: Request, songbook_id: str, song_id: str):
-    Entry.remove_song(songbook_id, song_id)
-    return HTMLResponse("", status_code=200)
