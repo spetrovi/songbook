@@ -1,45 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <script>
-    htmx.onLoad(function() {
-      var sortables = document.querySelectorAll(".sortable");
-      for (var i = 0; i < sortables.length; i++) {
-        var sortable = sortables[i];
-        var sortableInstance = new Sortable(sortable, {
-          animation: 150,
-          ghostClass: 'blue-background-class',
 
-          // Make the `.htmx-indicator` unsortable
-          filter: ".htmx-indicator",
-          onMove: function (evt) {
-            return evt.related.className.indexOf('htmx-indicator') === -1;
-          },
-
-          // Disable sorting on the `end` event
-          onEnd: function (evt) {
-            this.option("disabled", true);
-          }
-        });
-
-      // Re-enable sorting on the `htmx:afterSwap` event
-        sortable.addEventListener("htmx:afterSwap", function() {
-          sortableInstance.option("disabled", false);
-        });
-      }
-    });
-  </script>
   <h1>{{ songbook.title }}</h1>
-  {% with include_remove_button=True %}
-    {% include "snippets/songbook_accordion.html" %}
-  {% endwith %}
-  <form class="sortable" hx-post="/songbook/sort_form" hx-trigger="end" hx-target="#songbook_accordion" hx-swap="outerHTML">
-    <div class="htmx-indicator">Updating...</div>
-    {% for song in songs %}
-      <div><input type='hidden' name='{{song.id}}' value='{{song.id}}'/>{{song.title}}</div>
-    {% endfor %}
-    <input type='hidden' name='songbook_id' value='{{songbook.songbook_id}}'/>
-  </form>
+  {% include "snippets/songbook_accordion.html" %}
 
   <a href="/songbook_pdf/{{songbook.songbook_id}}" class="btn btn-primary">Bake PDF!</a>
 
