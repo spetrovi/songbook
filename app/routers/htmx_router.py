@@ -36,7 +36,6 @@ async def post_songbook_sortform(request: Request):
     form_data = await request.form()
     songbook_id = form_data.get("songbook_id")
     item_list = list(form_data.items())
-    print(item_list)
     songbook = Songbook.get_by_user_songbook_id(request.user.username, songbook_id)
     sorted_entry_ids = Entry.reorder_songs(item_list)
     songs = [Entry.get_song_by_entry_id(entry_id) for entry_id in sorted_entry_ids]

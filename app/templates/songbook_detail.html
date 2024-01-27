@@ -1,10 +1,33 @@
 {% extends "base.html" %}
 
 {% block content %}
+  <script>
+    htmx.onLoad(function() {
+      var accordion = document.getElementById("songbook_accordion");
+      var sortableInstance = new Sortable(accordion, {
+        animation: 150,
+        ghostClass: 'blue-background-class',
+        filter: ".htmx-indicator", // Make the indicator unsortable
+        onMove: function (evt) {
+          return evt.related.className.indexOf('htmx-indicator') === -1;
+        },
+        onEnd: function (evt) {
+          this.option("disabled", true);
+        }
+      });
 
+      accordion.addEventListener("htmx:afterSwap", function() {
+        sortableInstance.option("disabled", false);
+      });
+    });
+  </script>
   <h1>{{ songbook.title }}</h1>
-  {% include "snippets/songbook_accordion.html" %}
-
+  <form class="sortable" hx-post="/songbook/sort_form" hx-trigger="end" hx-target="#songbook_accordion" hx-swap="outerHTML">
+    <div class="htmx-indicator">Updating...</div>
+    <input type='hidden' name='songbook_id' value='{{songbook.songbook_id}}'/>
+    {% include "snippets/songbook_accordion.html" %}
+  </form>
+  </div>
   <a href="/songbook_pdf/{{songbook.songbook_id}}" class="btn btn-primary">Bake PDF!</a>
 
 {% endblock %}
