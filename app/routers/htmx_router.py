@@ -16,10 +16,10 @@ from app.users.models import User
 router = APIRouter()
 
 
-@login_required
 @router.post(
     "/add_song_to_songbook/{songbook_id}/{song_id}", response_class=HTMLResponse
 )
+@login_required
 def add_song_to_songbook(
     request: Request,
     songbook_id: str,
@@ -30,10 +30,10 @@ def add_song_to_songbook(
     return HTMLResponse("", status_code=200)
 
 
-@login_required
 @router.delete(
     "/remove_song_from_songbook/{songbook_id}/{song_id}", response_class=HTMLResponse
 )
+@login_required
 def remove_song_from_songbook(
     request: Request,
     songbook_id: str,
@@ -45,6 +45,7 @@ def remove_song_from_songbook(
 
 
 @router.post("/songbook/sort_form", response_class=HTMLResponse)
+@login_required
 async def post_songbook_sortform(
     request: Request, session: Session = Depends(db.yield_session)
 ):
@@ -60,8 +61,8 @@ async def post_songbook_sortform(
     )
 
 
-@login_required
 @router.delete("/delete_songbook/{songbook_id}", response_class=HTMLResponse)
+@login_required
 def delete_songbook(
     request: Request, songbook_id: str, session: Session = Depends(db.yield_session)
 ):
@@ -69,8 +70,8 @@ def delete_songbook(
     return HTMLResponse("", status_code=200)
 
 
-@login_required
 @router.get("/create_songbook", response_class=HTMLResponse)
+@login_required
 def create_songbook(request: Request, session: Session = Depends(db.yield_session)):
     if not session.exec(
         select(User).where(User.user_id == request.user.username)
@@ -84,8 +85,8 @@ def create_songbook(request: Request, session: Session = Depends(db.yield_sessio
     )
 
 
-@login_required
 @router.put("/rename_songbook/{songbook_id}", response_class=HTMLResponse)
+@login_required
 def rename_songbook(
     request: Request,
     songbook_id: str,
@@ -105,6 +106,7 @@ def rename_songbook(
 
 
 @router.get("/rename_songbook/{songbook_id}", response_class=HTMLResponse)
+@login_required
 def get_rename_songbook(
     request: Request, songbook_id: str, session: Session = Depends(db.yield_session)
 ):
@@ -121,8 +123,8 @@ def get_rename_songbook(
     )
 
 
-@login_required
 @router.get("/songbook_card_body/{songbook_id}", response_class=HTMLResponse)
+@login_required
 def get_songbook_card_body(request: Request, songbook_id: str):
     with db.get_session() as session:
         statement = (
