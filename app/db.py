@@ -21,9 +21,8 @@ def get_session():
 
 
 def yield_session():
-    with Session(engine) as session:
+    session = Session(engine)
+    try:
         yield session
-
-
-# def get_library_session():
-#    return Session(library_engine)
+    finally:
+        session.close()
