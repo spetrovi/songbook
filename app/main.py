@@ -128,8 +128,8 @@ def signup_post_view(
     return redirect("/login")
 
 
-@login_required
 @app.get("/song/{song_id}", response_class=HTMLResponse)
+@login_required
 def get_song_detail(
     request: Request, song_id: str, session: Session = Depends(db.yield_session)
 ):
@@ -146,6 +146,7 @@ def get_song_detail(
 
 
 @app.get("/source/{source_id}", response_class=HTMLResponse)
+@login_required
 def get_source_detail(
     request: Request, source_id: str, session: Session = Depends(db.yield_session)
 ):

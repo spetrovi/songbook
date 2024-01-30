@@ -11,12 +11,14 @@ from app.press.book import bake
 from app.shortcuts import render
 from app.songbooks.models import Entry
 from app.songbooks.models import Songbook
+from app.users.decorators import login_required
 
 router = APIRouter()
 settings = config.get_settings()
 
 
 @router.get("/songbook_pdf/{songbook_id}", response_class=FileResponse)
+@login_required
 def get_songbook_pdf(
     request: Request, songbook_id: str, session: Session = Depends(db.yield_session)
 ):
@@ -29,6 +31,7 @@ def get_songbook_pdf(
 
 
 @router.get("/songbook/{songbook_id}", response_class=HTMLResponse)
+@login_required
 def get_songbook_detail(
     request: Request, songbook_id: str, session: Session = Depends(db.yield_session)
 ):
