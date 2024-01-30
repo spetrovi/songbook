@@ -9,6 +9,7 @@ from app.shortcuts import render
 from app.songbooks.models import Entry
 from app.songbooks.models import Songbook
 from app.users.decorators import login_required
+from app.users.models import User
 
 router = APIRouter()
 
@@ -36,44 +37,38 @@ async def post_songbook_sortform(request: Request):
     form_data = await request.form()
     songbook_id = form_data.get("songbook_id")
     item_list = list(form_data.items())
-    songbook = Songbook.get_by_user_songbook_id(request.user.username, songbook_id)
-    sorted_entry_ids = Entry.reorder_songs(item_list)
-    songs = [Entry.get_song_by_entry_id(entry_id) for entry_id in sorted_entry_ids]
+    songs = Entry.reorder_songs(item_list, songbook_id)
 
     return render(
         request,
         "snippets/songbook_accordion.html",
-        {"songs": songs, "songbook": songbook},
+        {"songs": songs, "songbook_id": songbook_id},
     )
 
 
-# TODO Rewrite this so we don't hit database two times
-# Either pass user id to the delete_songbook or don't use it
 @login_required
 @router.delete("/delete_songbook/{songbook_id}", response_class=HTMLResponse)
 def delete_songbook(request: Request, songbook_id: str):
-    with db.get_session() as session:
-        statement = (
-            select(Songbook)
-            .where(Songbook.user_id == request.user.username)
-            .where(Songbook.songbook_id == songbook_id)
-        )
-        songbook = session.exec(statement).one()
-
-        Songbook.delete_songbook(songbook.songbook_id)
-
-        return HTMLResponse("", status_code=200)
+    Songbook.delete_songbook(request.user.username, songbook_id)
+    return HTMLResponse("", status_code=200)
 
 
 @login_required
 @router.get("/create_songbook", response_class=HTMLResponse)
 def create_songbook(request: Request):
-    songbook = Songbook.create_songbook(request.user.username)
-    return render(
-        request,
-        "snippets/new_songbook_slide.html",
-        {"songbook": songbook},
-    )
+    with db.get_session() as session:
+        if not session.exec(
+            select(User).where(User.user_id == request.user.username)
+        ).one():
+            raise Exception("User doesn't exists")
+        songbook = Songbook(user_id=request.user.username)
+        session.add(songbook)
+        session.commit()
+        return render(
+            request,
+            "snippets/new_songbook_slide.html",
+            {"songbook": songbook},
+        )
 
 
 @login_required
@@ -103,7 +98,7 @@ def get_rename_songbook(request: Request, songbook_id: str):
         return render(
             request,
             "snippets/rename_songbook_form.html",
-            {"title": songbook.title, "songbook_id": songbook.songbook_id},
+            {"songbook": songbook},
         )
 
 

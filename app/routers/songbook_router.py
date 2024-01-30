@@ -15,11 +15,6 @@ settings = config.get_settings()
 
 @router.get("/songbook_pdf/{songbook_id}", response_class=FileResponse)
 def get_songbook_pdf(request: Request, songbook_id: str):
-    # TODO This is not good, because we won't generate new pdf if
-    # user rearanges songs
-    #    pdf_path = Path("app/tmp/songbooks/") / songbook_id / "output/songbook.pdf"
-    #    if pdf_path.exists():
-    #        return FileResponse(pdf_path)
     songbook = Songbook.get_by_user_songbook_id(request.user.username, songbook_id)
     songs = Entry.get_songs(songbook.songbook_id)
     pdf_path = bake(songs, songbook, settings.templates_dir)
