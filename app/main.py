@@ -1,13 +1,13 @@
 from pathlib import Path
 
+from fastapi import Depends
 from fastapi import FastAPI
 from fastapi import Form
 from fastapi import Request
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
-from sqlmodel import create_engine
 from sqlmodel import select
-from sqlmodel import SQLModel
+from sqlmodel import Session
 from starlette.middleware.authentication import AuthenticationMiddleware
 
 from . import config
@@ -18,7 +18,6 @@ from .routers.htmx_router import router as htmx_router
 from .routers.songbook_router import router as songbook_router
 from .shortcuts import redirect
 from .shortcuts import render
-from .songbooks.models import Entry
 from .songbooks.models import Songbook
 from .songs.models import Song
 from .songs.models import Source
@@ -40,9 +39,9 @@ from .handlers import *  # noqa
 
 @app.on_event("startup")
 def on_startup():
-    DATABASE_URL = "sqlite:///database.db"
-    engine = create_engine(DATABASE_URL)
-    SQLModel.metadata.create_all(engine)
+    #    DATABASE_URL = "sqlite:///database.db"
+    #    engine = create_engine(DATABASE_URL)
+    #    SQLModel.metadata.create_all(engine)
     # Use Lilypond to build song fragments
     utils.build_all_songs()
 
@@ -52,29 +51,19 @@ def on_startup():
 
 
 @login_required
-def dashboard_view(request: Request):
-    # we need to get user's songbooks, all books and all songs
+def dashboard_view(request: Request, session: Session):
     context = {}
-    with db.get_library_session() as session:
-        context["songs"] = session.exec(select(Song).limit(15))
-        context["sources"] = session.query(Source).all()
-        with db.get_session() as session:
-            statement = select(Songbook).where(
-                Songbook.user_id == request.user.username
-            )
-            result = session.exec(statement)
-            songbooks_all = result.all()
-            songbooks = [songbook.dict() for songbook in songbooks_all]
-            for songbook in songbooks:
-                songbook["song_count"] = Entry.count_songs(songbook["songbook_id"])
-            context["songbooks"] = songbooks
-            return render(request, "dashboard.html", context, status_code=200)
+    context["songs"] = session.exec(select(Song).limit(15))
+    context["sources"] = session.exec(select(Source)).all()
+    statement = select(Songbook).where(Songbook.user_id == request.user.username)
+    context["songbooks"] = session.exec(statement).all()
+    return render(request, "dashboard.html", context, status_code=200)
 
 
 @app.get("/", response_class=HTMLResponse)
-def homepage(request: Request):
+def homepage(request: Request, session: Session = Depends(db.yield_session)):
     if request.user.is_authenticated:
-        return dashboard_view(request)
+        return dashboard_view(request, session)
     return redirect("/login")
 
 
@@ -139,64 +128,37 @@ def signup_post_view(
     return redirect("/login")
 
 
-@app.get("/users")
-def users_list_view():
-    with db.get_session() as session:
-        users = session.query(User).all()
-        return users
-
-
-@app.get("/get_songs")
-def get_songs():
-    with db.get_library_session() as session:
-        songs_all = session.query(Song).all()
-        songs = [song.dict() for song in songs_all]
-        return {"songs": songs}
-
-
-# Get songs from the database
-@app.get("/songs", response_class=HTMLResponse)
-def songs_view(request: Request):
-    return render(request, "songs.html", context=get_songs())
-
-
-@login_required
 @app.get("/song/{song_id}", response_class=HTMLResponse)
-def get_song_detail(request: Request, song_id: str):
-    with db.get_library_session() as lib_session:
-        statement = select(Song).where(Song.id == song_id)
-        song = lib_session.exec(statement).one()
-        with db.get_session() as session:
-            statement = select(Songbook).where(
-                Songbook.user_id == request.user.username
-            )
-            songbooks = session.exec(statement).all()
+@login_required
+def get_song_detail(
+    request: Request, song_id: str, session: Session = Depends(db.yield_session)
+):
+    statement = select(Song).where(Song.id == song_id)
+    song = session.exec(statement).one()
+    statement = select(Songbook).where(Songbook.user_id == request.user.username)
+    songbooks = session.exec(statement).all()
 
-            return render(
-                request,
-                "song_detail.html",
-                {"song": song, "songbooks": songbooks},
-            )
+    return render(
+        request,
+        "song_detail.html",
+        {"song": song, "songbooks": songbooks},
+    )
 
 
 @app.get("/source/{source_id}", response_class=HTMLResponse)
-def get_source_detail(request: Request, source_id: str):
-    with db.get_library_session() as session:
-        statement = select(Source).where(Source.id == source_id)
-        result = session.exec(statement)
-        source = result.first()
+@login_required
+def get_source_detail(
+    request: Request, source_id: str, session: Session = Depends(db.yield_session)
+):
+    statement = select(Source).where(Source.id == source_id)
+    source = session.exec(statement).one()
 
-        statement = select(Song).where(Song.source_id == source_id)
-        result = session.exec(statement)
-        songs = result.all()
-
-        with db.get_session() as user_session:
-            statement = select(Songbook).where(
-                Songbook.user_id == request.user.username
-            )
-            songbooks = user_session.exec(statement).all()
-            return render(
-                request,
-                "source_detail.html",
-                {"source": source, "songs": songs, "songbooks": songbooks},
-            )
+    statement = select(Song).where(Song.source_id == source_id)
+    songs = session.exec(statement).all()
+    statement = select(Songbook).where(Songbook.user_id == request.user.username)
+    songbooks = session.exec(statement).all()
+    return render(
+        request,
+        "source_detail.html",
+        {"source": source, "songs": songs, "songbooks": songbooks},
+    )
