@@ -1,13 +1,15 @@
 import uuid
+from typing import List
+from typing import Optional
 
+from sqlalchemy.exc import NoResultFound
 from sqlmodel import Field
+from sqlmodel import Relationship
 from sqlmodel import select
 from sqlmodel import SQLModel
 
-import app.users.models
-from app.db import get_library_session
-from app.db import get_session
 from app.songs.models import Song
+from app.users.models import User
 
 
 class Songbook(SQLModel, table=True):
@@ -17,6 +19,8 @@ class Songbook(SQLModel, table=True):
     user_id: uuid.UUID = Field(default=None, foreign_key="user.user_id")
     title: str = Field(default="Untitled")
 
+    entries: List["Entry"] = Relationship()
+
     def __str__(self):
         return self.__repr__()
 
@@ -24,156 +28,125 @@ class Songbook(SQLModel, table=True):
         return f"Songbook(title={self.title}, user_id={self.user_id})"
 
     @staticmethod
-    def create_songbook(user_id):
-        with get_session() as session:
-            if (
-                not session.query(app.users.models.User)
-                .where(app.users.models.User.user_id == user_id)
-                .all()
-            ):
-                raise Exception("User doesn't exists")
-            songbook = Songbook(user_id=user_id)
-            session.add(songbook)
-            session.commit()
-            return Songbook.get_by_user_songbook_id(user_id, songbook.songbook_id)
+    def get_by_user_songbook_id(user_id, songbook_id, session):
+        return session.exec(
+            select(Songbook)
+            .where(Songbook.user_id == user_id)
+            .where(Songbook.songbook_id == songbook_id)
+        ).one()
 
     @staticmethod
-    def get_by_user_id(user_id):
-        with get_session() as session:
-            return session.query(Songbook).where(Songbook.user_id == user_id).one()
+    def create_songbook(user_id, session):
+        if not session.exec(select(User).where(User.user_id == user_id)).first():
+            raise Exception("User doesn't exists")
+        songbook = Songbook(user_id=user_id)
+        session.add(songbook)
+        session.commit()
+        session.refresh(songbook)
+        return songbook
 
     @staticmethod
-    def get_by_songbook_id(songbook_id):
-        with get_session() as session:
-            return (
-                session.query(Songbook).where(Songbook.songbook_id == songbook_id).one()
-            )
+    def delete_songbook(user_id, songbook_id, session):
+        statement = (
+            select(Songbook)
+            .where(Songbook.songbook_id == songbook_id)
+            .where(Songbook.user_id == user_id)
+        )
+        songbook = session.exec(statement).one()
 
-    @staticmethod
-    def get_by_user_songbook_id(user_id, songbook_id):
-        with get_session() as session:
-            statement = (
-                select(Songbook)
-                .where(Songbook.user_id == user_id)
-                .where(Songbook.songbook_id == songbook_id)
-            )
-            songbook = session.exec(statement).one()
-            return songbook
+        for entry in songbook.entries:
+            session.delete(entry)
 
-    @staticmethod
-    def delete_songbook(songbook_id):
-        Entry.remove_songbook(songbook_id)
-        with get_session() as session:
-            #            if not session.query(Songbook).where(Songbook.songbook_id == songbook_id).one():
-            #                raise exceptions.SongbookDoesntExistException("Songbook doesn't exist")
-            statement = select(Songbook).where(Songbook.songbook_id == songbook_id)
-            songbook = session.exec(statement).one()
-            session.delete(songbook)
-            session.commit()
+        session.delete(songbook)
+        session.commit()
 
 
 class Entry(SQLModel, table=True):
     id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True, index=True)
     songbook_id: uuid.UUID = Field(default=None, foreign_key="songbook.songbook_id")
     song_id: uuid.UUID = Field(default=None, foreign_key="song.id")
+    song: Optional["Song"] = Relationship()
     order: int = Field(default=None)
 
     @staticmethod
-    def count_songs(songbook_id):
-        with get_session() as session:
-            statement = select(Entry).where(Entry.songbook_id == songbook_id)
-            result = session.exec(statement).all()
-            return len(result)
-
-    # TODO add check if we're not adding duplicit entries
-    @staticmethod
-    def add_song(songbook_id, song_id):
-        with get_library_session() as session:
-            if not session.exec(select(Song).where(Song.id == song_id)).one():
-                raise Exception("Song doesn't exists")
-
-        with get_session() as session:
-            if not session.exec(
+    def add_song(songbook_id, song_id, session):
+        if not session.exec(select(Song).where(Song.id == song_id)).first():
+            raise Exception("Song doesn't exists")
+        try:
+            songbook = session.exec(
                 select(Songbook).where(Songbook.songbook_id == songbook_id)
-            ).one():
-                raise Exception("Songbook doesn't exists")
-            if not session.exec(
-                select(Entry)
-                .where(Entry.songbook_id == songbook_id)
-                .where(Entry.song_id == song_id)
-            ).first():
-                entry = Entry(
-                    songbook_id=songbook_id,
-                    song_id=song_id,
-                    order=Entry.count_songs(songbook_id),
-                )
-                session.add(entry)
-                session.commit()
+            ).one()
+        except NoResultFound:
+            raise Exception("Songbook doesn't exists")
+        if session.exec(
+            select(Entry)
+            .where(Entry.songbook_id == songbook_id)
+            .where(Entry.song_id == song_id)
+        ).first():
+            raise Exception("Duplicit entry")
+        entry = Entry(
+            songbook_id=songbook_id, song_id=song_id, order=len(songbook.entries)
+        )
+        session.add(entry)
+        session.commit()
 
     @staticmethod
-    def reorder_songs(song_list):
-        entry_ids = []
-        songbook_id = list(filter(lambda tpl: "songbook_id" in tpl, song_list))[0][1]
+    def reorder_songs(song_list, songbook_id, session):
         filtered_list = list(filter(lambda tpl: "songbook_id" not in tpl, song_list))
+
+        entries = session.exec(
+            select(Entry).where(Entry.songbook_id == songbook_id)
+        ).all()
         for index, (first_id, second_id) in enumerate(filtered_list):
-            with get_session() as session:
-                statement = (
-                    select(Entry)
-                    .where(Entry.songbook_id == songbook_id)
-                    .where(Entry.song_id == first_id)
-                )
-                entry = session.exec(statement).one()
-                entry.order = index
-                session.add(entry)
-                session.commit()
-                entry_ids.append(entry.id)
-        return entry_ids
-
-    def get_song_by_entry_id(entry_id):
-        with get_session() as session:
-            statement = select(Entry).where(Entry.id == entry_id)
-            entry = session.exec(statement).one()
-            with get_library_session() as session:
-                statement = select(Song).where(Song.id == entry.song_id)
-                return session.exec(statement).one()
-
-    @staticmethod
-    def get_songs(songbook_id):
-        with get_session() as session:
-            statement = select(Entry).where(Entry.songbook_id == songbook_id)
-        entries = session.exec(statement).all()
-        song_ids = [(entry.order, entry.id) for entry in entries]
-        sorted_entry_ids = sorted(song_ids, key=lambda x: x[0])
-        return [
-            Entry.get_song_by_entry_id(entry_id) for (_, entry_id) in sorted_entry_ids
-        ]
-
-    @staticmethod
-    def remove_song(songbook_id, song_id):
-        with get_session() as session:
             statement = (
                 select(Entry)
                 .where(Entry.songbook_id == songbook_id)
-                .where(Entry.song_id == song_id)
+                .where(Entry.song_id == first_id)
             )
             entry = session.exec(statement).one()
-            session.delete(entry)
+            entry.order = index
+            session.add(entry)
             session.commit()
-        return 1
+        sorted_entries = sorted(entries, key=lambda entry: entry.order)
+        return [entry.song for entry in sorted_entries]
 
     @staticmethod
-    def remove_songbook(songbook_id):
-        with get_session() as session:
-            statement = select(Entry).where(Entry.songbook_id == songbook_id)
-            entries = session.exec(statement).all()
-            for entry in entries:
-                session.delete(entry)
-            session.commit()
+    def get_songs(songbook_id, session):
+        statement = select(Entry).where(Entry.songbook_id == songbook_id)
+        entries = session.exec(statement).all()
+        sorted_entries = sorted(entries, key=lambda entry: entry.order)
+        return [entry.song for entry in sorted_entries]
 
     @staticmethod
-    def delete_entry(entry_id):
-        with get_session() as session:
-            statement = select(Entry).where(Entry.id == entry_id)
-            entry = session.exec(statement).one()
-            session.delete(entry)
-            session.commit()
+    def remove_song(songbook_id, song_id, session):
+        statement = (
+            select(Entry)
+            .where(Entry.songbook_id == songbook_id)
+            .where(Entry.song_id == song_id)
+        )
+        entry = session.exec(statement).one()
+        session.delete(entry)
+        session.commit()
+        songbook = session.exec(
+            select(Songbook).where(Songbook.songbook_id == entry.songbook_id)
+        ).one()
+        session.refresh(songbook)
+        for i, elem in enumerate(songbook.entries):
+            if i >= entry.order:
+                elem.order -= 1
+        session.commit()
+
+    @staticmethod
+    def delete_entry(entry_id, session):
+        statement = select(Entry).where(Entry.id == entry_id)
+        entry = session.exec(statement).one()
+        session.delete(entry)
+        session.commit()
+        songbook = session.exec(
+            select(Songbook).where(Songbook.songbook_id == entry.songbook_id)
+        ).one()
+        session.refresh(songbook)
+        for i, elem in enumerate(songbook.entries):
+            if i >= entry.order:
+                elem.order -= 1
+        session.commit()
