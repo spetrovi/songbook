@@ -1,11 +1,13 @@
 from pathlib import Path
 
+from fastapi import Depends
 from fastapi import FastAPI
 from fastapi import Form
 from fastapi import Request
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from sqlmodel import select
+from sqlmodel import Session
 from starlette.middleware.authentication import AuthenticationMiddleware
 
 from . import config
@@ -49,20 +51,19 @@ def on_startup():
 
 
 @login_required
-def dashboard_view(request: Request):
+def dashboard_view(request: Request, session: Session):
     context = {}
-    with db.get_session() as session:
-        context["songs"] = session.exec(select(Song).limit(15))
-        context["sources"] = session.exec(select(Source)).all()
-        statement = select(Songbook).where(Songbook.user_id == request.user.username)
-        context["songbooks"] = session.exec(statement).all()
-        return render(request, "dashboard.html", context, status_code=200)
+    context["songs"] = session.exec(select(Song).limit(15))
+    context["sources"] = session.exec(select(Source)).all()
+    statement = select(Songbook).where(Songbook.user_id == request.user.username)
+    context["songbooks"] = session.exec(statement).all()
+    return render(request, "dashboard.html", context, status_code=200)
 
 
 @app.get("/", response_class=HTMLResponse)
-def homepage(request: Request):
+def homepage(request: Request, session: Session = Depends(db.yield_session)):
     if request.user.is_authenticated:
-        return dashboard_view(request)
+        return dashboard_view(request, session)
     return redirect("/login")
 
 
@@ -129,32 +130,34 @@ def signup_post_view(
 
 @login_required
 @app.get("/song/{song_id}", response_class=HTMLResponse)
-def get_song_detail(request: Request, song_id: str):
-    with db.get_session() as session:
-        statement = select(Song).where(Song.id == song_id)
-        song = session.exec(statement).one()
-        statement = select(Songbook).where(Songbook.user_id == request.user.username)
-        songbooks = session.exec(statement).all()
+def get_song_detail(
+    request: Request, song_id: str, session: Session = Depends(db.yield_session)
+):
+    statement = select(Song).where(Song.id == song_id)
+    song = session.exec(statement).one()
+    statement = select(Songbook).where(Songbook.user_id == request.user.username)
+    songbooks = session.exec(statement).all()
 
-        return render(
-            request,
-            "song_detail.html",
-            {"song": song, "songbooks": songbooks},
-        )
+    return render(
+        request,
+        "song_detail.html",
+        {"song": song, "songbooks": songbooks},
+    )
 
 
 @app.get("/source/{source_id}", response_class=HTMLResponse)
-def get_source_detail(request: Request, source_id: str):
-    with db.get_session() as session:
-        statement = select(Source).where(Source.id == source_id)
-        source = session.exec(statement).one()
+def get_source_detail(
+    request: Request, source_id: str, session: Session = Depends(db.yield_session)
+):
+    statement = select(Source).where(Source.id == source_id)
+    source = session.exec(statement).one()
 
-        statement = select(Song).where(Song.source_id == source_id)
-        songs = session.exec(statement).all()
-        statement = select(Songbook).where(Songbook.user_id == request.user.username)
-        songbooks = session.exec(statement).all()
-        return render(
-            request,
-            "source_detail.html",
-            {"source": source, "songs": songs, "songbooks": songbooks},
-        )
+    statement = select(Song).where(Song.source_id == source_id)
+    songs = session.exec(statement).all()
+    statement = select(Songbook).where(Songbook.user_id == request.user.username)
+    songbooks = session.exec(statement).all()
+    return render(
+        request,
+        "source_detail.html",
+        {"source": source, "songs": songs, "songbooks": songbooks},
+    )
