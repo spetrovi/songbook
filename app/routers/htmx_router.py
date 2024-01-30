@@ -11,6 +11,7 @@ from app.shortcuts import render
 from app.songbooks.models import Entry
 from app.songbooks.models import Songbook
 from app.users.decorators import login_required
+from app.users.exceptions import UserDoesntExistException
 from app.users.models import User
 
 router = APIRouter()
@@ -75,8 +76,8 @@ def delete_songbook(
 def create_songbook(request: Request, session: Session = Depends(db.yield_session)):
     if not session.exec(
         select(User).where(User.user_id == request.user.username)
-    ).one():
-        raise Exception("User doesn't exists")
+    ).first():
+        raise UserDoesntExistException("User doesn't exists")
     songbook = Songbook.create_songbook(request.user.username, session)
     return render(
         request,

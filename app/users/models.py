@@ -50,22 +50,23 @@ class User(SQLModel, table=True):
             session.commit()
 
     @staticmethod
-    def delete_user(user_id):
-        with get_session() as session:
-            if not session.query(User).where(User.user_id == user_id).one():
-                raise exceptions.UserDoesntExistException("User doesn't exist")
-            statement = select(app.songbooks.models.Songbook).where(
-                app.songbooks.models.Songbook.user_id == user_id
+    def delete_user(user_id, session):
+        if not session.exec(select(User).where(User.user_id == user_id)).one():
+            raise exceptions.UserDoesntExistException("User doesn't exist")
+        statement = select(app.songbooks.models.Songbook).where(
+            app.songbooks.models.Songbook.user_id == user_id
+        )
+        songbooks = session.exec(statement).all()
+        for songbook in songbooks:
+            app.songbooks.models.Songbook.delete_songbook(
+                user_id, songbook.songbook_id, session
             )
-            songbooks = session.exec(statement).all()
-            for songbook in songbooks:
-                app.songbooks.models.Songbook.delete_songbook(songbook.songbook_id)
-            session.commit()
+        session.commit()
 
-            statement = select(User).where(User.user_id == user_id)
-            user = session.exec(statement).one()
-            session.delete(user)
-            session.commit()
+        statement = select(User).where(User.user_id == user_id)
+        user = session.exec(statement).one()
+        session.delete(user)
+        session.commit()
 
     @staticmethod
     def get_by_email(email):
