@@ -30,7 +30,7 @@ def render(
     if len(cookies.keys()) > 0:
         for k, v in cookies.items():
             response.set_cookie(key=k, value=v, httponly=True)
-    response.set_cookie(key="test", value="123", httponly=True)
+    #    response.set_cookie(key="test", value="123", httponly=True)
     # delete cookies
     #    for key in request.cookies.keys():
     #        response.delete_cookie(key)
