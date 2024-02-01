@@ -128,6 +128,18 @@ def signup_post_view(
     return redirect("/login")
 
 
+@app.get("/logout", response_class=HTMLResponse)
+def logout_get_view(request: Request):
+    if not request.user.is_authenticated:
+        return redirect("/login")
+    return render(request, "auth/logout.html", {})
+
+
+@app.post("/logout", response_class=HTMLResponse)
+def logout_post_view(request: Request):
+    return redirect("/login", remove_session=True)
+
+
 @app.get("/song/{song_id}", response_class=HTMLResponse)
 @login_required
 def get_song_detail(
