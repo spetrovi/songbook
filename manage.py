@@ -1,7 +1,7 @@
 import argparse
 from getpass import getpass
 
-from app.users.models import User
+from app.users.models import User as UserModel
 
 
 def create_superuser():
@@ -12,7 +12,7 @@ def create_superuser():
     password = getpass("Enter superuser password: ")
 
     try:
-        User.create_user(email, password, is_admin=True)
+        UserModel.create_user(email, password, is_admin=True)
         print(f"Superuser {email} created successfully.")
     except Exception as e:
         print(f"Error creating superuser: {e}")
