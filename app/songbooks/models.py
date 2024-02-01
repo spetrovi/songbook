@@ -8,8 +8,8 @@ from sqlmodel import Relationship
 from sqlmodel import select
 from sqlmodel import SQLModel
 
+import app.users.models as UserModel
 from app.songs.models import Song
-from app.users.models import User
 
 
 class Songbook(SQLModel, table=True):
@@ -37,7 +37,9 @@ class Songbook(SQLModel, table=True):
 
     @staticmethod
     def create_songbook(user_id, session):
-        if not session.exec(select(User).where(User.user_id == user_id)).first():
+        if not session.exec(
+            select(UserModel.User).where(UserModel.User.user_id == user_id)
+        ).first():
             raise Exception("User doesn't exists")
         songbook = Songbook(user_id=user_id)
         session.add(songbook)
