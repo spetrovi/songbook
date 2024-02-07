@@ -11,8 +11,9 @@ from sqlmodel import Session
 from sqlmodel import SQLModel
 
 # db_file_name = str(Path(__file__).parent / "library.db")
-sqlite_url = "sqlite:///database.db"
-# sqlite_url = f"sqlite:///{db_file_name}"
+# sqlite_url = "sqlite:///database.db"
+db_file_name = str(Path(__file__).parent.parent.parent / "database.db")
+sqlite_url = f"sqlite:///{db_file_name}"
 
 engine = create_engine(sqlite_url)
 

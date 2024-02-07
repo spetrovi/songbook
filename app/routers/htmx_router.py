@@ -46,7 +46,6 @@ def remove_song_from_songbook(
 
 
 @router.post("/songbook/sort_form", response_class=HTMLResponse)
-@login_required
 async def post_songbook_sortform(
     request: Request, session: Session = Depends(db.yield_session)
 ):
