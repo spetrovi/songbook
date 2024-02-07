@@ -53,11 +53,14 @@ async def post_songbook_sortform(
     songbook_id = form_data.get("songbook_id")
     item_list = list(form_data.items())
     songs = Entry.reorder_songs(item_list, songbook_id, session)
+    songbook = Songbook.get_by_user_songbook_id(
+        request.user.username, songbook_id, session
+    )
 
     return render(
         request,
         "snippets/songbook_accordion.html",
-        {"songs": songs, "songbook_id": songbook_id},
+        {"songs": songs, "songbook": songbook},
     )
 
 
