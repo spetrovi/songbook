@@ -17,7 +17,7 @@
         <div class="accordion-body">
           {% include "snippets/song.html" %}
           <a href="/song/{{song.id}}" class="btn btn-primary">Detail</a>
-          <button class="btn btn-danger" hx-target="#accordionitem_{{song.id}}" hx-delete="/remove_song_from_songbook/{{songbook.songbook_id}}/{{song.id}}" hx-swap="outerHTML">Remove</button>
+          <button class="btn btn-danger" hx-target="#accordionitem_{{song.id}}" hx-delete="/remove_song_from_songbook/{{songbook_id}}/{{song.id}}" hx-swap="outerHTML">Remove</button>
         </div>
       </div>
     </div>
