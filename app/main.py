@@ -8,6 +8,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from sqlmodel import select
 from sqlmodel import Session
+from sqlmodel import SQLModel
 from starlette.middleware.authentication import AuthenticationMiddleware
 
 from . import config
@@ -33,6 +34,8 @@ app.include_router(admin_router)
 app.include_router(htmx_router)
 app.include_router(songbook_router)
 settings = config.get_settings()
+SQLModel.metadata.create_all(db.engine)
+
 
 from .handlers import *  # noqa
 
