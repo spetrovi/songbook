@@ -3,6 +3,7 @@ scoredata = {
   \key c \major
   \time 4/4
 \relative c'{
+  \autoBeamOff
 c8 d e f g g4. e4 d c8 d e f g g4. d2|
 c8 d e f g4 fis d c g'8 g g fis e4 d c2}
 }

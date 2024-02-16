@@ -13,6 +13,7 @@ g4 g g8 g4. | g4 b d, r | d' d  c8 b4. | a4 c e, r \break
 \volta 2 {g,8 g4. g4}
 }
 }
+\bar "|"
 }
 }
 \score {

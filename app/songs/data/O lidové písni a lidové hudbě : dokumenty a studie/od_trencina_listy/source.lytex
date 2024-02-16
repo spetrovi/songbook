@@ -2,9 +2,10 @@ scoredata = {
   \clef violin
   \key c \major
   \time 4/4
+    \autoBeamOff
 \relative c''{
   g8 g g g a4 g f e f8 f f f g4 e d c
-  e8 d c d e f g4. c8 g a g f e4 d4 c4. c8
+  e8 d c d e f g4. c8 g a g f e4 d4 c4. c8 \bar "|"
 }
 }
 

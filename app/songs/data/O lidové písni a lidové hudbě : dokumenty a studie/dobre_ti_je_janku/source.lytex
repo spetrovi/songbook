@@ -4,6 +4,7 @@ scoredata = {
   \key c \major
   \time 4/4
 \relative c''{
+    \autoBeamOff
 g16 g8. a16 d,8. e4 c4 f16 f8. g16 f8. d4 g,4 |
 \repeat volta 2 {g8 g8 f'4 f8 c a4 f'16 8. e16 d8. c4 c4}
 }

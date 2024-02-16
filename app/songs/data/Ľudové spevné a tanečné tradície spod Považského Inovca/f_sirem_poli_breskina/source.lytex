@@ -7,7 +7,7 @@ scoredata = {
 \relative d'{
   \autoBeamOff
 d8 fis a a| a4 a8 a| b a g fis | g4 g8 g| fis g a4 |\break
-fis8 d4. | g4 r | b8 a g4 | fis8 e4. d4
+fis8 d4. | g4 r | b8 a g4 | fis8 e4. d4 r
 }
 }
 
