@@ -14,4 +14,5 @@ as bes c4. c8 bes c des4 c bes c2 r4 f, g as4. as8 c c bes4 as8( g) g4 f
     \new Staff \scoredata
   >>
   \layout{ }
+\midi{}
 }

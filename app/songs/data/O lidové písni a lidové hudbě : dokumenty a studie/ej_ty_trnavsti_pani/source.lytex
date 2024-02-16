@@ -13,4 +13,5 @@ g4 g8 g f g a4 g2 g4 f8 f g g f e \tuplet 3/4 {e4 d c} g' g8 g g g f4 e d2 c
     \new Staff \scoredata
   >>
   \layout{ }
+\midi{}
 }

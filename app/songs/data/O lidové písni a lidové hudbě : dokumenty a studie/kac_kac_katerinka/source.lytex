@@ -14,4 +14,5 @@ g4. g8 f f4. f8 e8 c4 g'2 f4. e8 c4 e4 d8 c b4 c2
     \new Staff \scoredata
   >>
   \layout{ }
+\midi{}
 }

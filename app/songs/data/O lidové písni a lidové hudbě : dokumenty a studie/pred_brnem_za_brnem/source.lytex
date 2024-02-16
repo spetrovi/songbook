@@ -14,4 +14,5 @@ scoredata = {
     \new Staff \scoredata
   >>
   \layout{ }
+\midi{}
 }

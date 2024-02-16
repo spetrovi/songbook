@@ -3,6 +3,7 @@ scoredata = {
   \clef violin
   \key c \major
   \time 3/4
+  \tempo 4 = 176
 \relative c''{
   \autoBeamOff
 g4 e g | f d f | e c e | g2 g4 \break
@@ -15,4 +16,5 @@ g e g | f d f | e e d | c2 c4
     \new Staff \scoredata
   >>
   \layout{ }
+\midi{}
 }

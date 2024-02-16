@@ -13,4 +13,5 @@ g8 g a4 bes8 bes a4 a8 g fis4 c2 | c8 8 d4 es8 es f4 f8 es8 d8.( b16) c2
     \new Staff \scoredata
   >>
   \layout{ }
+\midi{}
 }

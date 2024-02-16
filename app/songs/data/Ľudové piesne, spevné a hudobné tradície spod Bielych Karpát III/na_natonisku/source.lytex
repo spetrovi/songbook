@@ -15,4 +15,5 @@ g8 a bes bes c bes a g a a4 bes8 a4 g
     \new Staff \scoredata
   >>
   \layout{ }
+\midi{}
 }
