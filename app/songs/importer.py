@@ -102,6 +102,11 @@ def process_song(meta_path):
         try:
             statement = select(Song).where(Song.id == meta["id"])
             song = session.exec(statement).one()
+            if lytex_source:
+                song.lytex = lytex_source
+            if verses_source:
+                song.verses = verses_source
+            session.commit()
         except NoResultFound:
             song = make_entry(session, meta, lytex_source, verses_source)
         except KeyError:
