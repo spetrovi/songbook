@@ -1,6 +1,8 @@
 # Use Fedora as the base image
 FROM fedora:37
 
+ENV PORT=${PORT:-8000}
+
 # Update and install LilyPond, Python 3.9, and other dependencies
 RUN dnf update -y && \
     dnf install -y lilypond python3 python3-pip texlive-scheme-basic && \
@@ -21,9 +23,14 @@ COPY ./start.sh /code/start.sh
 RUN chmod +x /code/start.sh
 
 COPY ./database.db /code
+
+# TODO: Run a migration here
+
 # Run the importer script
 RUN python3 /code/app/songs/importer.py
 
+EXPOSE $PORT
+
 # Define the command to run your application
 #CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", $PORT]
-CMD ["./start.sh"]
+CMD ["/code/start.sh"]
