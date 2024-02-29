@@ -24,8 +24,6 @@ RUN chmod +x /code/start.sh
 
 COPY ./database.db /code
 
-# TODO: Run a migration here
-
 # Run the importer script
 RUN python3 /code/app/songs/importer.py
 
