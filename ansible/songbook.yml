@@ -1,0 +1,76 @@
+---
+  - name: Setup the Songbook App
+    hosts: "{{ target if target is defined else 'localhost' }}"
+
+    vars_files:
+      - group_vars/vault.yml
+      - inventory/vars.yml
+
+    tasks:
+      - name: Check that Songbook Config Directory exists
+        stat:
+          path: "{{ songbook_vault_home_dir }}/Config/{{ songbook_long_name }}"
+        register: songbook_config_dir
+
+      - name: Create Songbook Config directory
+        ansible.builtin.file:
+          path: "{{ songbook_vault_home_dir }}/Config/{{ songbook_long_name }}"
+          state: directory
+        when: not songbook_config_dir.stat.exists
+
+      - name: Check that SongbookDB Directory exists
+        stat:
+          path: "{{ songbook_vault_home_dir }}/Config/{{ songbook_db_long_name }}"
+        register: songbook_db_dir
+
+      - name: Create SongbookDB Config directory
+        ansible.builtin.file:
+          path: "{{ songbook_vault_home_dir}}/Config/{{ songbook_db_long_name }}"
+          state: directory
+        when: not songbook_db_dir.stat.exists
+
+      - name: Create Songbook Pod
+        containers.podman.podman_pod:
+          name: '{{ songbook_pod_name }}'
+          state: started
+          ports: "{{ songbook_pod_ports }}"
+          label: "{{ songbook_pod_labels }}"
+          network: "{{ songbook_network }}"
+          network_alias: "{{ songbook_short_name }}"
+
+      - name: Create SongbookDB Container
+        containers.podman.podman_container:
+          name: "{{ songbook_db_container_name }}"
+          image: "{{ songbook_db_image_name }}"
+          state: started
+          pod: "{{ songbook_pod_name }}"
+          env:
+            POSTGRES_USER: "{{ songbook_db_vault_user }}"
+            POSTGRES_PASSWORD: "{{ songbook_db_vault_password }}"
+            POSTGRES_DB: "{{ songbook_db_vault_name }}"
+          volumes:
+            - "{{ songbook_vault_home_dir }}/Config/{{ songbook_db_long_name }}:/var/lib/postgresql/data:Z"
+
+      - name: Build Songbook Container
+        containers.podman.podman_image:
+          name: "{{ songbook_image_name }}"
+          tag: latest
+          path: ..
+
+      - name: Create Songbook Container
+        containers.podman.podman_container:
+          name: "{{ songbook_container_name }}"
+          image: "{{ songbook_image_name }}"
+          state: started
+          pod: "{{ songbook_pod_name }}"
+          command: "bash -c '/code/start.sh'"
+          env:
+            DATABASE_SCHEMA: postgresql
+            DATABASE_USER: "{{ songbook_db_vault_user }}"
+            DATABASE_PASSWORD: "{{ songbook_db_vault_password }}"
+            DATABASE_NAME: "{{ songbook_db_vault_name }}"
+            PORT: "{{ songbook_port }}"
+            secret_key: "{{ songbook_vault_secret_key }}"
+            register_enabled: "{{ songbook_vars_register_enabled }}"
+          volumes:
+            - "{{ songbook_vault_home_dir }}/Config/{{ songbook_long_name }}:/code/app/tmp:Z"

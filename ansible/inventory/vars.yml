@@ -1,0 +1,30 @@
+songbook_long_name: "Songbook"
+songbook_short_name: "songbook"
+songbook_domain: '{{ songbook_short_name}}.{{ songbook_vault_domain }}'
+songbook_container_name: "container-{{ songbook_short_name }}"
+songbook_version: "latest"
+songbook_image_name: "{{ songbook_short_name }}:{{ songbook_version }}"
+songbook_image_build: true
+songbook_port: 48182
+songbook_internal_port: 48182
+songbook_network: "{{ songbook_vault_network }}"
+
+songbook_db_long_name: "SongbookDB"
+songbook_db_short_name: "songbookdb"
+songbook_db_container_name: "container-{{ songbook_db_short_name }}"
+songbook_db_image_name: "postgres:{{ songbook_db_version }}"
+songbook_db_version: "16"
+
+songbook_pod_name: "songbook-pod"
+songbook_pod_ports:
+- "{{ songbook_internal_port }}:{{ songbook_port }}"
+songbook_pod_labels:
+  traefik.enable: "true"
+  traefik.http.services.songbook.loadbalancer.server.port: "{{ songbook_internal_port }}"
+  traefik.http.routers.songbook.tls: "true"
+  traefik.http.routers.songbook.rule: Host(`{{ songbook_domain }}`)
+  traefik.http.routers.songbook.entrypoints: websecure
+  traefik.http.routers.songbook.tls.certresolver: myresolver
+  traefik.http.routers.songbook.tls.domains: '{{ songbook_domain }}'
+
+songbook_vars_register_enabled: true
