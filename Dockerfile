@@ -1,10 +1,10 @@
-# Use Fedora as the base image
-FROM fedora:37
+# Use Fedora Minimal as the base image
+FROM fedora-minimal:37
 
 # Update and install LilyPond, Python 3.9, and other dependencies
-RUN dnf update -y && \
-    dnf install -y lilypond python3 python3-pip texlive-scheme-basic && \
-    dnf clean all
+RUN microdnf update -y && \
+    microdnf install -y lilypond python3 python3-pip texlive-scheme-basic && \
+    microdnf clean all
 
 # Set the working directory
 WORKDIR /code
