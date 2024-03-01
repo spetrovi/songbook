@@ -20,7 +20,6 @@ COPY ./start.sh /code/start.sh
 
 RUN chmod +x /code/start.sh
 
-COPY ./database.db /code
 # Run the importer script
 RUN python3 /code/app/songs/importer.py
 
