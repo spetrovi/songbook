@@ -10,3 +10,4 @@ jinja2
 python-multipart
 python-jose[cryptography]
 pre-commit
+pillow

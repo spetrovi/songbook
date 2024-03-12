@@ -1,7 +1,7 @@
 
 <h1>{{ song.title }}</h1>
 {% if song.lytex %}
-  <img src="/tmp/{{ song.id }}/source.cropped.png" />
+  <img src="/tmp/{{ song.id }}/source.cropped{% if theme == "dark" %}.dark{% endif %}.png" />
 {% endif %}
 <div class="container mx-0">
   <div class="row row-cols-auto">

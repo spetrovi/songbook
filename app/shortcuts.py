@@ -23,6 +23,10 @@ def render(
 ):
     ctx = context.copy()
     ctx.update({"request": request})
+    if not request.cookies.get("theme"):
+        ctx.update({"theme": "light"})
+    else:
+        ctx.update({"theme": request.cookies.get("theme")})
 
     t = templates.get_template(template_name)
     html_str = t.render(ctx)
