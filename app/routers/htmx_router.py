@@ -1,10 +1,15 @@
+from typing import Union
+
 from fastapi import APIRouter
+from fastapi import Cookie
 from fastapi import Depends
 from fastapi import Form
 from fastapi import Request
+from fastapi import Response
 from fastapi.responses import HTMLResponse
 from sqlmodel import select
 from sqlmodel import Session
+from typing_extensions import Annotated
 
 from app import db
 from app.shortcuts import render
@@ -43,6 +48,18 @@ def remove_song_from_songbook(
 ):
     Entry.remove_song(songbook_id, song_id, session)
     return HTMLResponse("", status_code=200)
+
+
+@router.post("/theme_toggle")
+def theme_cookie(
+    response: Response, theme: Annotated[Union[str, None], Cookie()] = None
+):
+    if theme == "dark":
+        theme_set = "light"
+    else:
+        theme_set = "dark"
+    response.set_cookie(key="theme", value=theme_set)
+    return {}
 
 
 @router.post("/songbook/sort_form", response_class=HTMLResponse)

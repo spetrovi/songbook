@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html data-bs-theme="{{theme}}">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -19,4 +19,26 @@
             <h1>Hello World</h1>
         {% endblock %}
     </body>
+    <script>
+
+        document.getElementById('btnSwitch').addEventListener('click', () => {
+            const theme = document.documentElement.getAttribute('data-bs-theme');
+            const images = document.querySelectorAll('img');
+            images.forEach(img => {
+                const src = img.getAttribute('src');
+                let updatedSrc;
+                if (theme === 'light') {
+                    updatedSrc = src.replace('source.cropped.png', 'source.cropped.dark.png');
+                } else {
+                    updatedSrc = src.replace('source.cropped.dark.png', 'source.cropped.png');
+                }
+                img.setAttribute('src', updatedSrc);
+            });
+
+    // Toggle theme
+            document.documentElement.setAttribute('data-bs-theme', theme === 'dark' ? 'light' : 'dark');
+
+
+        });
+    </script>
 </html>
