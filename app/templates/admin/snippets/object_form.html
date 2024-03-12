@@ -1,0 +1,16 @@
+<div class="card my-2" hx-target="this">
+    <form hx-post="/admin/edit/{{instance.__class__.__name__}}/{{instance[id_name]}}" hx-swap="outerHTML">
+        <div class="card-body">
+            <h5 class="card-title">{{instance.__class__.__name__}}</h5>
+            <p class="card-text">
+                {% for field in columns %}
+                    {% if field != 'cls_name' %}
+                        <label for="{{ field }}">{{ field }}</label>
+                        <p><input type="text" name={{field}} value="{{ instance[field] }}" {% if field == id_name %}disabled{% endif %}></p>
+                    {% endif %}
+                {% endfor %}
+            </p>
+            <button class="btn btn-primary">Submit</button>
+        </div>
+    </form>
+</div>

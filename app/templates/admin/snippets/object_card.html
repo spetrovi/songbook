@@ -1,0 +1,27 @@
+<div class="card my-2" id="card_{{instance[id_name]}}" hx-target="this">
+    <div class="card-body">
+        <h5 class="card-title">{{instance.__class__.__name__}}</h5>
+        <p class="card-text">
+            {% for field in columns %}
+                {% if field != 'cls_name' %}
+                    <p>{{ field }}: {{ instance[field] }}</p>
+                {% endif %}
+            {% endfor %}
+        </p>
+        <div class="row my-3">
+            <div class="col btn-group mt-auto">
+                <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" data-bs-auto-close="true" aria-expanded="false"><i class="bi bi-trash3-fill"></i></button>
+                <ul class="dropdown-menu">
+                    <li><button type="button" class="btn btn-danger my-2 mx-5 text-align-left" hx-swap="outerHTML" hx-delete="/admin/delete/{{instance.__class__.__name__}}/{{instance[id_name]}}">Delete</button></li>
+                </ul>
+            </div>
+            <div class="col btn-group mt-auto">
+                <button type="button" class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown" data-bs-auto-close="true" aria-expanded="false"><i class="bi bi-pencil"></i></button>
+                <ul class="dropdown-menu">
+                    <li><button type="button" class="btn btn-info my-2 mx-5 text-align-left" hx-swap="outerHTML" hx-get="/admin/edit/{{instance.__class__.__name__}}/{{instance[id_name]}}">Edit</button></li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+</div>
