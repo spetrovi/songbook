@@ -1,18 +1,8 @@
 {% extends "admin/admin_base.html" %}
 {% block content %}
-    {% for instance in instances %}
-        <div class="card" id="card_{{instance[id_name]}}">
-            <div class="card-body">
-                <h5 class="card-title">{{instance.__class__.__name__}}</h5>
-                <p class="card-text">
-                    {% for field in columns %}
-                        {% if field not in ['cls_name', 'id'] %}
-                            <p>{{ field }}: {{ instance[field] }}</p>
-                        {% endif %}
-                    {% endfor %}
-                </p>
-                <button class="btn btn-danger" hx-target="#card_{{instance[id_name]}}" hx-delete="/admin/delete/{{instance.__class__.__name__}}/{{instance[id_name]}}">Delete</button>
-            </div>
-        </div>
-    {% endfor %}
+    <div class="container col-sm-4 col-md-7 col-lg-4 mt-5">
+        {% for instance in instances %}
+            {% include "admin/snippets/object_card.html" %}
+        {% endfor %}
+    </div>
 {% endblock %}
