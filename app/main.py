@@ -165,7 +165,35 @@ def get_song_detail(
     )
 
 
-@app.get("/source/{source_id}", response_class=HTMLResponse)
+@app.get("/source/{source_id}/{page}", response_class=HTMLResponse)
+@login_required
+def get_source_detail_page(
+    request: Request,
+    source_id: str,
+    page: int = 0,
+    session: Session = Depends(db.yield_session),
+):
+    statement = select(Source).where(Source.id == source_id)
+    source = session.exec(statement).one()
+
+    statement = (
+        select(Song)
+        .where(Song.source_id == source_id)
+        .offset(10 * (page - 1))
+        .limit(10)
+    )
+    songs = session.exec(statement).all()
+
+    statement = select(Songbook).where(Songbook.user_id == request.user.username)
+    songbooks = session.exec(statement).all()
+    return render(
+        request,
+        "snippets/songs_accordion_partial.html",
+        {"source": source, "songs": songs, "songbooks": songbooks, "page": page + 1},
+    )
+
+
+@app.get("/source/{source_id}/", response_class=HTMLResponse)
 @login_required
 def get_source_detail(
     request: Request, source_id: str, session: Session = Depends(db.yield_session)
@@ -173,12 +201,20 @@ def get_source_detail(
     statement = select(Source).where(Source.id == source_id)
     source = session.exec(statement).one()
 
-    statement = select(Song).where(Song.source_id == source_id)
+    page = 1
+
+    statement = (
+        select(Song)
+        .where(Song.source_id == source_id)
+        .offset(10 * (page - 1))
+        .limit(10)
+    )
     songs = session.exec(statement).all()
+
     statement = select(Songbook).where(Songbook.user_id == request.user.username)
     songbooks = session.exec(statement).all()
     return render(
         request,
         "source_detail.html",
-        {"source": source, "songs": songs, "songbooks": songbooks},
+        {"source": source, "songs": songs, "songbooks": songbooks, "page": page + 1},
     )
