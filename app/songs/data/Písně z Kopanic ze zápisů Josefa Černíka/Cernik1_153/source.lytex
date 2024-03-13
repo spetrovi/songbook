@@ -1,0 +1,64 @@
+\version "2.25.12"
+% automatically converted by musicxml2ly from cernik1_153.mxl
+\pointAndClickOff
+
+\include "articulate.ly"
+
+\header {
+    encodingsoftware =  "MuseScore 4.2.1"
+    encodingdate =  "2024-03-13"
+    title =  "153. Zpjevala by som si, šohajko"
+    }
+
+PartPOneVoiceOne =  \relative b' {
+    \clef "treble" \time 2/4 \key g \major | % 1
+    b8 cis8 d4 | % 2
+    cis8 b8 a4 | % 3
+    g8 fis8 g4 | % 4
+    a8 b4. | % 5
+    a4. r8 | % 6
+    b8 cis8 d4 | % 7
+    d8 cis8 d4 | % 8
+    cis8 b8 cis4 | % 9
+    b8 a4. | \barNumberCheck #10
+    g4 r4 \bar "|."
+    }
+
+
+% The score definition
+\score {
+    <<
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.shortInstrumentName = "Vln."
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        >>
+    \layout {}
+    }
+\score {
+    \unfoldRepeats \articulate {
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.shortInstrumentName = "Vln."
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        }
+    \midi {\tempo 4 = 100 }
+    }

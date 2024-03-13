@@ -1,0 +1,60 @@
+\version "2.25.12"
+% automatically converted by musicxml2ly from cernik1_243.mxl
+\pointAndClickOff
+
+\include "articulate.ly"
+
+\header {
+    encodingsoftware =  "MuseScore 4.2.1"
+    encodingdate =  "2024-03-13"
+    title =  "243. Daj Bože polodňa"
+    }
+
+PartPOneVoiceOne =  \relative e'' {
+    \clef "treble" \time 3/4 \key c \major | % 1
+    e4 -\markup{ \bold {Andante} } d4 ( b8 ) b8 | % 2
+    \time 2/4  d8 b8 g4 | % 3
+    \time 3/4  g4 c4. ( b8 ) | % 4
+    b8 c8 d8 c4. | % 5
+    e4 d4 ( b8 ) b8 | % 6
+    \time 2/4  d8 b8 g4 | % 7
+    \time 3/4  g4 c4. ( b8 ) | % 8
+    b8 c8 d8 c4. \bar "|."
+    }
+
+
+% The score definition
+\score {
+    <<
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        >>
+    \layout {}
+    }
+\score {
+    \unfoldRepeats \articulate {
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        }
+    \midi {\tempo 4 = 96 }
+    }

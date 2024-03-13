@@ -1,0 +1,64 @@
+\version "2.25.12"
+% automatically converted by musicxml2ly from cernik1_181.mxl
+\pointAndClickOff
+
+\include "articulate.ly"
+
+\header {
+    encodingsoftware =  "MuseScore 4.2.1"
+    encodingdate =  "2024-03-13"
+    title =  "181. Tak je, milá, tak je, tak"
+    }
+
+PartPOneVoiceOne =  \relative g' {
+    \clef "treble" \time 3/4 \key bes \major | % 1
+    g8 g8 d'4 d4 | % 2
+    bes8 a8 g4 r4 | % 3
+    g8 a8 bes4 a4 | % 4
+    bes8 a8 g2 | % 5
+    d'8 d8 d4 c4 | % 6
+    bes8 g8 r2 | % 7
+    g8 a8 bes4 bes4 | % 8
+    bes8 fis8 r2 | % 9
+    fis8 g8 a4 a4 | \barNumberCheck #10
+    bes8 a8 g4 r4 | % 11
+    fis8 g8 a4 a4 | % 12
+    g8 fis8 g2 \bar "|."
+    }
+
+
+% The score definition
+\score {
+    <<
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        >>
+    \layout {}
+    }
+\score {
+    \unfoldRepeats \articulate {
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        }
+    \midi {\tempo 4 = 100 }
+    }

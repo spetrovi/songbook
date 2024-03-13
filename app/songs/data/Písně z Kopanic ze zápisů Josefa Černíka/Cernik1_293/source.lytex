@@ -1,0 +1,66 @@
+\version "2.25.12"
+% automatically converted by musicxml2ly from cernik1_293.mxl
+\pointAndClickOff
+
+\include "articulate.ly"
+
+\header {
+    encodingsoftware =  "MuseScore 4.2.1"
+    encodingdate =  "2024-03-13"
+    title =  "293. Odkel si ty? Z Holešova"
+    }
+
+PartPOneVoiceOne =  \relative g'' {
+    \clef "treble" \time 2/4 \key bes \major | % 1
+    g4 d4 | % 2
+    es4 d4 | % 3
+    es8 d8 c4 | % 4
+    bes2 | % 5
+    g'4 d4 | % 6
+    es4 d4 | % 7
+    es8 d8 c4 | % 8
+    bes2 | % 9
+    d8 d8 d8 d8 | \barNumberCheck #10
+    es4 c4 | % 11
+    c8 c8 c8 c8 | % 12
+    d4 bes4 | % 13
+    bes8 bes8 a4 | % 14
+    g2 \bar "|."
+    }
+
+
+% The score definition
+\score {
+    <<
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        >>
+    \layout {}
+    }
+\score {
+    \unfoldRepeats \articulate {
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        }
+    \midi {\tempo 4 = 100 }
+    }

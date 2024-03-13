@@ -1,0 +1,60 @@
+\version "2.25.12"
+% automatically converted by musicxml2ly from cernik1_450.mxl
+\pointAndClickOff
+
+\include "articulate.ly"
+
+\header {
+    encodingsoftware =  "MuseScore 4.2.1"
+    encodingdate =  "2024-03-13"
+    title =  "450. Od Trenčina ušlapaná cesta"
+    }
+
+PartPOneVoiceOne =  \relative g' {
+    \clef "treble" \time 2/4 \key bes \major | % 1
+    g16 -\markup{ \bold {Ballad} } g8. d'16 d8. | % 2
+    d16 c16 bes16 a16 bes16 g8. | % 3
+    c16 c8. c16 a8. | % 4
+    bes16 a16 bes16 c16 d16 d8. | % 5
+    bes8. d16 f16 f8. | % 6
+    g16 d8. bes16 g8. | % 7
+    d'8 d16 es16 d16 c8. | % 8
+    g4 g4 \bar "|."
+    }
+
+
+% The score definition
+\score {
+    <<
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        >>
+    \layout {}
+    }
+\score {
+    \unfoldRepeats \articulate {
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        }
+    \midi {\tempo 4 = 60 }
+    }

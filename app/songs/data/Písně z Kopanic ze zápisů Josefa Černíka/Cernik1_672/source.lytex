@@ -1,0 +1,64 @@
+\version "2.25.12"
+% automatically converted by musicxml2ly from cernik1_672.mxl
+\pointAndClickOff
+
+\include "articulate.ly"
+
+\header {
+    encodingsoftware =  "MuseScore 4.2.1"
+    encodingdate =  "2024-03-13"
+    title =  "672. Počkaj, Kačo kudrnatá"
+    }
+
+PartPOneVoiceOne =  \relative g' {
+    \clef "treble" \time 2/4 \key g \major | % 1
+    g4 b4 | % 2
+    a4. a8 | % 3
+    a8 b8 a8 g8 | % 4
+    b4 d4 | % 5
+    c4. d8 | % 6
+    c8 b8 a4 | % 7
+    b8 d4. | % 8
+    c4. d8 | % 9
+    c8 b8 a8 g8 | \barNumberCheck #10
+    fis8 g4. | % 11
+    a4. c8 | % 12
+    b8 a8 g4 \bar "|."
+    }
+
+
+% The score definition
+\score {
+    <<
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        >>
+    \layout {}
+    }
+\score {
+    \unfoldRepeats \articulate {
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        }
+    \midi {\tempo 4 = 100 }
+    }

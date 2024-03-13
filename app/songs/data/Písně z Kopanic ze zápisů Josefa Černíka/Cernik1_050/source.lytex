@@ -1,0 +1,60 @@
+\version "2.25.12"
+% automatically converted by musicxml2ly from cernik1_050.mxl
+\pointAndClickOff
+
+\include "articulate.ly"
+
+\header {
+    encodingsoftware =  "MuseScore 4.2.1"
+    encodingdate =  "2024-03-13"
+    title =  "50. Stojí šohaj na ladze"
+    }
+
+PartPOneVoiceOne =  \relative a' {
+    \clef "treble" \time 2/4 \key c \major | % 1
+    a8 -\markup{ \bold {Andante} } a8 a8 e8 | % 2
+    \numericTimeSignature\time 4/4  a8 b8 c8. ( a16 ) b4 a8 g8 \fermata
+    | % 3
+    \time 2/4  c8 d8 c8 b8 | % 4
+    \numericTimeSignature\time 4/4  a8 gis8 a8. ( e16 ) e4 e8 e8
+    \fermata | % 5
+    \time 2/4  c'8 e8 d8 c8 | % 6
+    \numericTimeSignature\time 4/4  d8 c8 b8. ( g16 ) a4 a8 a8 \bar "|."
+    }
+
+
+% The score definition
+\score {
+    <<
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        >>
+    \layout {}
+    }
+\score {
+    \unfoldRepeats \articulate {
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        }
+    \midi {\tempo 4 = 96 }
+    }

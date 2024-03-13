@@ -1,0 +1,65 @@
+\version "2.25.12"
+% automatically converted by musicxml2ly from cernik1_445.mxl
+\pointAndClickOff
+
+\include "articulate.ly"
+
+\header {
+    encodingsoftware =  "MuseScore 4.2.1"
+    encodingdate =  "2024-03-13"
+    title =  "445. Ej, Janko švarný, malovaný"
+    }
+
+PartPOneVoiceOne =  \relative d'' {
+    \clef "treble" \time 2/4 \key g \major | % 1
+    d4 d8 c8 | % 2
+    b4 c4 | % 3
+    a8 g8 fis4 | % 4
+    g4 r4 | % 5
+    d'4 d8 c8 | % 6
+    b4 c4 | % 7
+    a8 g8 a8 b8 | % 8
+    d4 d8 c8 | % 9
+    b4 c4 | \barNumberCheck #10
+    a8 g8 fis4 | % 11
+    g4 r4 \bar "|."
+    }
+
+
+% The score definition
+\score {
+    <<
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.shortInstrumentName = "Vln."
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        >>
+    \layout {}
+    }
+\score {
+    \unfoldRepeats \articulate {
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.shortInstrumentName = "Vln."
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        }
+    \midi {\tempo 4 = 100 }
+    }

@@ -1,0 +1,68 @@
+\version "2.25.12"
+% automatically converted by musicxml2ly from cernik1_449.mxl
+\pointAndClickOff
+
+\include "articulate.ly"
+
+\header {
+    encodingsoftware =  "MuseScore 4.2.1"
+    encodingdate =  "2024-03-13"
+    title =  "449. Zelený rozmarýn jako tráva"
+    }
+
+PartPOneVoiceOne =  \relative f' {
+    \clef "treble" \time 2/4 \key f \major | % 1
+    f8 e8 d4 | % 2
+    a'4 bes8 a8 | % 3
+    g8 f8 e4 | % 4
+    d4 r4 | % 5
+    d'8 d8 a4 | % 6
+    d8 d4 c8 | % 7
+    bes8 a8 g4 | % 8
+    a4 r4 | % 9
+    a8 a8 a4 | \barNumberCheck #10
+    d4. c8 | % 11
+    bes8 a8 g4 | % 12
+    a2 | % 13
+    f8 e8 d4 | % 14
+    a'4 bes8 a8 | % 15
+    g8 f8 e4 | % 16
+    d2 \bar "|."
+    }
+
+
+% The score definition
+\score {
+    <<
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        >>
+    \layout {}
+    }
+\score {
+    \unfoldRepeats \articulate {
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        }
+    \midi {\tempo 4 = 100 }
+    }

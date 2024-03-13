@@ -1,0 +1,68 @@
+\version "2.25.12"
+% automatically converted by musicxml2ly from cernik1_090.mxl
+\pointAndClickOff
+
+\include "articulate.ly"
+
+\header {
+    encodingsoftware =  "MuseScore 4.2.1"
+    encodingdate =  "2024-03-13"
+    title =  "90. Dolina, dolina, vršek Javorina"
+    }
+
+PartPOneVoiceOne =  \relative d' {
+    \clef "treble" \time 3/4 \key g \major | % 1
+    \once \omit TupletBracket
+    \times 2/3  {
+        d8 -\markup{ \bold {Adagio} } g8. a16 }
+    c16 b8. a4 | % 2
+    \times 2/3  {
+        fis4 g16 a16 }
+    c16 b8. a4 | % 3
+    \time 2/4  \once \omit TupletBracket
+    \times 2/3  {
+        c8 b8 c8 }
+    b16 a8. | % 4
+    g4 e4 | % 5
+    g16 a8. f16 e8. | % 6
+    d4 d4 \bar "|."
+    }
+
+
+% The score definition
+\score {
+    <<
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.shortInstrumentName = "Vln."
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        >>
+    \layout {}
+    }
+\score {
+    \unfoldRepeats \articulate {
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.shortInstrumentName = "Vln."
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        }
+    \midi {\tempo 4 = 72 }
+    }

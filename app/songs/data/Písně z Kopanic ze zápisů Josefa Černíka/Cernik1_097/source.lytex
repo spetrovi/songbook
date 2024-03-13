@@ -1,0 +1,58 @@
+\version "2.25.12"
+% automatically converted by musicxml2ly from cernik1_097.mxl
+\pointAndClickOff
+
+\include "articulate.ly"
+
+\header {
+    encodingsoftware =  "MuseScore 4.2.1"
+    encodingdate =  "2024-03-13"
+    title =  "97. Ani mi něidzeš"
+    }
+
+PartPOneVoiceOne =  \relative fis' {
+    \clef "treble" \time 2/4 \key d \major | % 1
+    fis16 -\markup{ \bold {Largo} } b16 b16 b16 b16 b8. | % 2
+    e16 e16 d16 cis16 b16 a8. | % 3
+    a16 d16 d16 d16 e16 fis8. | % 4
+    fis16 d16 cis16 b16 cis8 b8 \bar "|."
+    }
+
+
+% The score definition
+\score {
+    <<
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.shortInstrumentName = "Vln."
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        >>
+    \layout {}
+    }
+\score {
+    \unfoldRepeats \articulate {
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.shortInstrumentName = "Vln."
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        }
+    \midi {\tempo 4 = 48 }
+    }

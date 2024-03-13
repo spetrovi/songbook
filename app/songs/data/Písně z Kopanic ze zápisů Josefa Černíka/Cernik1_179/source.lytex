@@ -1,0 +1,62 @@
+\version "2.25.12"
+% automatically converted by musicxml2ly from cernik1_179.mxl
+\pointAndClickOff
+
+\include "articulate.ly"
+
+\header {
+    encodingsoftware =  "MuseScore 4.2.1"
+    encodingdate =  "2024-03-13"
+    title =  "179. Pršalo, pršalo, ale něpomoklo"
+    }
+
+PartPOneVoiceOne =  \relative g' {
+    \clef "treble" \time 2/4 \key bes \major | % 1
+    g8 g8 g4 | % 2
+    \time 3/4  g8 g8 d'2 | % 3
+    \time 2/4  d8 d8 bes4 | % 4
+    bes8 a4. | % 5
+    g2 | % 6
+    bes8 d8 c4 | % 7
+    \time 3/4  g8 a8 bes2 | % 8
+    \time 2/4  bes8 d8 c4 | % 9
+    bes8 a4. | \barNumberCheck #10
+    g2 \bar "|."
+    }
+
+
+% The score definition
+\score {
+    <<
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        >>
+    \layout {}
+    }
+\score {
+    \unfoldRepeats \articulate {
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        }
+    \midi {\tempo 4 = 100 }
+    }

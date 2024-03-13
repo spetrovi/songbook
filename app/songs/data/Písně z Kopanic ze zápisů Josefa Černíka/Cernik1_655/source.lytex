@@ -1,0 +1,72 @@
+\version "2.25.12"
+% automatically converted by musicxml2ly from cernik1_655.mxl
+\pointAndClickOff
+
+\include "articulate.ly"
+
+\header {
+    encodingsoftware =  "MuseScore 4.2.1"
+    encodingdate =  "2024-03-13"
+    title =  "655. Zadudaj, dudku"
+    }
+
+PartPOneVoiceOne =  \relative d'' {
+    \clef "treble" \time 2/4 \key g \major | % 1
+    \times 2/3  {
+        d4 d4 d4 }
+    | % 2
+    d4 b4 | % 3
+    \times 2/3  {
+        c4 c4 c4 }
+    | % 4
+    c4 a4 | % 5
+    \times 2/3  {
+        g4 fis4 e4 }
+    | % 6
+    \times 2/3  {
+        d4 d4 d4 }
+    | % 7
+    \times 2/3  {
+        c'4 c4 b4 }
+    | % 8
+    a4 g4 \bar "|."
+    }
+
+
+% The score definition
+\score {
+    <<
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.shortInstrumentName = "Vln."
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        >>
+    \layout {}
+    }
+\score {
+    \unfoldRepeats \articulate {
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.shortInstrumentName = "Vln."
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        }
+    \midi {\tempo 4 = 100 }
+    }

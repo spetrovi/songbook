@@ -1,0 +1,23 @@
+scoredata = {
+  \version "2.24.1"
+  \clef violin
+  \key c \major
+  \time 4/4
+ \relative e' {
+    \clef "treble" \time 8/4 \key c \none \transposition bes | % 1
+    e8 fis8 gis4 fis4 e4 gis8 a8 b4 a4 gis4 | % 2
+    gis8 a8 b4 b8 cis8 b4 b8 b8 gis4 fis4 e4 | % 3
+    R1*28 \bar "|."
+    }
+}
+
+
+
+\score {
+  <<
+    \new Staff \scoredata
+
+  >>
+  \layout{ }
+\midi{}
+}

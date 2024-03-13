@@ -1,0 +1,60 @@
+\version "2.25.12"
+% automatically converted by musicxml2ly from cernik1_204.mxl
+\pointAndClickOff
+
+\include "articulate.ly"
+
+\header {
+    encodingsoftware =  "MuseScore 4.2.1"
+    encodingdate =  "2024-03-13"
+    title =  "204. Idú chlapci od Hulína"
+    }
+
+PartPOneVoiceOne =  \relative e'' {
+    \clef "treble" \numericTimeSignature\time 4/4 \key a \major | % 1
+    e8 e4. b4 cis4 | % 2
+    d8 d4. cis4 b4 | % 3
+    e8 e4. b4 cis4 | % 4
+    d8 d4. cis4 b4 | % 5
+    cis8 cis4. b4 cis4 | % 6
+    d8 d4. cis4 b4 | % 7
+    cis8 cis4. b4 cis4 | % 8
+    d8 cis4. b4 a4 \bar "|."
+    }
+
+
+% The score definition
+\score {
+    <<
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        >>
+    \layout {}
+    }
+\score {
+    \unfoldRepeats \articulate {
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        }
+    \midi {\tempo 4 = 100 }
+    }

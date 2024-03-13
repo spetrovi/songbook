@@ -1,0 +1,68 @@
+\version "2.25.12"
+% automatically converted by musicxml2ly from cernik1_613.mxl
+\pointAndClickOff
+
+\include "articulate.ly"
+
+\header {
+    encodingsoftware =  "MuseScore 4.2.1"
+    encodingdate =  "2024-03-13"
+    title =  "613. Už je, má milá, už je zle"
+    }
+
+PartPOneVoiceOne =  \relative g' {
+    \clef "treble" \time 3/4 \key g \major | % 1
+    g4 -\markup{ \bold {Vivace} } g4 a4 | % 2
+    b2 g4 | % 3
+    b4 a2 | % 4
+    d,2. | % 5
+    b'4 b4 a4 | % 6
+    g2 fis4 | % 7
+    e4 d2 | % 8
+    c2. | % 9
+    e4 e4 fis4 | \barNumberCheck #10
+    g2 a4 | % 11
+    b4 b4 a4 | % 12
+    g4 g4 fis4 | % 13
+    g4 g4 a4 | % 14
+    g2 fis4 | % 15
+    e4 d2 | % 16
+    c2. \bar "|."
+    }
+
+
+% The score definition
+\score {
+    <<
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        >>
+    \layout {}
+    }
+\score {
+    \unfoldRepeats \articulate {
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        }
+    \midi {\tempo 4 = 160 }
+    }

@@ -1,0 +1,64 @@
+\version "2.25.12"
+% automatically converted by musicxml2ly from cernik1_573.mxl
+\pointAndClickOff
+
+\include "articulate.ly"
+
+\header {
+    encodingsoftware =  "MuseScore 4.2.1"
+    encodingdate =  "2024-03-13"
+    title =  "573. Také sa mi dzjevča páči"
+    }
+
+PartPOneVoiceOne =  \relative g' {
+    \clef "treble" \time 2/4 \key g \major | % 1
+    g8 fis8 g8 a8 | % 2
+    b4 a4 | % 3
+    g4 d4 | % 4
+    g8 fis8 g8 a8 | % 5
+    b4 a4 | % 6
+    g4 d4 | % 7
+    g8 a8 b8 c8 | % 8
+    d4 e4 | % 9
+    d4. cis8 | \barNumberCheck #10
+    d8 cis8 b8 cis8 | % 11
+    b4 a4 | % 12
+    g4. g8 \bar "|."
+    }
+
+
+% The score definition
+\score {
+    <<
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        >>
+    \layout {}
+    }
+\score {
+    \unfoldRepeats \articulate {
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        }
+    \midi {\tempo 4 = 100 }
+    }

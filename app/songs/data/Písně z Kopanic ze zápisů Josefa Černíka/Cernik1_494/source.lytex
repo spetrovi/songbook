@@ -1,0 +1,66 @@
+\version "2.25.12"
+% automatically converted by musicxml2ly from cernik1_494.mxl
+\pointAndClickOff
+
+\include "articulate.ly"
+
+\header {
+    encodingsoftware =  "MuseScore 4.2.1"
+    encodingdate =  "2024-03-13"
+    title =  "494. Už brezovské zvony zvoňjá"
+    }
+
+PartPOneVoiceOne =  \relative d' {
+    \clef "treble" \time 2/4 \key g \major | % 1
+    d4 g4 | % 2
+    a4 a4 | % 3
+    a4 c4 | % 4
+    b4 a4 | % 5
+    d,4 g4 | % 6
+    a4 a4 | % 7
+    a4 c4 | % 8
+    b4 a4 | % 9
+    a8 g8 g8 g8 | \barNumberCheck #10
+    g8 g4. | % 11
+    a4 a4 | % 12
+    a8 g8 f8 e8 | % 13
+    f8 e4. | % 14
+    d4 d4 \bar "|."
+    }
+
+
+% The score definition
+\score {
+    <<
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        >>
+    \layout {}
+    }
+\score {
+    \unfoldRepeats \articulate {
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        }
+    \midi {\tempo 4 = 100 }
+    }

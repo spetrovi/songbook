@@ -1,0 +1,65 @@
+\version "2.25.12"
+% automatically converted by musicxml2ly from cernik1_393.mxl
+\pointAndClickOff
+
+\include "articulate.ly"
+
+\header {
+    encodingsoftware =  "MuseScore 4.2.1"
+    encodingdate =  "2024-03-13"
+    title =  "393. Ach. šandári, šandári"
+    }
+
+PartPOneVoiceOne =  \relative bes' {
+    \clef "treble" \time 2/4 \key bes \major | % 1
+    bes8 -\markup{ \bold {Andante} } d8 c8 bes8 | % 2
+    a8 bes8 c4 | % 3
+    c8 d8 es8 d8 | % 4
+    c8 bes8 es4 \repeat volta 2 {
+        | % 5
+        d16 d8. d4 | % 6
+        es16 d8. c4 | % 7
+        bes16 bes8. c16 c8. | % 8
+        d2 | % 9
+        d16 d8. d4 | \barNumberCheck #10
+        es16 d8. c4 | % 11
+        bes8. f16 bes4 ( | % 12
+        bes2 ) }
+    }
+
+
+% The score definition
+\score {
+    <<
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        >>
+    \layout {}
+    }
+\score {
+    \unfoldRepeats \articulate {
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        }
+    \midi {\tempo 4 = 96 }
+    }

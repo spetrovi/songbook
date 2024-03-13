@@ -1,0 +1,58 @@
+\version "2.25.12"
+% automatically converted by musicxml2ly from cernik1_278.mxl
+\pointAndClickOff
+
+\include "articulate.ly"
+
+\header {
+    encodingsoftware =  "MuseScore 4.2.1"
+    encodingdate =  "2024-03-13"
+    title =  "278. Mój milý mi dvorí"
+    }
+
+PartPOneVoiceOne =  \relative d' {
+    \clef "treble" \time 2/4 \key f \major | % 1
+    d16 -\markup{ \bold {Ballad} } cis16 d16 e16 fis16 d8. | % 2
+    g16 fis16 g16 a16 b16 g8. | % 3
+    f16 e16 f16 g16 a16 a8. | % 4
+    a16 g16 a16 f16 e16 d8. | % 5
+    f8 f16 g16 a16 e8. | % 6
+    d4 d8 r8 \bar "|."
+    }
+
+
+% The score definition
+\score {
+    <<
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        >>
+    \layout {}
+    }
+\score {
+    \unfoldRepeats \articulate {
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        }
+    \midi {\tempo 4 = 60 }
+    }

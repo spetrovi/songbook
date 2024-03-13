@@ -1,0 +1,64 @@
+\version "2.25.12"
+% automatically converted by musicxml2ly from cernik1_590.mxl
+\pointAndClickOff
+
+\include "articulate.ly"
+
+\header {
+    encodingsoftware =  "MuseScore 4.2.1"
+    encodingdate =  "2024-03-13"
+    title =  "590. Pri Trenčine jarmark budze"
+    }
+
+PartPOneVoiceOne =  \relative g' {
+    \clef "treble" \time 2/4 \key g \major | % 1
+    g8 g8 g8 a8 | % 2
+    b8 b8 a8 g8 | % 3
+    fis8 r8 e4 | % 4
+    d4 r4 | % 5
+    a'8 a8 a8 b8 | % 6
+    c8 c8 b8 a8 | % 7
+    b8 b8 b8 d8 | % 8
+    c8 b8 a4 | % 9
+    a8 a8 a8 b8 | \barNumberCheck #10
+    c8 c8 b8 a8 | % 11
+    d8 r8 fis,4 | % 12
+    g4 r4 \bar "|."
+    }
+
+
+% The score definition
+\score {
+    <<
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        >>
+    \layout {}
+    }
+\score {
+    \unfoldRepeats \articulate {
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        }
+    \midi {\tempo 4 = 100 }
+    }

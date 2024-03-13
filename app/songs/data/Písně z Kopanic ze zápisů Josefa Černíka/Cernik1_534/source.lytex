@@ -1,0 +1,82 @@
+\version "2.25.12"
+% automatically converted by musicxml2ly from cernik1_534.mxl
+\pointAndClickOff
+
+\include "articulate.ly"
+
+\header {
+    encodingsoftware =  "MuseScore 4.2.1"
+    encodingdate =  "2024-03-13"
+    title =  "534. Ej, u Kačenky na dolině"
+    }
+
+PartPOneVoiceOne =  \relative f'' {
+    \clef "treble" \time 2/4 \key bes \major | % 1
+    \once \omit TupletBracket
+    \times 2/3  {
+        f8 -\markup{ \bold {Adagio} } f8 f8 }
+    \times 2/3  {
+        d8 es4 }
+    | % 2
+    \once \omit TupletBracket
+    \times 2/3  {
+        es8 d8 c8 }
+    bes4 | % 3
+    \once \omit TupletBracket
+    \times 2/3  {
+        d8 d8 d8 }
+    \times 2/3  {
+        d8 es4 }
+    | % 4
+    \once \omit TupletBracket
+    \times 2/3  {
+        es8 d8 c8 }
+    bes4 | % 5
+    g'8 g8 \once \omit TupletBracket
+    \times 2/3  {
+        d8 d8 es8 }
+    | % 6
+    \once \omit TupletBracket
+    \times 2/3  {
+        es8 d8 c8 }
+    bes4 \bar "|."
+    }
+
+
+% The score definition
+\score {
+    <<
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.shortInstrumentName = "Vln."
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        >>
+    \layout {}
+    }
+\score {
+    \unfoldRepeats \articulate {
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.shortInstrumentName = "Vln."
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        }
+    \midi {\tempo 4 = 72 }
+    }

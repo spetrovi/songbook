@@ -1,0 +1,58 @@
+\version "2.25.12"
+% automatically converted by musicxml2ly from cernik1_290.mxl
+\pointAndClickOff
+
+\include "articulate.ly"
+
+\header {
+    encodingsoftware =  "MuseScore 4.2.1"
+    encodingdate =  "2024-03-13"
+    title =  "290. Na Vyškovci hrubé višně"
+    }
+
+PartPOneVoiceOne =  \relative d'' {
+    \clef "treble" \time 3/4 \key f \major | % 1
+    d16 -\markup{ \bold {Slow} } d16 a16 b16 c16 a8. d16 d8. | % 2
+    e16 d16 c16 b16 c16 a8. f16 d8. | % 3
+    \time 2/4  g8 g16 bes16 a16 g8. | % 4
+    a8. d,16 f8 f8 | % 5
+    a16 bes16 a16 g16 f16 e8. | % 6
+    d4 d8 r8 \bar "|."
+    }
+
+
+% The score definition
+\score {
+    <<
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        >>
+    \layout {}
+    }
+\score {
+    \unfoldRepeats \articulate {
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        }
+    \midi {\tempo 4 = 60 }
+    }

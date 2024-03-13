@@ -1,0 +1,61 @@
+\version "2.25.12"
+% automatically converted by musicxml2ly from cernik1_096.mxl
+\pointAndClickOff
+
+\include "articulate.ly"
+
+\header {
+    encodingsoftware =  "MuseScore 4.2.1"
+    encodingdate =  "2024-03-13"
+    title =  "96. Ščastlivé ráno, pani fojtová"
+    }
+
+PartPOneVoiceOne =  \relative d'' {
+    \clef "treble" \time 3/4 \key c \major | % 1
+    d8 f8 e8 d8 cis4 | % 2
+    d8 f8 e8 d8 cis4 \repeat volta 2 {
+        | % 3
+        \time 2/4  a8 a8 g4 | % 4
+        c8 c8 b4 | % 5
+        c8 c8 b8 a8 | % 6
+        g2 }
+    }
+
+
+% The score definition
+\score {
+    <<
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.shortInstrumentName = "Vln."
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        >>
+    \layout {}
+    }
+\score {
+    \unfoldRepeats \articulate {
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.shortInstrumentName = "Vln."
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        }
+    \midi {\tempo 4 = 100 }
+    }

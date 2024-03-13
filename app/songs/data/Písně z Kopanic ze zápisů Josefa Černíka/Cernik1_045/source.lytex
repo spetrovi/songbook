@@ -1,0 +1,68 @@
+\version "2.25.12"
+% automatically converted by musicxml2ly from cernik1_045.mxl
+\pointAndClickOff
+
+\include "articulate.ly"
+
+\header {
+    encodingsoftware =  "MuseScore 4.2.1"
+    encodingdate =  "2024-03-13"
+    title =  "45. Taký sa mi tejto noci prisnul sen"
+    }
+
+PartPOneVoiceOne =  \relative e'' {
+    \clef "treble" \time 2/4 \key g \major | % 1
+    e8 e8 b8 d8 | % 2
+    c8 b8 a8 g8 | % 3
+    fis8 e4. | % 4
+    e4 r4 | % 5
+    e'8 e8 b8 d8 | % 6
+    c8 b8 a8 g8 | % 7
+    fis8 e4. | % 8
+    e4 r4 | % 9
+    e'8 e8 d8 g8 | \barNumberCheck #10
+    f8 e8 d8 c8 | % 11
+    b8. ( e16 ) e4 | % 12
+    e4 r4 | % 13
+    e8 e8 b8 d8 | % 14
+    c8 b8 a8 g8 | % 15
+    fis8 e4. | % 16
+    e4 r4 \bar "|."
+    }
+
+
+% The score definition
+\score {
+    <<
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        >>
+    \layout {}
+    }
+\score {
+    \unfoldRepeats \articulate {
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        }
+    \midi {\tempo 4 = 100 }
+    }

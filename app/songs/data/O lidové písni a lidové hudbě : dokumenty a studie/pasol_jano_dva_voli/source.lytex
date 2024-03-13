@@ -1,0 +1,53 @@
+VoiceOne = {
+  \clef violin
+  \key c \major
+  \time 2/4
+\relative c''{
+e2( | e) | c4 d | e d | c2\trill | e4(-> e-> | e-> g)-> \break
+f8 e d4 | f e | d  \afterGrace { c4 ( } { f8 ) }  | e8 d c4 | c8 c c d | e4 d | c2 \trill \fine
+
+
+}
+}
+
+VoiceTwo = {
+  \clef violin
+  \key c \major
+  \time 2/4
+\relative c''{
+c2( | c8) g c g( | g2) | c8 g( g4)( | g2) | c4( c8) g | c c c g( \break
+g2) | c8 g c4 | g2( | g2)( | g2)( | g2)( | g2) \fine
+}
+}
+
+VoiceThree = {
+  \clef bass
+  \key c \major
+  \time 2/4
+\relative c{
+c2( | c2)( | c2)( | c2)( | c2)( | c2)( | c2)( \break
+c2)( | c2)( | c2)( | c2)( | c2)( | c2)( | c2) \fine
+}
+}
+
+
+\score {
+    <<
+        \new Staff
+        <<
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "VoiceOne" {  \voiceOne \VoiceOne }
+                \context Voice = "VoiceTwo" {  \voiceTwo \VoiceTwo }
+                >>
+            >>
+    \new Staff \VoiceThree
+
+
+        >>
+
+
+
+    \layout {}
+    \midi {\tempo 4 = 100 }
+    }

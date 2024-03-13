@@ -1,0 +1,66 @@
+\version "2.25.12"
+% automatically converted by musicxml2ly from cernik1_651.mxl
+\pointAndClickOff
+
+\include "articulate.ly"
+
+\header {
+    encodingsoftware =  "MuseScore 4.2.1"
+    encodingdate =  "2024-03-13"
+    title =  "651. Zaplakaly dzjevenky u brněnskej brány"
+    }
+
+PartPOneVoiceOne =  \relative a' {
+    \repeat volta 2 {
+        \clef "treble" \time 2/4 \key d \major | % 1
+        a8 a8 b8 cis8 | % 2
+        d8 d4 cis8 | % 3
+        b8 b8 g8 fis8 | % 4
+        e4 d4 }
+    | % 5
+    e8 d8 e8 fis8 | % 6
+    g4 g8 fis8 | % 7
+    e8 d8 e8 fis8 | % 8
+    g4 g8 e8 | % 9
+    a8 a8 g8 fis8 | \barNumberCheck #10
+    e4 e4 \bar "|."
+    }
+
+
+% The score definition
+\score {
+    <<
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.shortInstrumentName = "Vln."
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        >>
+    \layout {}
+    }
+\score {
+    \unfoldRepeats \articulate {
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.shortInstrumentName = "Vln."
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        }
+    \midi {\tempo 4 = 100 }
+    }

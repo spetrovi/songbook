@@ -1,0 +1,63 @@
+\version "2.25.12"
+% automatically converted by musicxml2ly from cernik1_600.mxl
+\pointAndClickOff
+
+\include "articulate.ly"
+
+\header {
+    encodingsoftware =  "MuseScore 4.2.1"
+    encodingdate =  "2024-03-13"
+    title =  "600. Prvéj by ze skaly vodzenka kapala"
+    }
+
+PartPOneVoiceOne =  \relative a' {
+    \clef "treble" \time 2/4 \key f \major | % 1
+    a8 a8 g8 a8 | % 2
+    bes8 g4. | % 3
+    c8 c8 c4 | % 4
+    bes8 a8 g4 \repeat volta 2 {
+        | % 5
+        a8 a8 a4 | % 6
+        bes8 a8 d,4 | % 7
+        d8 e8 f4 | % 8
+        f8 e8 d4 }
+    }
+
+
+% The score definition
+\score {
+    <<
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.shortInstrumentName = "Vln."
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        >>
+    \layout {}
+    }
+\score {
+    \unfoldRepeats \articulate {
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.shortInstrumentName = "Vln."
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        }
+    \midi {\tempo 4 = 100 }
+    }

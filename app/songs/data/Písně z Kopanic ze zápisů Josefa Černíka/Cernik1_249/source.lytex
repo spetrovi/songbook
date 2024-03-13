@@ -1,0 +1,60 @@
+\version "2.25.12"
+% automatically converted by musicxml2ly from cernik1_249.mxl
+\pointAndClickOff
+
+\include "articulate.ly"
+
+\header {
+    encodingsoftware =  "MuseScore 4.2.1"
+    encodingdate =  "2024-03-13"
+    title =  "249. K horám, súnečko, k horám"
+    }
+
+PartPOneVoiceOne =  \relative e'' {
+    \clef "treble" \time 2/4 \key c \major | % 1
+    e8 -\markup{ \bold {Andante} } e8 fis8 g8 | % 2
+    e4. ( d8 ) | % 3
+    e8 c4. | % 4
+    f8 e4 ( c8 ) | % 5
+    c8 a8 d4 | % 6
+    e16. ( d32 ) d4. \bar "|."
+    }
+
+
+% The score definition
+\score {
+    <<
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.shortInstrumentName = "Vln."
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        >>
+    \layout {}
+    }
+\score {
+    \unfoldRepeats \articulate {
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.shortInstrumentName = "Vln."
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        }
+    \midi {\tempo 4 = 96 }
+    }

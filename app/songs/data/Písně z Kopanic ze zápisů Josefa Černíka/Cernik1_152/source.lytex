@@ -1,0 +1,66 @@
+\version "2.25.12"
+% automatically converted by musicxml2ly from cernik1_152.mxl
+\pointAndClickOff
+
+\include "articulate.ly"
+
+\header {
+    encodingsoftware =  "MuseScore 4.2.1"
+    encodingdate =  "2024-03-13"
+    title =  "152. Prišol som k něj pod okjenko"
+    }
+
+PartPOneVoiceOne =  \relative e'' {
+    \clef "treble" \time 2/4 \key g \major | % 1
+    e4 e4 | % 2
+    d8 d4. | % 3
+    d8 d8 c4 | % 4
+    b4 r4 | % 5
+    e4 e4 | % 6
+    d8 d4. | % 7
+    d8 d8 c4 | % 8
+    b4 r4 | % 9
+    a8 a8 a8 g8 | \barNumberCheck #10
+    g8 g8 a4 | % 11
+    b4 b8 b8 | % 12
+    b8 b8 a8 a8 | % 13
+    g8 g8 fis4 | % 14
+    e8 e4 e8 \bar "|."
+    }
+
+
+% The score definition
+\score {
+    <<
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        >>
+    \layout {}
+    }
+\score {
+    \unfoldRepeats \articulate {
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        }
+    \midi {\tempo 4 = 100 }
+    }

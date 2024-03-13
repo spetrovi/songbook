@@ -1,0 +1,67 @@
+\version "2.25.12"
+% automatically converted by musicxml2ly from cernik1_111.mxl
+\pointAndClickOff
+
+\include "articulate.ly"
+
+\header {
+    encodingsoftware =  "MuseScore 4.2.1"
+    encodingdate =  "2024-03-13"
+    title =  "111. Rád ca vidzím, rád ca bozkám"
+    }
+
+PartPOneVoiceOne =  \relative d' {
+    \clef "treble" \time 2/4 \key g \major | % 1
+    d8 g8 fis8 g8 | % 2
+    a8 b8 a8 b8 | % 3
+    c8 b8 a8 g8 | % 4
+    a8 g4. | % 5
+    d2 | % 6
+    d4 r4 \repeat volta 2 {
+        | % 7
+        g4 a4 | % 8
+        g4 d4 | % 9
+        g4 a4 | \barNumberCheck #10
+        d4. c8 | % 11
+        d8 d8 g,8 c8 | % 12
+        bes8 a4. | % 13
+        g2 | % 14
+        g4 r4 }
+    }
+
+
+% The score definition
+\score {
+    <<
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        >>
+    \layout {}
+    }
+\score {
+    \unfoldRepeats \articulate {
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        }
+    \midi {\tempo 4 = 100 }
+    }

@@ -1,0 +1,58 @@
+\version "2.25.12"
+% automatically converted by musicxml2ly from cernik1_569.mxl
+\pointAndClickOff
+
+\include "articulate.ly"
+
+\header {
+    encodingsoftware =  "MuseScore 4.2.1"
+    encodingdate =  "2024-03-13"
+    title =  "569. Ta uherská skala padla do Dunaja"
+    }
+
+PartPOneVoiceOne =  \relative d'' {
+    \clef "treble" \time 3/4 \key bes \major | % 1
+    d8 d8 d8 c8 bes8 c8 | % 2
+    \time 5/4  d8 a8 g8 a8 g4 a2 | % 3
+    \time 3/4  d8 d8 d8 c8 bes8 d8 | % 4
+    \time 5/4  c8 bes8 a8 bes8 a4 g2 \bar "|."
+    }
+
+
+% The score definition
+\score {
+    <<
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.shortInstrumentName = "Vln."
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        >>
+    \layout {}
+    }
+\score {
+    \unfoldRepeats \articulate {
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.shortInstrumentName = "Vln."
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        }
+    \midi {\tempo 4 = 100 }
+    }

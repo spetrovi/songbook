@@ -1,0 +1,62 @@
+\version "2.25.12"
+% automatically converted by musicxml2ly from cernik1_451.mxl
+\pointAndClickOff
+
+\include "articulate.ly"
+
+\header {
+    encodingsoftware =  "MuseScore 4.2.1"
+    encodingdate =  "2024-03-13"
+    title =  "451. Nad Verunú pod tým kopcem"
+    }
+
+PartPOneVoiceOne =  \relative g' {
+    \clef "treble" \time 2/4 \key g \major | % 1
+    g8 g8 c8 c8 | % 2
+    g8 fis8 e4 | % 3
+    d2 | % 4
+    \time 3/4  b'8 b8 b4 g4 | % 5
+    \time 2/4  d'8 d8 e8 d8 | % 6
+    \time 3/4  c8 b8 a4 a4 | % 7
+    \time 2/4  g8 fis8 e8 d8 | % 8
+    d'8 d8 e8 d8 | % 9
+    c8 b8 a4 | \barNumberCheck #10
+    g2 \bar "|."
+    }
+
+
+% The score definition
+\score {
+    <<
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        >>
+    \layout {}
+    }
+\score {
+    \unfoldRepeats \articulate {
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        }
+    \midi {\tempo 4 = 100 }
+    }

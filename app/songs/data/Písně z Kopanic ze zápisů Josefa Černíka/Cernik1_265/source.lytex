@@ -1,0 +1,61 @@
+\version "2.25.12"
+% automatically converted by musicxml2ly from cernik1_265.mxl
+\pointAndClickOff
+
+\include "articulate.ly"
+
+\header {
+    encodingsoftware =  "MuseScore 4.2.1"
+    encodingdate =  "2024-03-13"
+    title =  "265. Na Žítkovej zakázali"
+    }
+
+PartPOneVoiceOne =  \relative d'' {
+    \clef "treble" \time 2/4 \key d \major | % 1
+    d16 -\markup{ \bold {Andante} } d8. a16 d8. | % 2
+    cis16 e8. b16 a8. | % 3
+    b16 b8. g16 b8. | % 4
+    a16 a8. fis16 d8. | % 5
+    fis8 a8 e16 e8 e16 | % 6
+    g8 b8 a16 a8 g16 | % 7
+    fis16 fis16 e8 d8 r8 \bar "|."
+    }
+
+
+% The score definition
+\score {
+    <<
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.shortInstrumentName = "Vln."
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        >>
+    \layout {}
+    }
+\score {
+    \unfoldRepeats \articulate {
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.shortInstrumentName = "Vln."
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        }
+    \midi {\tempo 4 = 96 }
+    }

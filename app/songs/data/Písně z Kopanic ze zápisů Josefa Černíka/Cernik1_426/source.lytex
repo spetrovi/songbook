@@ -1,0 +1,63 @@
+\version "2.25.12"
+% automatically converted by musicxml2ly from cernik1_426.mxl
+\pointAndClickOff
+
+\include "articulate.ly"
+
+\header {
+    encodingsoftware =  "MuseScore 4.2.1"
+    encodingdate =  "2024-03-13"
+    title =  "426. Vy uherščí zemani, širujce si koně"
+    }
+
+PartPOneVoiceOne =  \relative c'' {
+    \clef "treble" \time 2/4 \key c \major | % 1
+    c8 b8 c8 d8 | % 2
+    e8 d8 c4 | % 3
+    d8 c8 b8 a8 | % 4
+    g4 g4 \repeat volta 2 {
+        | % 5
+        a8 a8 g8 f8 | % 6
+        bes8 bes8 bes4 | % 7
+        c8 c8 bes8 a8 | % 8
+        g4 g4 }
+    }
+
+
+% The score definition
+\score {
+    <<
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.shortInstrumentName = "Vln."
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        >>
+    \layout {}
+    }
+\score {
+    \unfoldRepeats \articulate {
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.shortInstrumentName = "Vln."
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        }
+    \midi {\tempo 4 = 100 }
+    }

@@ -1,0 +1,66 @@
+\version "2.25.12"
+% automatically converted by musicxml2ly from cernik1_660.mxl
+\pointAndClickOff
+
+\include "articulate.ly"
+
+\header {
+    encodingsoftware =  "MuseScore 4.2.1"
+    encodingdate =  "2024-03-13"
+    title =  "660. Keby moje nožky něnosili bučky"
+    }
+
+PartPOneVoiceOne =  \relative d'' {
+    \clef "treble" \time 2/4 \key bes \major | % 1
+    d8 es8 f8 es8 | % 2
+    d4 c4 | % 3
+    d8 c8 bes8 a8 | % 4
+    g4 f4 | % 5
+    f'8 f8 f8 f8 | % 6
+    f4 g4 | % 7
+    d2 | % 8
+    d8 es8 f8 es8 | % 9
+    d4 c4 | \barNumberCheck #10
+    d8 c8 bes8 a8 | % 11
+    g4 f4 | % 12
+    bes8 a8 bes8 c8 | % 13
+    bes4 a4 | % 14
+    g4 r4 \bar "|."
+    }
+
+
+% The score definition
+\score {
+    <<
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        >>
+    \layout {}
+    }
+\score {
+    \unfoldRepeats \articulate {
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        }
+    \midi {\tempo 4 = 100 }
+    }

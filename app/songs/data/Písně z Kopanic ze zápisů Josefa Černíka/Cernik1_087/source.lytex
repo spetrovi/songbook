@@ -1,0 +1,65 @@
+\version "2.25.12"
+% automatically converted by musicxml2ly from cernik1_087.mxl
+\pointAndClickOff
+
+\include "articulate.ly"
+
+\header {
+    encodingsoftware =  "MuseScore 4.2.1"
+    encodingdate =  "2024-03-13"
+    title =  "87. Kalina, kalina"
+    }
+
+PartPOneVoiceOne =  \relative a' {
+    \clef "treble" \time 2/4 \key f \major | % 1
+    a4 a8 c8 | % 2
+    bes4 g4 | % 3
+    f4 r4 | % 4
+    a4 a8 c8 | % 5
+    bes4 g4 | % 6
+    f4 r4 | % 7
+    \time 3/4  c'4 c4. a8 | % 8
+    bes8 c8 d2 | % 9
+    bes4 bes4. g8 | \barNumberCheck #10
+    a8 bes8 c2 | % 11
+    \time 2/4  a4 a8 c8 | % 12
+    bes4 g4 | % 13
+    f4 r4 \bar "|."
+    }
+
+
+% The score definition
+\score {
+    <<
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        >>
+    \layout {}
+    }
+\score {
+    \unfoldRepeats \articulate {
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        }
+    \midi {\tempo 4 = 100 }
+    }

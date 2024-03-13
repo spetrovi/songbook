@@ -1,0 +1,76 @@
+\version "2.25.12"
+% automatically converted by musicxml2ly from cernik1_407.mxl
+\pointAndClickOff
+
+\include "articulate.ly"
+
+\header {
+    encodingsoftware =  "MuseScore 4.2.1"
+    encodingdate =  "2024-03-13"
+    title =  "407. Čo som sa Skalice nabanoval"
+    }
+
+PartPOneVoiceOne =  \relative g' {
+    \clef "treble" \time 3/4 \key bes \major | % 1
+    g4 -\markup{ \bold {Vivace} } g4 a4 | % 2
+    bes4 d4 d4 | % 3
+    \numericTimeSignature\time 4/4  c4 bes4 a4. ( e8 ) | % 4
+    \time 3/4  g2. | % 5
+    bes4 bes4 c4 | % 6
+    d4 d4 d4 | % 7
+    \numericTimeSignature\time 4/4  es4 d4 c4. ( d8 ) | % 8
+    \time 3/4  d2. | % 9
+    \numericTimeSignature\time 4/4  c4 c4 c4 c4 | \barNumberCheck #10
+    \time 3/4  d2. | % 11
+    \numericTimeSignature\time 4/4  d4 d4 bes4 a4 | % 12
+    \time 3/4  g2. | % 13
+    g4 g4 a4 | % 14
+    bes4 d4 d4 | % 15
+    \numericTimeSignature\time 4/4  c4 bes4 a4. fis8 | % 16
+    \time 3/4  g2. | % 17
+    \numericTimeSignature\time 4/4  c4 c4 c4 es4 | % 18
+    \time 3/4  d2. | % 19
+    \numericTimeSignature\time 4/4  d4 d4 bes4 a4 | \barNumberCheck #20
+    \time 3/4  g2. | % 21
+    g4 g4 a4 | % 22
+    bes4 d4 d4 | % 23
+    \numericTimeSignature\time 4/4  c4 bes4 a4. ( fis8 ) | % 24
+    \time 3/4  g2. \bar "|."
+    }
+
+
+% The score definition
+\score {
+    <<
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        >>
+    \layout {}
+    }
+\score {
+    \unfoldRepeats \articulate {
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        }
+    \midi {\tempo 4 = 144 }
+    }

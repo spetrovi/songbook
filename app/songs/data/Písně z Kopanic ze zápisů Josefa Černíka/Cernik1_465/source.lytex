@@ -1,0 +1,63 @@
+\version "2.25.12"
+% automatically converted by musicxml2ly from cernik1_465.mxl
+\pointAndClickOff
+
+\include "articulate.ly"
+
+\header {
+    encodingsoftware =  "MuseScore 4.2.1"
+    encodingdate =  "2024-03-13"
+    title =  "465. Pod horú sklaička"
+    }
+
+PartPOneVoiceOne =  \relative d' {
+    \clef "treble" \time 2/4 \key bes \major | % 1
+    d8 g8 g8 g8 | % 2
+    g4. a8 | % 3
+    bes8 a8 g8 a8 | % 4
+    g4 d4 | % 5
+    d8 e8 f4 | % 6
+    f8 f4 g8 | % 7
+    f8 es8 d8 c8 | % 8
+    d4 bes4 | % 9
+    d'4 d8 d8 | \barNumberCheck #10
+    c8 bes8 a4 | % 11
+    g4 r4 \bar "|."
+    }
+
+
+% The score definition
+\score {
+    <<
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        >>
+    \layout {}
+    }
+\score {
+    \unfoldRepeats \articulate {
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        }
+    \midi {\tempo 4 = 100 }
+    }

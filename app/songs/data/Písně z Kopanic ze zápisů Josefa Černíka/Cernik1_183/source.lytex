@@ -1,0 +1,66 @@
+\version "2.25.12"
+% automatically converted by musicxml2ly from cernik1_183.mxl
+\pointAndClickOff
+
+\include "articulate.ly"
+
+\header {
+    encodingsoftware =  "MuseScore 4.2.1"
+    encodingdate =  "2024-03-13"
+    title =  "183. Prečo mňa, šohajko, prečo mňa necháváš"
+    }
+
+PartPOneVoiceOne =  \relative d' {
+    \repeat volta 2 {
+        \clef "treble" \time 2/4 \key g \major | % 1
+        d8 g8 a4 | % 2
+        c8 b8 a4 | % 3
+        b8 g8 b4 | % 4
+        a8 g8 f4 }
+    | % 5
+    a8 bes8 a4 | % 6
+    f8 e8 d4 | % 7
+    g8 a8 bes8 a8 | % 8
+    g8 f4. | % 9
+    a8 bes8 a4 | \barNumberCheck #10
+    f8 e8 d4 | % 11
+    d8 e8 f8 g8 | % 12
+    f8 d4. \bar "|."
+    }
+
+
+% The score definition
+\score {
+    <<
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        >>
+    \layout {}
+    }
+\score {
+    \unfoldRepeats \articulate {
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        }
+    \midi {\tempo 4 = 100 }
+    }

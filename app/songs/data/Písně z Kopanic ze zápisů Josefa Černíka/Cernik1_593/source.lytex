@@ -1,0 +1,62 @@
+\version "2.25.12"
+% automatically converted by musicxml2ly from cernik1_593.mxl
+\pointAndClickOff
+
+\include "articulate.ly"
+
+\header {
+    encodingsoftware =  "MuseScore 4.2.1"
+    encodingdate =  "2024-03-13"
+    title =  "593. Horela, horela hora javorová"
+    }
+
+PartPOneVoiceOne =  \relative g' {
+    \clef "treble" \time 3/4 \key bes \major | % 1
+    g4 -\markup{ \bold {Vivace} } g4 g4 | % 2
+    \numericTimeSignature\time 4/4  d'4 d4 d2 | % 3
+    \time 3/4  c4 c4 c4 | % 4
+    bes4 a2 | % 5
+    g2 r4 | % 6
+    bes4 bes4 c4 | % 7
+    \numericTimeSignature\time 4/4  d4 d4 c2 | % 8
+    \time 3/4  bes4 bes4 a4 | % 9
+    bes4 a2 | \barNumberCheck #10
+    g2 r4 \bar "|."
+    }
+
+
+% The score definition
+\score {
+    <<
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        >>
+    \layout {}
+    }
+\score {
+    \unfoldRepeats \articulate {
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        }
+    \midi {\tempo 4 = 160 }
+    }

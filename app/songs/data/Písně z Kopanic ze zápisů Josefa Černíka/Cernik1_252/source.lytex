@@ -1,0 +1,64 @@
+\version "2.25.12"
+% automatically converted by musicxml2ly from cernik1_252.mxl
+\pointAndClickOff
+
+\include "articulate.ly"
+
+\header {
+    encodingsoftware =  "MuseScore 4.2.1"
+    encodingdate =  "2024-03-13"
+    title =  "252. Pójme domu, večer je"
+    }
+
+PartPOneVoiceOne =  \relative c'' {
+    \clef "treble" \time 2/4 \key c \major | % 1
+    c8 b8 a8 g8 | % 2
+    c8 d4. | % 3
+    c2 | % 4
+    c8 b8 a8 b8 | % 5
+    c8 b4. | % 6
+    a2 | % 7
+    c8 b8 a8 g8 | % 8
+    c8 d4. | % 9
+    c2 | \barNumberCheck #10
+    c8 b8 a8 b8 | % 11
+    c8 b4. | % 12
+    a2 \bar "|."
+    }
+
+
+% The score definition
+\score {
+    <<
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        >>
+    \layout {}
+    }
+\score {
+    \unfoldRepeats \articulate {
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        }
+    \midi {\tempo 4 = 100 }
+    }

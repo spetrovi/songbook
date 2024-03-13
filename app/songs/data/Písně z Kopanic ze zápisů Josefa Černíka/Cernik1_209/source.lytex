@@ -1,0 +1,64 @@
+\version "2.25.12"
+% automatically converted by musicxml2ly from cernik1_209.mxl
+\pointAndClickOff
+
+\include "articulate.ly"
+
+\header {
+    encodingsoftware =  "MuseScore 4.2.1"
+    encodingdate =  "2024-03-13"
+    title =  "209. Smutná noc, cmavá noc"
+    }
+
+PartPOneVoiceOne =  \relative bes' {
+    \clef "treble" \time 2/4 \key bes \major | % 1
+    bes16 a8. g4 | % 2
+    bes16 a8. g4 | % 3
+    d'4 es16 d8. | % 4
+    c16 bes8. a4 \repeat volta 2 {
+        | % 5
+        d4 d16 c8. | % 6
+        es16 es8. d4 | % 7
+        c4 d16 c8. | % 8
+        bes16 a8. g4 | % 9
+        bes4 d4 | \barNumberCheck #10
+        c16 bes8. a4 | % 11
+        g4 r4 }
+    }
+
+
+% The score definition
+\score {
+    <<
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        >>
+    \layout {}
+    }
+\score {
+    \unfoldRepeats \articulate {
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        }
+    \midi {\tempo 4 = 100 }
+    }

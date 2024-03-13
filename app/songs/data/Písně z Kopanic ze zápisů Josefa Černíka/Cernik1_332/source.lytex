@@ -1,0 +1,66 @@
+\version "2.25.12"
+% automatically converted by musicxml2ly from cernik1_332.mxl
+\pointAndClickOff
+
+\include "articulate.ly"
+
+\header {
+    encodingsoftware =  "MuseScore 4.2.1"
+    encodingdate =  "2024-03-13"
+    title =  "332. Sedzí vrabec na koscele"
+    }
+
+PartPOneVoiceOne =  \relative bes' {
+    \clef "treble" \time 2/4 \key bes \major | % 1
+    bes4 bes4 | % 2
+    c4 d4 | % 3
+    es4. d8 | % 4
+    c4 bes4 | % 5
+    d4 d4 | % 6
+    es4 d8. ( c16 ) | % 7
+    c2 | % 8
+    bes4 bes4 | % 9
+    c4 d4 | \barNumberCheck #10
+    es4. d8 | % 11
+    c4 bes4 | % 12
+    d4 es4 | % 13
+    d4 c8. ( bes16 ) | % 14
+    bes2 \bar "|."
+    }
+
+
+% The score definition
+\score {
+    <<
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        >>
+    \layout {}
+    }
+\score {
+    \unfoldRepeats \articulate {
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        }
+    \midi {\tempo 4 = 100 }
+    }

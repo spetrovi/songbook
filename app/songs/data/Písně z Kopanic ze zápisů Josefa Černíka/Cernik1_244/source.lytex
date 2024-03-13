@@ -1,0 +1,68 @@
+\version "2.25.12"
+% automatically converted by musicxml2ly from cernik1_244.mxl
+\pointAndClickOff
+
+\include "articulate.ly"
+
+\header {
+    encodingsoftware =  "MuseScore 4.2.1"
+    encodingdate =  "2024-03-13"
+    title =  "244. K horám súnečko, k horám"
+    }
+
+PartPOneVoiceOne =  \relative d'' {
+    \clef "treble" \time 2/4 \key c \major | % 1
+    d16 -\markup{ \bold {Adagio} } e8. \times 2/3 {
+        f8 e8 c16. ( b32 ) }
+    | % 2
+    f'8 e4. | % 3
+    d16 e8. \times 2/3 {
+        f8 e8 c16. ( b32 ) }
+    | % 4
+    d4 c4 | % 5
+    d16 e8. \times 2/3 {
+        f8 e8 c16. ( b32 ) }
+    | % 6
+    f'8 e4. | % 7
+    d16 e8. \times 2/3 {
+        f8 e8 c16. ( b32 ) }
+    | % 8
+    d4 c4 \bar "|."
+    }
+
+
+% The score definition
+\score {
+    <<
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        >>
+    \layout {}
+    }
+\score {
+    \unfoldRepeats \articulate {
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        }
+    \midi {\tempo 4 = 72 }
+    }

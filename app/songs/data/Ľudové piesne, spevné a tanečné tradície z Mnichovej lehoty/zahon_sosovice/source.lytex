@@ -1,0 +1,30 @@
+scoredata = {
+  \version "2.24.1"
+  \clef violin
+  \key g \major
+  \time 2/4
+  \tempo 4 = 152
+\relative d''{
+  \autoBeamOff
+b4 b | c8 b a g | b4 b |c8 b a4 | \break
+b4 b | c8 b a g | a4 a | b8 a g4 \bar "||" \break
+b8 b b b | c a b g | b b b b | c4 a | \break
+b8 b b b | c b a g | d d d d | g4 g \fine
+}
+}
+
+scorelyrics = \lyricmode{Zá4 -- hon4 | šo8 -- šo8 -- vi8 -- ce,8 | zá4 -- hon4 | fa8 -- zu8 -- le,4 |
+daj4 sa4 | ďjé8 -- vča8 bo8 -- sať,8 | ňič4 ťi4 ňe8 -- bu -- de.4 |
+
+Eš8 -- te8 ňj8 -- éčo8 | pre8 ko8 -- no8 -- pe,8 | eš8 -- ťe8 ňjé8 -- čo8 pre4 len,4
+eš8 -- ťe8 ňjé8 -- čo8 pre8 fa8 -- zu8 -- lu,8 eš8 -- ťe8 ňjé8 -- čo8 pre4 chren.4
+}
+
+\score {
+  <<
+    \new Staff \scoredata
+    \new Lyrics \scorelyrics
+  >>
+  \layout{ }
+  \midi{}
+}

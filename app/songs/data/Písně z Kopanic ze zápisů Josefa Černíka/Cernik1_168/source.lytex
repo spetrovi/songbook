@@ -1,0 +1,76 @@
+\version "2.25.12"
+% automatically converted by musicxml2ly from cernik1_168.mxl
+\pointAndClickOff
+
+\include "articulate.ly"
+
+\header {
+    encodingsoftware =  "MuseScore 4.2.1"
+    encodingdate =  "2024-03-13"
+    title =  "168. Dala som mu pjerko"
+    }
+
+PartPOneVoiceOne =  \relative c'' {
+    \clef "treble" \time 2/4 \key c \major | % 1
+    \times 2/3  {
+        c4 c4 b4 }
+    | % 2
+    b4 a4 | % 3
+    g2 | % 4
+    \times 2/3  {
+        a4 a4 a4 }
+    | % 5
+    g4 f4 | % 6
+    e2 \repeat volta 2 {
+        | % 7
+        \times 2/3  {
+            g4 g4 g4 }
+        | % 8
+        \times 2/3  {
+            a4 b4 c4 }
+        | % 9
+        \times 2/3  {
+            d4 d4 d4 }
+        | \barNumberCheck #10
+        e4 d4 | % 11
+        c2 }
+    }
+
+
+% The score definition
+\score {
+    <<
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.shortInstrumentName = "Vln."
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        >>
+    \layout {}
+    }
+\score {
+    \unfoldRepeats \articulate {
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.shortInstrumentName = "Vln."
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        }
+    \midi {\tempo 4 = 100 }
+    }

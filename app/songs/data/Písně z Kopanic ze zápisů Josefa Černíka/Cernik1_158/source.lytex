@@ -1,0 +1,62 @@
+\version "2.25.12"
+% automatically converted by musicxml2ly from cernik1_158.mxl
+\pointAndClickOff
+
+\include "articulate.ly"
+
+\header {
+    encodingsoftware =  "MuseScore 4.2.1"
+    encodingdate =  "2024-03-13"
+    title =  "158. Mamko moja, budzem sa vydávac"
+    }
+
+PartPOneVoiceOne =  \relative f' {
+    \clef "treble" \time 2/4 \key f \major | % 1
+    f16 -\markup{ \bold {Andante} } f8. d16 d8. | % 2
+    d'16 d8. a16 g8. | % 3
+    d4 d4 | % 4
+    d'16 d8. d16 c8. | % 5
+    e16 d16 c16 b16 c16 d8. | % 6
+    a16 a8. a16 g8. | % 7
+    c16 b16 c16 d16 a16 g8. | % 8
+    f16 f8. d16 d8. | % 9
+    d'16 d8. a16 g8. | \barNumberCheck #10
+    d4 d4 \bar "|."
+    }
+
+
+% The score definition
+\score {
+    <<
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        >>
+    \layout {}
+    }
+\score {
+    \unfoldRepeats \articulate {
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        }
+    \midi {\tempo 4 = 96 }
+    }

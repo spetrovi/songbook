@@ -1,0 +1,63 @@
+\version "2.25.12"
+% automatically converted by musicxml2ly from Cernik1_610.mxl
+\pointAndClickOff
+
+\include "articulate.ly"
+
+\header {
+    encodingsoftware =  "MuseScore 4.2.1"
+    encodingdate =  "2024-03-13"
+    title =  "610. Ej, včera pred večerom"
+    }
+
+PartPOneVoiceOne =  \relative d'' {
+    \clef "treble" \time 2/4 \key g \major | % 1
+    d4 d8 e8 | % 2
+    d8 c8 b8 a8 | % 3
+    b8 g8 e8 fis8 | % 4
+    \time 3/4  g4 a2 \repeat volta 2 {
+        | % 5
+        \time 2/4  g8 g8 d4 | % 6
+        g4 g8 a8 | % 7
+        \time 3/4  b8 b8 a2 | % 8
+        \time 2/4  g8 g8 a4 | % 9
+        d4 d8 a8 | \barNumberCheck #10
+        \time 3/4  b8 a8 g2 }
+    }
+
+
+% The score definition
+\score {
+    <<
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        >>
+    \layout {}
+    }
+\score {
+    \unfoldRepeats \articulate {
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        }
+    \midi {\tempo 4 = 100 }
+    }

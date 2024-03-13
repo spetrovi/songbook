@@ -1,0 +1,63 @@
+\version "2.25.12"
+% automatically converted by musicxml2ly from cernik1_470.mxl
+\pointAndClickOff
+
+\include "articulate.ly"
+
+\header {
+    encodingsoftware =  "MuseScore 4.2.1"
+    encodingdate =  "2024-03-13"
+    title =  "470. A tam dolu, nadole hospodzenka stojí"
+    }
+
+PartPOneVoiceOne =  \relative e' {
+    \clef "treble" \time 2/4 \key g \major | % 1
+    e8 a8 b8 cis8 | % 2
+    d8 cis8 b4 | % 3
+    cis8 b8 a8 b8 | % 4
+    e,8 e4. \repeat volta 2 {
+        | % 5
+        g8 fis8 e8 d8 | % 6
+        e8 fis8 g8. ( a16 ) | % 7
+        b8 a8 g8 fis8 | % 8
+        e4 e4 }
+    }
+
+
+% The score definition
+\score {
+    <<
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.shortInstrumentName = "Vln."
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        >>
+    \layout {}
+    }
+\score {
+    \unfoldRepeats \articulate {
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.shortInstrumentName = "Vln."
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        }
+    \midi {\tempo 4 = 100 }
+    }

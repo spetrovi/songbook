@@ -1,0 +1,73 @@
+\version "2.25.12"
+% automatically converted by musicxml2ly from cernik1_035.mxl
+\pointAndClickOff
+
+\include "articulate.ly"
+
+\header {
+    encodingsoftware =  "MuseScore 4.2.1"
+    encodingdate =  "2024-03-13"
+    title =  "35. Ej, široko, dalako"
+    }
+
+PartPOneVoiceOne =  \relative d'' {
+    \clef "treble" \time 2/4 \key bes \major | % 1
+    d4 s4 | % 2
+    \times 2/3  {
+        d4 f4 es4 }
+    | % 3
+    d4 c4 | % 4
+    bes4. c8 | % 5
+    \times 2/3  {
+        d4 f4 es4 }
+    | % 6
+    d4 c4 | % 7
+    d4. bes8 | % 8
+    \times 2/3  {
+        bes4 a4 g4 }
+    | % 9
+    f4 c'4 | \barNumberCheck #10
+    d4. bes8 | % 11
+    \times 2/3  {
+        a4 g4 c4 }
+    | % 12
+    bes4 a4 | % 13
+    g4 \bar "|."
+    }
+
+
+% The score definition
+\score {
+    <<
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        >>
+    \layout {}
+    }
+\score {
+    \unfoldRepeats \articulate {
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        }
+    \midi {\tempo 4 = 100 }
+    }

@@ -1,0 +1,66 @@
+\version "2.25.12"
+% automatically converted by musicxml2ly from cernik1_128.mxl
+\pointAndClickOff
+
+\include "articulate.ly"
+
+\header {
+    encodingsoftware =  "MuseScore 4.2.1"
+    encodingdate =  "2024-03-13"
+    title =  "128. Hájičku zelený"
+    }
+
+PartPOneVoiceOne =  \relative e' {
+    \clef "treble" \time 2/4 \key c \major | % 1
+    e8 g8 g8 g8 | % 2
+    g4 e4 | % 3
+    c'8 e8 e8 e8 | % 4
+    c8. d16 d4 | % 5
+    d8. e16 c8 a8 | % 6
+    a8. ( c16 ) e4 | % 7
+    g,8 f8 e8 g8 | % 8
+    a4 g4 | % 9
+    c8. e16 c8 a8 | \barNumberCheck #10
+    g8. ( c16 ) c4 | % 11
+    g8 f8 e8 g8 | % 12
+    a4 g4 \bar "|."
+    }
+
+
+% The score definition
+\score {
+    <<
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.shortInstrumentName = "Vln."
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        >>
+    \layout {}
+    }
+\score {
+    \unfoldRepeats \articulate {
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.shortInstrumentName = "Vln."
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        }
+    \midi {\tempo 4 = 100 }
+    }

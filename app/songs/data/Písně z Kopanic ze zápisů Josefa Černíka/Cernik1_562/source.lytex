@@ -1,0 +1,66 @@
+\version "2.25.12"
+% automatically converted by musicxml2ly from cernik1_562.mxl
+\pointAndClickOff
+
+\include "articulate.ly"
+
+\header {
+    encodingsoftware =  "MuseScore 4.2.1"
+    encodingdate =  "2024-03-13"
+    title =  "562. Pase Janko junce"
+    }
+
+PartPOneVoiceOne =  \relative d'' {
+    \repeat volta 2 {
+        \clef "treble" \time 2/4 \key f \major | % 1
+        d8 d8 d8 d8 | % 2
+        d4 c4 | % 3
+        d8 c8 bes4 | % 4
+        a8 a4 a8 }
+    | % 5
+    a8 c8 bes8 a8 | % 6
+    g4 f4 | % 7
+    e8 f8 g4 | % 8
+    a8 a4 a8 | % 9
+    a8 c8 bes8 a8 | \barNumberCheck #10
+    g4 f4 | % 11
+    g8 f8 e4 | % 12
+    d8 d4 d8 \bar "|."
+    }
+
+
+% The score definition
+\score {
+    <<
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        >>
+    \layout {}
+    }
+\score {
+    \unfoldRepeats \articulate {
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        }
+    \midi {\tempo 4 = 100 }
+    }

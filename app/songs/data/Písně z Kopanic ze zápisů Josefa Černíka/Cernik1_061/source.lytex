@@ -1,0 +1,68 @@
+\version "2.25.12"
+% automatically converted by musicxml2ly from cernik1_061.mxl
+\pointAndClickOff
+
+\include "articulate.ly"
+
+\header {
+    encodingsoftware =  "MuseScore 4.2.1"
+    encodingdate =  "2024-03-13"
+    title =  "61. Frajer mój, frajer mój"
+    }
+
+PartPOneVoiceOne =  \relative b' {
+    \clef "treble" \time 2/4 \key g \major | % 1
+    b16 -\markup{ \bold {Andante} } cis8. d4 | % 2
+    e16 d8. a4 | % 3
+    \once \omit TupletBracket
+    \times 2/3  {
+        g8 a8 b8 }
+    b16 g8. | % 4
+    a2 | % 5
+    b16 c8. d4 | % 6
+    e16 e8. cis4 | % 7
+    \once \omit TupletBracket
+    \times 2/3  {
+        e8 d8 cis8 }
+    b16 a8. | % 8
+    g2 \bar "|."
+    }
+
+
+% The score definition
+\score {
+    <<
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.shortInstrumentName = "Vln."
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        >>
+    \layout {}
+    }
+\score {
+    \unfoldRepeats \articulate {
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.shortInstrumentName = "Vln."
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        }
+    \midi {\tempo 4 = 96 }
+    }

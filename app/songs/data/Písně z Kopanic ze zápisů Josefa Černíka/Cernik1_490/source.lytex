@@ -1,0 +1,66 @@
+\version "2.25.12"
+% automatically converted by musicxml2ly from cernik1_490.mxl
+\pointAndClickOff
+
+\include "articulate.ly"
+
+\header {
+    encodingsoftware =  "MuseScore 4.2.1"
+    encodingdate =  "2024-03-13"
+    title =  "490. Kedz som šol pres zelený les"
+    }
+
+PartPOneVoiceOne =  \relative a' {
+    \clef "treble" \time 3/4 \key c \major | % 1
+    a4 -\markup{ \bold {Vivace} } a4 b4 | % 2
+    c2 a4 | % 3
+    b2 gis4 | % 4
+    a2 r4 | % 5
+    c4 c4 d4 | % 6
+    e2 c4 | % 7
+    d2 b4 | % 8
+    a2 r4 | % 9
+    e4 a4 b4 | \barNumberCheck #10
+    c2 a4 | % 11
+    b2 gis4 | % 12
+    a2 r4 \bar "|."
+    }
+
+
+% The score definition
+\score {
+    <<
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.shortInstrumentName = "Vln."
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        >>
+    \layout {}
+    }
+\score {
+    \unfoldRepeats \articulate {
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.shortInstrumentName = "Vln."
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        }
+    \midi {\tempo 4 = 144 }
+    }

@@ -1,0 +1,61 @@
+\version "2.25.12"
+% automatically converted by musicxml2ly from cernik1_493.mxl
+\pointAndClickOff
+
+\include "articulate.ly"
+
+\header {
+    encodingsoftware =  "MuseScore 4.2.1"
+    encodingdate =  "2024-03-13"
+    title =  "493. Nocovali dva maljéri u nás"
+    }
+
+PartPOneVoiceOne =  \relative bes' {
+    \clef "treble" \time 2/4 \key bes \major | % 1
+    bes16 -\markup{ \bold {Ballad} } a16 g16 bes16 d16 c16 bes16 a16 | % 2
+    g4 g8 r8 | % 3
+    d'16 d16 bes16 bes16 c16 c16 d16 es16 | % 4
+    d4 d8 r8 \repeat volta 2 {
+        | % 5
+        d16 d16 bes16 bes16 c16 c16 d16 es16 | % 6
+        d4 c8 r8 | % 7
+        bes16 a16 g16 bes16 d16 c16 bes16 a16 | % 8
+        g4 g8 r8 }
+    }
+
+
+% The score definition
+\score {
+    <<
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        >>
+    \layout {}
+    }
+\score {
+    \unfoldRepeats \articulate {
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        }
+    \midi {\tempo 4 = 60 }
+    }

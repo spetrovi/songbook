@@ -1,0 +1,66 @@
+\version "2.25.12"
+% automatically converted by musicxml2ly from cernik1_216.mxl
+\pointAndClickOff
+
+\include "articulate.ly"
+
+\header {
+    encodingsoftware =  "MuseScore 4.2.1"
+    encodingdate =  "2024-03-13"
+    title =  "216. Kemu je najlepšjej jako téj něvesce"
+    }
+
+PartPOneVoiceOne =  \relative d'' {
+    \repeat volta 2 {
+        \clef "treble" \time 2/4 \key f \major | % 1
+        d8 cis8 d8 e8 | % 2
+        d4 cis4 | % 3
+        b8 a4 g8 | % 4
+        a8 a4 a8 }
+    | % 5
+    g8 a8 bes8 g8 | % 6
+    a4 f4 | % 7
+    e8 f8 g4 | % 8
+    a8 a4 a8 | % 9
+    g8 a8 bes8 g8 | \barNumberCheck #10
+    a4 f4 | % 11
+    g8 f8 e4 | % 12
+    d8 d4 d8 \bar "|."
+    }
+
+
+% The score definition
+\score {
+    <<
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        >>
+    \layout {}
+    }
+\score {
+    \unfoldRepeats \articulate {
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        }
+    \midi {\tempo 4 = 100 }
+    }

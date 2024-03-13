@@ -1,0 +1,71 @@
+\version "2.25.12"
+% automatically converted by musicxml2ly from cernik1_225.mxl
+\pointAndClickOff
+
+\include "articulate.ly"
+
+\header {
+    encodingsoftware =  "MuseScore 4.2.1"
+    encodingdate =  "2024-03-13"
+    title =  "225. Anča, Anča, Anička"
+    }
+
+PartPOneVoiceOne =  \relative d'' {
+    \repeat volta 2 {
+        \clef "treble" \time 2/4 \key f \major | % 1
+        d4 a4 | % 2
+        d4 a4 | % 3
+        d4 e4 | % 4
+        d2 | % 5
+        c4. b8 | % 6
+        c4 b4 | % 7
+        a4 g4 | % 8
+        a2 }
+    \repeat volta 2 {
+        | % 9
+        d,8 e8 f8 g8 | \barNumberCheck #10
+        a8 a8 a8 a8 | % 11
+        d,8 e8 f8 g8 | % 12
+        a8 a8 a8 a8 | % 13
+        c4 bes4 | % 14
+        a4 g4 | % 15
+        f4 e4 | % 16
+        d4 r4 }
+    }
+
+
+% The score definition
+\score {
+    <<
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        >>
+    \layout {}
+    }
+\score {
+    \unfoldRepeats \articulate {
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        }
+    \midi {\tempo 4 = 100 }
+    }

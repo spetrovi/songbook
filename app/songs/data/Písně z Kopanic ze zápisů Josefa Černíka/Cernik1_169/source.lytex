@@ -1,0 +1,64 @@
+\version "2.25.12"
+% automatically converted by musicxml2ly from cernik1_169.mxl
+\pointAndClickOff
+
+\include "articulate.ly"
+
+\header {
+    encodingsoftware =  "MuseScore 4.2.1"
+    encodingdate =  "2024-03-13"
+    title =  "169. Bolo dzjevča v šestnásstem roce"
+    }
+
+PartPOneVoiceOne =  \relative e' {
+    \clef "treble" \time 2/4 \key g \major | % 1
+    e8 fis8 g8 a8 | % 2
+    b8 b4 c8 | % 3
+    b4 a4 | % 4
+    b8 cis8 d8 e8 | % 5
+    d4. cis8 | % 6
+    d4 b4 | % 7
+    d8 c8 b8 a8 | % 8
+    g4. e8 | % 9
+    a4 b4 | \barNumberCheck #10
+    b8 c8 b8 a8 | % 11
+    b4. g8 | % 12
+    fis4 e4 \bar "|."
+    }
+
+
+% The score definition
+\score {
+    <<
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        >>
+    \layout {}
+    }
+\score {
+    \unfoldRepeats \articulate {
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        }
+    \midi {\tempo 4 = 100 }
+    }

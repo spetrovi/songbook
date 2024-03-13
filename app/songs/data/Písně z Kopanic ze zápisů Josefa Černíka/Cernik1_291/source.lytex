@@ -1,0 +1,80 @@
+\version "2.25.12"
+% automatically converted by musicxml2ly from cernik1_291.mxl
+\pointAndClickOff
+
+\include "articulate.ly"
+
+\header {
+    encodingsoftware =  "MuseScore 4.2.1"
+    encodingdate =  "2024-03-13"
+    title =  "291. Trebár som malučká, drobná"
+    }
+
+PartPOneVoiceOne =  \relative g' {
+    \clef "treble" \time 2/4 \key bes \major | % 1
+    \times 2/3  {
+        g4 a4 bes4 }
+    | % 2
+    \times 2/3  {
+        c4 c4 bes4 }
+    | % 3
+    a8 g4. | % 4
+    \times 2/3  {
+        bes4 c4 d4 }
+    | % 5
+    \times 2/3  {
+        d4 d4 d4 }
+    | % 6
+    c8 bes4. | % 7
+    \times 2/3  {
+        bes4 c4 d4 }
+    | % 8
+    \times 2/3  {
+        d4 d4 d4 }
+    | % 9
+    c8 d4. | \barNumberCheck #10
+    \times 2/3  {
+        g,4 a4 bes4 }
+    | % 11
+    \times 2/3  {
+        c4 c4 bes4 }
+    | % 12
+    a8 g4. \bar "|."
+    }
+
+
+% The score definition
+\score {
+    <<
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        >>
+    \layout {}
+    }
+\score {
+    \unfoldRepeats \articulate {
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        }
+    \midi {\tempo 4 = 100 }
+    }

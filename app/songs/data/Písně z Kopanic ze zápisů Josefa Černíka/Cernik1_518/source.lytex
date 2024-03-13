@@ -1,0 +1,60 @@
+\version "2.25.12"
+% automatically converted by musicxml2ly from cernik1_518.mxl
+\pointAndClickOff
+
+\include "articulate.ly"
+
+\header {
+    encodingsoftware =  "MuseScore 4.2.1"
+    encodingdate =  "2024-03-13"
+    title =  "518. Mamičenko moji, mamičenko moji"
+    }
+
+PartPOneVoiceOne =  \relative a' {
+    \clef "treble" \time 5/4 \key c \major | % 1
+    a8 b8 g8 g8 f4 g2 | % 2
+    \time 3/4  c8 c8 d8 d8 e8 d8 | % 3
+    c8 d8 e8 \acciaccatura { e8 ( } d8 ) c8 b8 | % 4
+    \time 5/4  a8 b8 g8 g8 f4 g2 | % 5
+    a8 b8 g8 g8 f4 g2 | % 6
+    \time 3/4  c8 c8 d8 d8 e8 d8 | % 7
+    c8 d8 e8 \acciaccatura { e8 ( } d8 ) c8 b8 | % 8
+    \time 5/4  a8 b8 g8 g8 f4 g2 \bar "|."
+    }
+
+
+% The score definition
+\score {
+    <<
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        >>
+    \layout {}
+    }
+\score {
+    \unfoldRepeats \articulate {
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        }
+    \midi {\tempo 4 = 100 }
+    }

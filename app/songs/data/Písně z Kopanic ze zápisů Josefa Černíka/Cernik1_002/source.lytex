@@ -1,0 +1,62 @@
+\version "2.25.12"
+% automatically converted by musicxml2ly from cernik1_002.mxl
+\pointAndClickOff
+
+\include "articulate.ly"
+
+\header {
+    encodingsoftware =  "MuseScore 4.2.1"
+    encodingdate =  "2024-03-13"
+    title =  "2. Nechodz, Janko, k nám"
+    }
+
+PartPOneVoiceOne =  \relative d'' {
+    \repeat volta 2 {
+        \clef "treble" \time 2/4 \key f \major | % 1
+        d32 -\markup{ \bold {Lento 48} } a16. f'32 e16. d4 | % 2
+        a32 g16. c32 b16. a8 r8 | % 3
+        d32 a16. f'32 e16. d4 | % 4
+        a32 g16. c32 b16. a8 r8 }
+    \repeat volta 2 {
+        | % 5
+        a16 a16 d16 d16 d16 e16 d16 c16 | % 6
+        c16 bes16 a16 g16 a16 a16 f16 d16 | % 7
+        f'32 e16. a32 a16. d,4 }
+    }
+
+
+% The score definition
+\score {
+    <<
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        >>
+    \layout {}
+    }
+\score {
+    \unfoldRepeats \articulate {
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        }
+    \midi {\tempo 4 = 48 }
+    }

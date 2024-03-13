@@ -1,0 +1,62 @@
+\version "2.25.12"
+% automatically converted by musicxml2ly from cernik1_205.mxl
+\pointAndClickOff
+
+\include "articulate.ly"
+
+\header {
+    encodingsoftware =  "MuseScore 4.2.1"
+    encodingdate =  "2024-03-13"
+    title =  "205. Čo ty ženy na mně majú"
+    }
+
+PartPOneVoiceOne =  \relative c'' {
+    \clef "treble" \numericTimeSignature\time 2/2 \key c \major | % 1
+    c8 c4. a4. g8 | % 2
+    f8 e8 d8. ( c16 ) c2 | % 3
+    c'8 c4. a4. g8 | % 4
+    f8 e8 d8. ( c16 ) c2 | % 5
+    d4. e8 fis8 g4. | % 6
+    a4. b8 a8 fis4. | % 7
+    d4. e8 fis8 g4. | % 8
+    a4. b8 a8 g4. | % 9
+    a8 g4. fis8 e4. | \barNumberCheck #10
+    d2 r2 \bar "|."
+    }
+
+
+% The score definition
+\score {
+    <<
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        >>
+    \layout {}
+    }
+\score {
+    \unfoldRepeats \articulate {
+
+        \new Staff
+        <<
+            \set Staff.instrumentName = "Violin"
+            \set Staff.midiInstrument = "violin"
+
+            \context Staff <<
+                \mergeDifferentlyDottedOn\mergeDifferentlyHeadedOn
+                \context Voice = "PartPOneVoiceOne" {  \PartPOneVoiceOne }
+                >>
+            >>
+
+        }
+    \midi {\tempo 4 = 100 }
+    }
