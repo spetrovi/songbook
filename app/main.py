@@ -66,6 +66,11 @@ def dashboard_view(request: Request, session: Session):
 @app.get("/", response_class=HTMLResponse)
 def homepage(request: Request, session: Session = Depends(db.yield_session)):
     if request.user.is_authenticated:
+        user = session.exec(
+            select(User).where(User.user_id == request.user.username)
+        ).one()
+        if user.is_admin:
+            return redirect("/admin")
         return dashboard_view(request, session)
     return redirect("/login")
 
