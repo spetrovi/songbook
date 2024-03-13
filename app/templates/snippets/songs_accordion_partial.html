@@ -1,0 +1,29 @@
+{% for song in songs %}
+  <div class="accordion-item" id="accordionitem_{{song.id}}" {% if loop.index == 10 %} hx-get="/source/{{source.id}}/{{page}}"
+         hx-trigger="revealed"
+         hx-swap="afterend"
+         hx-target="this"{% endif %}>
+      <h2 class="accordion-header" id="heading{{song.id}}">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{song.id}}" aria-expanded="false" aria-controls="collapse{{song.id}}">
+          {{ song.title }}
+        </button>
+      </h2>
+      <style>
+        .verse {
+          padding-left: 0.5em;
+        }
+      </style>
+      <div id="collapse{{song.id}}" class="accordion-collapse collapse" aria-labelledby="heading{{song.id}}" data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+          {% include "snippets/song.html" %}
+          <a href="/song/{{song.id}}" class="btn btn-primary">Detail</a>
+          {% include "snippets/song_add_button.html" %}
+          {% if song.lytex %}
+            <div>
+              <midi-player src="/tmp/{{ song.id }}/source.midi" sound-font></midi-player>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+{% endfor %}
