@@ -1,0 +1,88 @@
+---
+# Build and deploy containers to test if everything works
+name: Automation Tests
+on:
+  pull_request:
+
+jobs:
+  test:
+    name: Build and deploy
+    strategy:
+      fail-fast: false
+      matrix:
+        tag: ["dev"]
+        schema: ["sqlite", "postgresql"]
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Create a databse file # needed for sqlite
+        run: |
+          if [ "${{ matrix.schema }}" == "sqlite" ]; then
+            touch database.db
+          fi
+
+      - name: Build image
+        id: build_image
+        uses: redhat-actions/buildah-build@v2
+        with:
+          image: app
+          tags: ${{ matrix.tag }}
+          containerfiles: ./Dockerfile
+
+      - name: Print image information
+        run: |
+          echo "Image: ${{ steps.build_image.outputs.image }}"
+          echo "Tags: ${{ steps.build_image.outputs.tags }}"
+
+      - name: Run a Pod
+        run: |
+          podman pod create \
+            -p 8000:8000 \
+            --name app_pod
+
+      - name: Run a DB
+        run: |
+          if [ "${{ matrix.schema }}" == "postgresql" ]; then
+            podman run --name db -d \
+              -e POSTGRES_PASSWORD=postgres \
+              -e POSTGRES_USER=postgres \
+              -e POSTGRES_DB=postgres \
+              --pod app_pod \
+              postgres:16
+          fi
+
+      - name: Run the app
+        run: |
+          if [ "${{ matrix.schema }}" == "postgresql" ]; then
+              podman run --name app -d \
+                -e DATABASE_SCHEMA=${{ matrix.schema }} \
+                -e DATABASE_URL=postgresql://postgres:postgres@localhost:5432/postgres \
+                -e PORT=8000 \
+                --pod app_pod \
+                ${{ steps.build_image.outputs.image }}:${{ steps.build_image.outputs.tags }} \
+                bash -c '/code/start.sh'
+          else
+              podman run --name app -d \
+                -e DATABASE_SCHEMA=${{ matrix.schema }} \
+                -e DATABASE_URL=sqlite:///database.db \
+                -e PORT=8000 \
+                --pod app_pod \
+                ${{ steps.build_image.outputs.image }}:${{ steps.build_image.outputs.tags }} \
+                bash -c '/code/start.sh'
+          fi
+
+      - name: Show all running containers
+        run: |
+          podman ps
+
+      - name: Inspect the App container and run logs on failure
+        run: |
+          if [ "$( podman container inspect -f '{{.State.Running}}' app )" == "true" ]; then
+            echo "Container is running"
+          else
+            podman logs app
+            exit 1
+          fi
