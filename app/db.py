@@ -4,20 +4,7 @@ from sqlmodel import Session
 from app import config
 
 settings = config.get_settings()
-
-# from app.users.models import User
-# from app.songbooks.models import Songbook
-
-# Define the database URL (adjust accordingly)
-# DATABASE_URL = "sqlite:///database.db"
-# LIBRARY_URL = "sqlite:///app/songs/library.db"
-
-# Create the SQLAlchemy engines
-uri = settings.database_url
-if uri.startswith("postgres://"):
-    uri = uri.replace("postgres://", "postgresql://", 1)
-engine = create_engine(uri)
-# library_engine = create_engine(LIBRARY_URL)
+engine = create_engine(settings.database_url)
 
 
 def get_session():

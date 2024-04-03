@@ -3,6 +3,7 @@ from pathlib import Path
 
 from pydantic import BaseSettings
 from pydantic import Field
+from pydantic import validator
 from pydantic.error_wrappers import ValidationError
 
 
@@ -17,6 +18,14 @@ class Settings(BaseSettings):
 
     class Config:
         env_file = ".env"
+
+    @validator("database_url", pre=True)
+    def fix_postgres_prefix(cls, database_url):
+        if database_url.startswith("postgres://"):
+            database_url = database_url.replace("postgres://", "postgresql://", 1)
+        if database_url is None:
+            raise ValueError("Please set DATABASE_URL")
+        return database_url
 
 
 def get_settings():
