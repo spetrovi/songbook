@@ -1,0 +1,9 @@
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">{{ songbook.title }}</h5>
+        <p class="card-text">Number of songs: {{songbook.entries|length}}</p>
+        <button class="btn btn-primary" hx-get="/rename_songbook/{{songbook.songbook_id}}" hx-swap="innerHTML">Rename</button>
+        <a href="songbook/{{songbook.songbook_id}}" class="btn btn-primary">Read More</a>
+        <button class="btn btn-danger" hx-delete="/delete_songbook/{{songbook.songbook_id}}" hx-swap="outerHTML">Delete</button>
+    </div>
+</div>

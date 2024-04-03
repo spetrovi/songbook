@@ -20,6 +20,7 @@ from .routers.songbook_router import router as songbook_router
 from .shortcuts import redirect
 from .shortcuts import render
 from .songbooks.models import Songbook
+from .songs.importer import import_library
 from .songs.models import Song
 from .songs.models import Source
 from .users.backend import JWTCookieBackend
@@ -42,9 +43,9 @@ from .handlers import *  # noqa
 
 @app.on_event("startup")
 def on_startup():
-    #    DATABASE_URL = "sqlite:///database.db"
-    #    engine = create_engine(DATABASE_URL)
-    #    SQLModel.metadata.create_all(engine)
+    # Populate db
+    import_library(Path(__file__).parent / "songs" / "data")
+
     # Use Lilypond to build song fragments
     utils.build_all_songs()
 
@@ -68,7 +69,9 @@ def homepage(request: Request, session: Session = Depends(db.yield_session)):
     if request.user.is_authenticated:
         user = session.exec(
             select(User).where(User.user_id == request.user.username)
-        ).one()
+        ).first()
+        if not user:
+            return redirect("/login")
         if user.is_admin:
             return redirect("/admin")
         return dashboard_view(request, session)

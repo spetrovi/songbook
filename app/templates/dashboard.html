@@ -39,19 +39,17 @@
         <div class="swiper-container">
             <div class="swiper-wrapper">
             <!-- Book Cards -->
-                <div class="swiper-slide">
+                <div class="swiper-slide" hx-target="this">
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">Create a new playlist</h5>
                             <p class="card-text">Click the button and a new editable playlist will appear</p>
-                            <a href="#" class="btn btn-primary" hx-get="/create_songbook" hx-target="#new_slide_placeholder" hx-swap="outerHTML" >Create!</a>
+                            <a href="#" class="btn btn-primary" hx-get="/create_songbook" hx-swap="afterend" >Create!</a>
                         </div>
                     </div>
                 </div>
-                <div id="new_slide_placeholder" style="display: none;">
-                </div>
                 {% for songbook in songbooks %}
-                    {% include "snippets/songbook_slide.html" %}
+                    {% include "htmx/songbook_slide.html" %}
                 {% endfor %}
 
             </div>

@@ -100,7 +100,7 @@ def create_songbook(request: Request, session: Session = Depends(db.yield_sessio
     songbook = Songbook.create_songbook(request.user.username, session)
     return render(
         request,
-        "snippets/new_songbook_slide.html",
+        "htmx/songbook_slide.html",
         {"songbook": songbook},
     )
 
@@ -122,7 +122,7 @@ def rename_songbook(
     songbook.title = title
     session.commit()
     session.refresh(songbook)
-    return render(request, "snippets/songbook_body.html", {"songbook": songbook})
+    return render(request, "htmx/songbook_slide.html", {"songbook": songbook})
 
 
 @router.get("/rename_songbook/{songbook_id}", response_class=HTMLResponse)
@@ -138,7 +138,7 @@ def get_rename_songbook(
     songbook = session.exec(statement).one()
     return render(
         request,
-        "snippets/rename_songbook_form.html",
+        "htmx/songbook_slide_form.html",
         {"songbook": songbook},
     )
 
@@ -155,6 +155,6 @@ def get_songbook_card_body(request: Request, songbook_id: str):
         songbook = session.exec(statement).one()
         return render(
             request,
-            "snippets/songbook_body.html",
+            "htmx/songbook_slide.html",
             {"songbook": songbook},
         )

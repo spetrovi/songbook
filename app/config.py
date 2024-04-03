@@ -13,6 +13,7 @@ class Settings(BaseSettings):
     register_enabled: bool = Field(...)
     jwt_algorithm: str = Field(default="HS256")
     session_duration: int = Field(default=86400)
+    database_url: str = Field(default=None)
 
     class Config:
         env_file = ".env"
