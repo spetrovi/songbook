@@ -12,16 +12,8 @@ from .models import Song
 from .models import Source
 from app.config import get_settings
 
-
-# db_file_name = str(Path(__file__).parent / "library.db")
-# sqlite_url = "sqlite:///database.db"
-# db_file_name = str(Path(__file__).parent.parent.parent / "database.db")
-# sqlite_url = f"sqlite:///{db_file_name}"
 settings = get_settings()
-uri = settings.database_url
-if uri.startswith("postgres://"):
-    uri = uri.replace("postgres://", "postgresql://", 1)
-engine = create_engine(uri)
+engine = create_engine(settings.database_url)
 
 SQLModel.metadata.create_all(engine)
 
@@ -76,7 +68,14 @@ def make_entry(session, meta_orig, lytex_source, verses_source):
     return song
 
 
-def process_song(meta_path):
+def find_song_by_id(db_songs, target_id):
+    for song in db_songs:
+        if str(song.id) == target_id:
+            return song
+    return None  # Return None if no matching song is found
+
+
+def process_song(meta_path, db_songs, session):
     print(f"\033[32mOpening file {meta_path}\033[0m")
     with open(meta_path, "r") as meta_source:
         try:
@@ -92,6 +91,7 @@ def process_song(meta_path):
     #        meta = reformat_meta(meta)
     #        json.dump(meta, meta_source, indent=4, ensure_ascii=False)
     #    print(f"Meta: {meta}")
+
     lytex_path = meta_path.parent / "source.lytex"
     if lytex_path.exists():
         lytex_source = lytex_path.read_text()
@@ -103,24 +103,18 @@ def process_song(meta_path):
         verses_source = verses_path.read_text()
     else:
         verses_source = None
+    song = find_song_by_id(db_songs, meta["id"])
 
-    with Session(engine) as session:
-        try:
-            statement = select(Song).where(Song.id == meta["id"])
-            song = session.exec(statement).one()
-            if lytex_source:
-                song.lytex = lytex_source
-            if verses_source:
-                song.verses = verses_source
+    if song is None:
+        song = make_entry(session, meta, lytex_source, verses_source)
+    else:
+        # TODO Update metadata too!!!
+        if lytex_source and song.lytex != lytex_source:
+            song.lytex = lytex_source
             session.commit()
-        except NoResultFound:
-            song = make_entry(session, meta, lytex_source, verses_source)
-        except KeyError:
-            song = make_entry(session, meta, lytex_source, verses_source)
-            meta["id"] = str(song.id)
-            with open(meta_path, "w", encoding="utf8") as meta_source:
-                json.dump(meta, meta_source, indent=4, ensure_ascii=False)
-    return song
+        if verses_source and song.verses != verses_source:
+            song.verses = verses_source
+            session.commit()
 
 
 def obj_in_db(cls, cls_dict):
@@ -180,9 +174,15 @@ def import_library(source_path):
         if not obj_in_db(Source, source):
             add_source(source)
 
-    songs = root.glob("**/metadata.json")
-    for song in songs:
-        process_song(song)
+    fs_songs = root.glob("**/metadata.json")
+
+    with Session(engine) as session:
+        try:
+            db_songs = session.exec(select(Song)).all()
+            for song in fs_songs:
+                process_song(song, db_songs, session)
+        except Exception as e:
+            print(f"Couldn't get songs from database: {e}")
 
 
 if __name__ == "__main__":
