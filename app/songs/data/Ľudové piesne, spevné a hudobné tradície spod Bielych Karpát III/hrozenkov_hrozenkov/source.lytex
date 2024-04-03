@@ -1,13 +1,13 @@
 scoredata = {
   \version "2.24.1"
   \clef violin
-  \key g \minor
+  \key c \major
   \time 2/4
   \tempo 4 = 168
-\relative c''{
+\relative c'{
   \autoBeamOff
-g8 g4 bes8 | a4 g | d'8 d4 es8 d4 c |\break
-g8 a bes bes c bes a g a a4 bes8 a4 g
+e8 e e4 | d8 e4. | f4 r | f8 g a4 | a8 a4. | g4 r | \break
+g8 a g4 | f 8 e4. | d4 r | a'8 g f4 | e8 d4. | c4 r \fine
 }
 }
 

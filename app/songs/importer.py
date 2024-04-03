@@ -1,21 +1,27 @@
 import json
 from pathlib import Path
 
-from models import Person
-from models import Song
-from models import Source
 from sqlalchemy.exc import NoResultFound
 from sqlmodel import create_engine
 from sqlmodel import select
 from sqlmodel import Session
 from sqlmodel import SQLModel
 
+from .models import Person
+from .models import Song
+from .models import Source
+from app.config import get_settings
+
+
 # db_file_name = str(Path(__file__).parent / "library.db")
 # sqlite_url = "sqlite:///database.db"
-db_file_name = str(Path(__file__).parent.parent.parent / "database.db")
-sqlite_url = f"sqlite:///{db_file_name}"
-
-engine = create_engine(sqlite_url)
+# db_file_name = str(Path(__file__).parent.parent.parent / "database.db")
+# sqlite_url = f"sqlite:///{db_file_name}"
+settings = get_settings()
+uri = settings.database_url
+if uri.startswith("postgres://"):
+    uri = uri.replace("postgres://", "postgresql://", 1)
+engine = create_engine(uri)
 
 SQLModel.metadata.create_all(engine)
 
