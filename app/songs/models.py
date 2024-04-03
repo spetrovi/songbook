@@ -23,6 +23,7 @@ class Person(SQLModel, table=True):
     born: Optional[int] = None
     died: Optional[int] = None
     location: Optional[str] = None
+    note: Optional[str] = None
 
     def __str__(self):
         return self.__repr__()
