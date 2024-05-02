@@ -18,7 +18,7 @@ class Songbook(SQLModel, table=True):
     )
     user_id: uuid.UUID = Field(default=None, foreign_key="user.user_id")
     title: str = Field(default="Untitled")
-
+    description: str = Field(default="No description")
     entries: List["Entry"] = Relationship()
 
     def __str__(self):

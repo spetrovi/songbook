@@ -111,6 +111,7 @@ def rename_songbook(
     request: Request,
     songbook_id: str,
     title: str = Form(...),
+    description: str = Form(...),
     session: Session = Depends(db.yield_session),
 ):
     statement = (
@@ -120,6 +121,7 @@ def rename_songbook(
     )
     songbook = session.exec(statement).one()
     songbook.title = title
+    songbook.description = description
     session.commit()
     session.refresh(songbook)
     return render(request, "htmx/songbook_slide.html", {"songbook": songbook})
@@ -132,7 +134,7 @@ def get_rename_songbook(
 ):
     statement = (
         select(Songbook)
-        .where(Songbook.user_id == request.user.username)
+        #        .where(Songbook.user_id == request.user.username)
         .where(Songbook.songbook_id == songbook_id)
     )
     songbook = session.exec(statement).one()

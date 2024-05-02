@@ -1,4 +1,43 @@
-<form hx-put="/rename_songbook/{{songbook.songbook_id}}" hx-target="this" hx-swap="outerHTML">
+<div class="card" hx-target="this" hx-swap="outerHTML">
+    <form hx-put="/rename_songbook/{{songbook.songbook_id}}">
+        <div class="card-header">
+            <div class="row justify-content-between">
+                <div class="col-2">
+                    <input type="text" name="title" style="box-sizing:border-box" value="{{songbook.title}}">
+                </div>
+                <div class="col-2">
+                    <button class="btn btn-secondary" hx-get="/songbook_card_body/{{songbook.songbook_id}}"><i class="bi bi-x-lg"></i></button>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <p class="card-text">Number of songs: {{songbook.entries|length}}</p>
+            <input type="text" name="description" value="{{songbook.description}}">
+        </div>
+        <div class="card-footer">
+            <button class="btn btn-primary">Submit</button>
+
+            <div class="col btn-group mt-auto">
+                <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" data-bs-auto-close="true" aria-expanded="false"><i class="bi bi-trash3-fill"></i></button>
+                <ul class="dropdown-menu">
+                    <li><button type="button" class="btn btn-danger my-2 mx-5 text-align-left" hx-delete="/delete_songbook/{{songbook.songbook_id}}" hx-swap="delete">Delete</button></li>
+                </ul>
+            </div>
+
+
+        </div>
+    </form>
+</div>
+
+
+
+
+
+
+
+
+
+<!---<form hx-put="/rename_songbook/{{songbook.songbook_id}}" hx-target="this" hx-swap="outerHTML">
     <div>
         <label>Title</label>
         <input type="text" name="title" value="{{songbook.title}}">
@@ -6,4 +45,4 @@
     <p class="card-text">Your description goes here.</p>
     <button class="btn btn-primary">Submit</button>
     <button class="btn btn-primary" hx-get="/songbook_card_body/{{songbook.songbook_id}}">Cancel</button>
-</form>
+</form>--->
