@@ -109,6 +109,7 @@ def process_song(meta_path, db_songs, session):
         song = make_entry(session, meta, lytex_source, verses_source)
     else:
         # TODO Update metadata too!!!
+        song.title = meta["title"]
         if lytex_source and song.lytex != lytex_source:
             song.lytex = lytex_source
             session.commit()
