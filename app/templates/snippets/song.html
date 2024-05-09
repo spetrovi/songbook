@@ -3,20 +3,22 @@
 {% if song.lytex %}
   <img src="/tmp/{{ song.id }}/source.cropped{% if theme == "dark" %}.dark{% endif %}.png" />
 {% endif %}
-<div class="container mx-0">
-  <div class="row row-cols-auto">
-    {% set verses = song.verses.split('\n\n') %}
-    {% for verse in verses %}
-      <div class="col-md-2">
-        <div class="verse">
-          {{ loop.index }}.
-          {% set lines = verse.split('\n') %}
-          {% for line in lines %}
-            {{ line }}<br />
-          {% endfor %}
-          <br />
+{% if song.verses %}
+  <div class="container mx-0">
+    <div class="row row-cols-auto">
+      {% set verses = song.verses.split('\n\n') %}
+      {% for verse in verses %}
+        <div class="col-md-2">
+          <div class="verse">
+            {{ loop.index }}.
+            {% set lines = verse.split('\n') %}
+            {% for line in lines %}
+              {{ line }}<br />
+            {% endfor %}
+            <br />
+          </div>
         </div>
-      </div>
-    {% endfor %}
+      {% endfor %}
+    </div>
   </div>
-</div>
+{% endif %}
