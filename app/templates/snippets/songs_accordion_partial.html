@@ -19,9 +19,9 @@
           <a href="/song/{{song.id}}" class="btn btn-primary">Detail</a>
           {% include "snippets/song_add_button.html" %}
           {% if song.lytex %}
-            <div>
+            <div><font color='black'>
               <midi-player src="/tmp/{{ song.id }}/source.midi" sound-font></midi-player>
-            </div>
+            </font></div>
           {% endif %}
         </div>
       </div>
