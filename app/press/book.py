@@ -28,7 +28,8 @@ def compile_lytex(src):
 
 def bake(songs, songbook, templates_dir):
     for song in songs:
-        song.verses = compile_verses(song.verses)
+        if song.verses:
+            song.verses = compile_verses(song.verses)
         if song.lytex:
             song.lytex = compile_lytex(song.lytex)
 
@@ -72,7 +73,3 @@ def bake(songs, songbook, templates_dir):
         print(e)
 
     return output_path / "songbook.pdf"
-
-
-#        os.chdir(orig_dir)
-#    os.chdir(orig_dir)
