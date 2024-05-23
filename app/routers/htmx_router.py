@@ -7,6 +7,7 @@ from fastapi import Form
 from fastapi import Request
 from fastapi import Response
 from fastapi.responses import HTMLResponse
+from sqlalchemy import func
 from sqlmodel import select
 from sqlmodel import Session
 from typing_extensions import Annotated
@@ -15,6 +16,8 @@ from app import db
 from app.shortcuts import render
 from app.songbooks.models import Entry
 from app.songbooks.models import Songbook
+from app.songs.models import Song
+from app.songs.models import Source
 from app.users.decorators import login_required
 from app.users.exceptions import UserDoesntExistException
 from app.users.models import User
@@ -160,3 +163,36 @@ def get_songbook_card_body(request: Request, songbook_id: str):
             "htmx/songbook_slide.html",
             {"songbook": songbook},
         )
+
+
+@router.post("/source/search/{source_id}", response_class=HTMLResponse)
+@login_required
+def put_source_search(
+    request: Request,
+    source_id: str,
+    search: str = Form(...),
+    session: Session = Depends(db.yield_session),
+):
+    statement = (
+        select(Song)
+        .where(Song.source_id == source_id)
+        .filter(func.similarity(func.unaccent(Song.title), func.unaccent(search)) > 0.5)
+    )
+    songs = session.exec(statement).all()
+
+    statement = select(Source).where(Source.id == source_id)
+    source = session.exec(statement).one()
+
+    statement = select(Songbook).where(Songbook.user_id == request.user.username)
+    songbooks = session.exec(statement).all()
+
+    return render(
+        request,
+        "snippets/songs_accordion_partial.html",
+        {
+            "source": source,
+            "songs": songs,
+            "songbooks": songbooks,
+            "infinite_scroll": False,
+        },
+    )

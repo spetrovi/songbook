@@ -192,7 +192,13 @@ def get_source_detail_page(
     return render(
         request,
         "snippets/songs_accordion_partial.html",
-        {"source": source, "songs": songs, "songbooks": songbooks, "page": page + 1},
+        {
+            "source": source,
+            "songs": songs,
+            "songbooks": songbooks,
+            "page": page + 1,
+            "infinite_scroll": True,
+        },
     )
 
 
@@ -219,5 +225,11 @@ def get_source_detail(
     return render(
         request,
         "source_detail.html",
-        {"source": source, "songs": songs, "songbooks": songbooks, "page": page + 1},
+        {
+            "source": source,
+            "songs": songs,
+            "songbooks": songbooks,
+            "page": page + 1,
+            "infinite_scroll": True,
+        },
     )

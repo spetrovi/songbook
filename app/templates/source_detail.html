@@ -7,6 +7,24 @@
     <li><strong>{{ source.author.name }} {{ source.author.surname }}</strong> </li>
   </div>
 
+  <div class="card my-5 mx-5">
+    <div class="card-header">
+      <h3>Search this Songbook</h3>
+    </div>
+    <div class="card-body">
+      <input class="form-control" type="search"
+             name="search" placeholder="Begin Typing To Search Songs..."
+             hx-post="/source/search/{{ source.id }}"
+             hx-trigger="input changed delay:500ms, search"
+             hx-target="#search-results"
+             hx-indicator=".htmx-indicator"
+      >
+      <div class="htmx-indicator">Searching...</div>
+      <div class="accordion" id="search-results">
+      </div>
+    </div>
+  </div>
+
   {% with include_add_button=True %}
     {% include "snippets/songs_accordion.html" %}
   {% endwith %}
