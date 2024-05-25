@@ -13,9 +13,14 @@
           padding-left: 0.5em;
         }
       </style>
-      <div id="collapse{{song.id}}" class="accordion-collapse collapse" aria-labelledby="heading{{song.id}}" data-bs-parent="#songbook_accordion">
+      <div id="collapse{{song.id}}" class="accordion-collapse collapse" aria-labelledby="heading{{song.id}}" data-bs-parent="#accordionExample">
         <div class="accordion-body">
           {% include "snippets/song.html" %}
+          {% if song.lytex %}
+            <div><font color='black'>
+              <midi-player src="/tmp/{{ song.id }}/source.midi" sound-font></midi-player>
+            </font></div>
+          {% endif %}
           <a href="/song/{{song.id}}" class="btn btn-primary">Detail</a>
           <button class="btn btn-danger" hx-target="#accordionitem_{{song.id}}" hx-delete="/remove_song_from_songbook/{{songbook.songbook_id}}/{{song.id}}" hx-swap="outerHTML">Remove</button>
         </div>
