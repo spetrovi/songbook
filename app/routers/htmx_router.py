@@ -165,6 +165,13 @@ def get_songbook_card_body(request: Request, songbook_id: str):
         )
 
 
+@router.get("/filter_partial", response_class=HTMLResponse)
+def get_filter_partial(
+    request: Request,
+):
+    return render(request, "htmx/filter_partial.html", {})
+
+
 @router.post("/source/search/{source_id}", response_class=HTMLResponse)
 @login_required
 def put_source_search(
@@ -179,6 +186,64 @@ def put_source_search(
         .filter(func.similarity(func.unaccent(Song.title), func.unaccent(search)) > 0.5)
     )
     songs = session.exec(statement).all()
+
+    statement = select(Source).where(Source.id == source_id)
+    source = session.exec(statement).one()
+
+    statement = select(Songbook).where(Songbook.user_id == request.user.username)
+    songbooks = session.exec(statement).all()
+
+    return render(
+        request,
+        "snippets/songs_accordion_partial.html",
+        {
+            "source": source,
+            "songs": songs,
+            "songbooks": songbooks,
+            "infinite_scroll": False,
+        },
+    )
+
+
+@router.post("/source/filter/{source_id}", response_class=HTMLResponse)
+async def post_source_filter(
+    request: Request,
+    source_id: str,
+    session: Session = Depends(db.yield_session),
+):
+    form_data = await request.form()
+    categories = form_data.getlist("category")
+    search_terms = form_data.getlist("search_term")
+
+    statement = select(Song).where(Song.source_id == source_id)
+
+    for i, key in enumerate(categories):
+        if key == "title":
+            statement = statement.filter(
+                func.similarity(
+                    func.unaccent(Song.title), func.unaccent(search_terms[i])
+                )
+                > 0.5
+            )
+        if key == "type":
+            statement = statement.filter(
+                func.similarity(
+                    func.unaccent(Song.type), func.unaccent(search_terms[i])
+                )
+                > 0.5
+            )
+        if key == "location":
+            statement = statement.filter(
+                func.similarity(
+                    func.unaccent(Song.location), func.unaccent(search_terms[i])
+                )
+                > 0.2
+            )
+    #        if key == "tempo":
+    #            statement = statement.filter(func.similarity(func.unaccent(Song.type), func.unaccent(search_terms[i])) > 0.5)
+    songs = session.exec(statement).all()  #
+
+    print(songs)
 
     statement = select(Source).where(Source.id == source_id)
     source = session.exec(statement).one()

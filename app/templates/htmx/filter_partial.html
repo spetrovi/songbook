@@ -1,0 +1,23 @@
+<div class="col-2 my-3" hx-target="this">
+    <div class="card">
+        <div class="card-header">
+            <div class="row justify-content-between">
+                <div class="col">
+                    <h5 class="card-title">
+                        <select id="category_sort" name="category">
+                            <option value="location">Location</option>
+                            <option value="title">Title</option>
+                            <option value="tempo">Tempo</option>
+                            <option value="type">Type</option>
+                        </select>
+                    </h5>
+                </div>
+                <div class="col-auto">
+                    <button class="btn btn-secondary" hx-get="/filter_partial" hx-swap="delete"><i class="bi bi-x-lg"></i></button>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <input type="text" name="search_term" style="box-sizing:border-box" value="Type your search">
+        </div>
+    </div>
