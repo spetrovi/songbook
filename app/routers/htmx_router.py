@@ -205,15 +205,16 @@ def put_source_search(
     )
 
 
-@router.post("/source/filter/{source_id}", response_class=HTMLResponse)
+@router.post("/source/filter", response_class=HTMLResponse)
 async def post_source_filter(
     request: Request,
-    source_id: str,
     session: Session = Depends(db.yield_session),
 ):
     form_data = await request.form()
     categories = form_data.getlist("category")
     search_terms = form_data.getlist("search_term")
+
+    source_id = form_data.get("source_id")
 
     statement = select(Song).where(Song.source_id == source_id)
 
@@ -242,8 +243,6 @@ async def post_source_filter(
     #        if key == "tempo":
     #            statement = statement.filter(func.similarity(func.unaccent(Song.type), func.unaccent(search_terms[i])) > 0.5)
     songs = session.exec(statement).all()  #
-
-    print(songs)
 
     statement = select(Source).where(Source.id == source_id)
     source = session.exec(statement).one()

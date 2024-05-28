@@ -18,6 +18,6 @@
             </div>
         </div>
         <div class="card-body">
-            <input type="text" name="search_term" style="box-sizing:border-box" value="Type your search">
+            <input class="form-control" type="search" name="search_term" placeholder="Begin Typing To Search Songs..." hx-post="/source/filter" hx-target="#songbook_accordion" hx-indicator=".htmx-indicator"  hx-trigger="input changed delay:500ms">
         </div>
     </div>

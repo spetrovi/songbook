@@ -32,19 +32,15 @@
       </button>
     </div>
 
-    <form  hx-post="/source/filter/{{source.id}}" hx-target="#songbook_accordion">
+    <form>
+      <input type='hidden' name='source_id' value='{{source.id}}'/>
       <div class="container-fluid">
         <div class="row justify-content-start" id="filter_container">
   <!---Filter cards go here --->
         </div>
-        <button class="btn btn-primary"></button>
       </div>
     </form>
-
-
-    <div class="accordion" id="search-results">
-    </div>
-
+    <div class="htmx-indicator">Filtering..</div>
 
     {% with include_add_button=True %}
       {% include "snippets/songs_accordion.html" %}
