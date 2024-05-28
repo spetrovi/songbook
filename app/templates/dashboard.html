@@ -35,37 +35,35 @@
         <h1>Your Dashboard</h1>
 
     <!-- Custom Songbook Section -->
-        <h2>My songbooks</h2>
-        <div class="swiper-container">
-            <div class="swiper-wrapper">
-            <!-- Book Cards -->
-                <div class="swiper-slide" hx-target="this">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Create a new playlist</h5>
-                            <p class="card-text">Click the button and a new editable playlist will appear</p>
-                            <a href="#" class="btn btn-primary" hx-get="/create_songbook" hx-swap="afterend" >Create!</a>
-                        </div>
-                    </div>
-                </div>
-                {% for songbook in songbooks %}
-                    {% include "htmx/songbook_slide.html" %}
-                {% endfor %}
+        <div class="d-flex align-items-center mb-3">
+            <h2 class="mr-auto">My songbooks</h2>
+            <button class="btn btn-primary mx-3" hx-get="/create_songbook" hx-swap="beforeend" hx-target="#custom_songbooks" data-bs-toggle="tooltip" data-bs-title="Create custom songbook">
+                <i class="bi bi-plus-circle-fill"></i>
+            </button>
+        </div>
 
+
+        <div class="container">
+            <div class="row" id="custom_songbooks">
+                {% for songbook in songbooks %}
+                    {% include "htmx/custom_songbook_card.html" %}
+                {% endfor %}
             </div>
         </div>
 
     <!-- Books Section -->
         <h2>Available Books</h2>
-        <div class="swiper-container">
-            <div class="swiper-wrapper">
             <!-- Book Cards -->
+        <div class="container">
+            <div class="row">
                 {% for source in sources %}
-                    <div class="swiper-slide">
-                        <div class="card">
+                    <div class="col-md-4 col-sm-6">
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h5>{{ source.title }}</h5>
+                            </div>
                             <div class="card-body">
-                                <h5 class="card-title">{{ source.title }}</h5>
-                                <p class="card-text">{{source.author.name}} {{source.author.surname}}, {{source.year}}</p>
+                                <p class="card-text">{{ source.author.name }} {{ source.author.surname }}, {{ source.year }}</p>
                                 <a href="source/{{ source.id }}" class="btn btn-primary">Read More</a>
                             </div>
                         </div>
@@ -74,41 +72,8 @@
             </div>
         </div>
 
-    <!-- Books Section -->
-        <h2>Available Songs</h2>
-        <div class="swiper-container">
-            <div class="swiper-wrapper">
-            <!-- Song Cards -->
-                {% for song in songs %}
-                    <div class="swiper-slide">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">{{ song.title }}</h5>
-                                <p class="card-text">{{song.location}}, {{song.year}}</p>
-                                <p class="card-text">{{song.source.title}}</p>
-                                <a href="song/{{ song.id }}" class="btn btn-primary">Read More</a>
-                            </div>
-                        </div>
-                    </div>
-                {% endfor %}
-            </div>
-        </div>
-    </div>
 
-<!-- Include Bootstrap JS and Popper.js -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-<!-- Include Swiper.js for swiping functionality on mobile -->
-    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-    <script>
-    // Initialize Swiper
-        var swiper = new Swiper('.swiper-container', {
-            slidesPerView: 'auto',
-            spaceBetween: 10,
-            grabCursor: true
-        });
-    </script>
+
 
 {% endblock %}

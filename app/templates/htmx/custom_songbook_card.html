@@ -1,0 +1,22 @@
+<div class="col-md-4 col-sm-6 my-3" hx-target="this">
+    <div class="card"  >
+        <div class="card-header">
+            <div class="row justify-content-between">
+                <div class="col">
+                    <h5 class="card-title">{{ songbook.title }}</h5>
+                </div>
+                <div class="col-auto">
+                    <button class="btn btn-secondary" hx-get="/rename_songbook/{{songbook.songbook_id}}" hx-swap="outerHTML"><i class="bi bi-pencil-fill"></i></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-body">
+            <p class="card-text">Number of songs: {{songbook.entries|length}}</p>
+            <p class="card-text">{{songbook.description}}</p>
+        </div>
+        <div class="card-footer">
+            <a href="songbook/{{songbook.songbook_id}}" class="btn btn-primary">Read More</a>
+        <!---<button class="btn btn-danger" hx-delete="/delete_songbook/{{songbook.songbook_id}}" hx-swap="outerHTML">Delete</button>--->
+        </div>
+    </div></div>
