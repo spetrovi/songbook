@@ -29,6 +29,42 @@
     {% include "snippets/songbook_accordion.html" %}
   </form>
   </div>
-  <a href="/songbook_pdf/{{songbook.songbook_id}}" class="btn btn-primary">Bake PDF!</a>
 
+  <div class="col-md-4 col-sm-6 my-3">
+    <div class="card mx-2 my-2">
+      <div class="card-header">
+        <h5 class="card-title">Print settings</h5>
+      </div>
+      <div class="card-body">
+        <div>
+          <input type="checkbox" id="lytex" name="lytex" checked />
+          <label for="lytex">Include music</label>
+        </div>
+
+
+        <div>
+          <input type="checkbox" id="verses" name="verses" checked />
+          <label for="verses">Include texts</label>
+        </div>
+
+        <div>
+          <input type="checkbox" id="verses" name="verses" checked />
+          <label for="verses">Title page</label>
+        </div>
+
+        <div>
+          <input type="radio" id="a4" name="paper_size" value="A4" checked>
+          <label for="html">A4</label><br>
+          <input type="radio" id="a5" name="paper_size" value="A5">
+          <label for="css">A5</label><br>
+          <input type="radio" id="brochure" name="paper_size" value="Pocket brochure">
+          <label for="javascript">Pocket Brochure</label>
+        </div>
+
+      </div>
+      <div class="card-footer">
+        <a href="/songbook_pdf/{{songbook.songbook_id}}" class="btn btn-primary">Generate PDF</a>
+      </div>
+    </div>
+  </div>
 {% endblock %}
