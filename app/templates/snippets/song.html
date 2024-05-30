@@ -1,5 +1,25 @@
 
 <h1>{{ song.title }}</h1>
+{% if song.type %}
+  <div class="container">
+    <div class="row row-cols-auto">
+      <div class="col-md-1">
+        <p>{{song.type}}</p>
+      </div>
+    </div>
+  </div>
+{% endif %}
+
+{% if song.location %}
+  <div class="container-fluid">
+    <div class="row row-cols-auto">
+      <div class="col-md-2">
+        <p>{{song.location}}</p>
+      </div>
+    </div>
+  </div>
+{% endif %}
+
 {% if song.lytex %}
   <img src="/tmp/{{ song.id }}/source.cropped{% if theme == "dark" %}.dark{% endif %}.png" />
 {% endif %}
