@@ -27,23 +27,27 @@
 --->
     <div class="d-flex align-items-center mb-3">
       <h2 class="mr-auto">Filter</h2>
-      <button class="btn btn-primary mx-3" hx-get="/filter_partial" hx-target="#filter_container" hx-swap="beforeend" data-bs-toggle="tooltip" data-bs-title="Add filter">
-        <i class="bi bi-plus-circle-fill"></i>
-      </button>
-    </div>
+      <button type="button" class="btn btn-primary dropdown-toggle mx-3" data-bs-toggle="dropdown" data-bs-auto-close="true" aria-expanded="false"><i class="bi bi-plus-circle-fill"></i></button>
+      <ul class="dropdown-menu">
+        <button class="btn btn-primary mx-3" hx-get="/filter_partial/location" hx-target="#filter_container" hx-swap="beforeend" data-bs-toggle="tooltip" data-bs-title="Add filter">Location</button></li>
+      <button class="btn btn-primary mx-3" hx-get="/filter_partial/title" hx-target="#filter_container" hx-swap="beforeend" data-bs-toggle="tooltip" data-bs-title="Add filter">Title</button></li>
+    <button class="btn btn-primary mx-3" hx-get="/filter_partial/type" hx-target="#filter_container" hx-swap="beforeend" data-bs-toggle="tooltip" data-bs-title="Add filter">Type</button></li>
+  <button class="btn btn-primary mx-3" hx-get="/filter_partial/tempo" hx-target="#filter_container" hx-swap="beforeend" data-bs-toggle="tooltip" data-bs-title="Add filter">Tempo</button></li>
+  </ul>
+  </div>
 
-    <form>
-      <input type='hidden' name='source_id' value='{{source.id}}'/>
-      <div class="container-fluid">
-        <div class="row justify-content-start" id="filter_container">
+  <form>
+    <input type='hidden' name='source_id' value='{{source.id}}'/>
+    <div class="container-fluid">
+      <div class="row justify-content-start" id="filter_container">
   <!---Filter cards go here --->
-        </div>
       </div>
-    </form>
-    <div class="htmx-indicator">Filtering..</div>
+    </div>
+  </form>
+  <div class="htmx-indicator">Filtering..</div>
 
-    {% with include_add_button=True %}
-      {% include "snippets/songs_accordion.html" %}
-    {% endwith %}
+  {% with include_add_button=True %}
+    {% include "snippets/songs_accordion.html" %}
+  {% endwith %}
 {% endblock %}
 </div>

@@ -165,11 +165,12 @@ def get_songbook_card_body(request: Request, songbook_id: str):
         )
 
 
-@router.get("/filter_partial", response_class=HTMLResponse)
+@router.get("/filter_partial/{search_type}", response_class=HTMLResponse)
 def get_filter_partial(
     request: Request,
+    search_type: str,
 ):
-    return render(request, "htmx/filter_partial.html", {})
+    return render(request, "htmx/filter_partial.html", {"search_type": search_type})
 
 
 @router.post("/source/search/{source_id}", response_class=HTMLResponse)
@@ -212,6 +213,7 @@ async def post_source_filter(
 ):
     form_data = await request.form()
     categories = form_data.getlist("category")
+    print(categories)
     search_terms = form_data.getlist("search_term")
 
     source_id = form_data.get("source_id")

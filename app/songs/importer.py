@@ -68,14 +68,14 @@ def make_entry(session, meta_orig, lytex_source, verses_source):
     return song
 
 
-def find_song_by_id(db_songs, target_id):
-    for song in db_songs:
-        if str(song.id) == target_id:
+def find_song_by_id(db_songs_ids, target_id):
+    for song_id, song in db_songs_ids:
+        if song_id == target_id:
             return song
     return None  # Return None if no matching song is found
 
 
-def process_song(meta_path, db_songs, session):
+def process_song(meta_path, db_songs, db_songs_ids, session):
     print(f"\033[32mOpening file {meta_path}\033[0m")
     with open(meta_path, "r") as meta_source:
         try:
@@ -91,7 +91,6 @@ def process_song(meta_path, db_songs, session):
     #        meta = reformat_meta(meta)
     #        json.dump(meta, meta_source, indent=4, ensure_ascii=False)
     #    print(f"Meta: {meta}")
-
     lytex_path = meta_path.parent / "source.lytex"
     if lytex_path.exists():
         lytex_source = lytex_path.read_text()
@@ -103,7 +102,7 @@ def process_song(meta_path, db_songs, session):
         verses_source = verses_path.read_text()
     else:
         verses_source = None
-    song = find_song_by_id(db_songs, meta["id"])
+    song = find_song_by_id(db_songs_ids, meta["id"])
 
     if song is None:
         song = make_entry(session, meta, lytex_source, verses_source)
@@ -180,10 +179,11 @@ def import_library(source_path):
     with Session(engine) as session:
         try:
             db_songs = session.exec(select(Song)).all()
-            for song in fs_songs:
-                process_song(song, db_songs, session)
+            db_songs_ids = [(str(db_song.id), db_song) for db_song in db_songs]
         except Exception as e:
             print(f"Couldn't get songs from database: {e}")
+        for song in fs_songs:
+            process_song(song, db_songs, db_songs_ids, session)
 
 
 if __name__ == "__main__":
