@@ -244,6 +244,7 @@ async def post_source_filter(
             )
     #        if key == "tempo":
     #            statement = statement.filter(func.similarity(func.unaccent(Song.type), func.unaccent(search_terms[i])) > 0.5)
+    statement = statement.order_by(Song.signature).order_by(Song.page)
     songs = session.exec(statement).all()  #
 
     statement = select(Source).where(Source.id == source_id)

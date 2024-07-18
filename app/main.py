@@ -20,7 +20,6 @@ from .routers.songbook_router import router as songbook_router
 from .shortcuts import redirect
 from .shortcuts import render
 from .songbooks.models import Songbook
-from .songs.importer import import_library
 from .songs.models import Song
 from .songs.models import Source
 from .users.backend import JWTCookieBackend
@@ -44,10 +43,10 @@ from .handlers import *  # noqa
 @app.on_event("startup")
 def on_startup():
     # Populate db
-    import_library(Path(__file__).parent / "songs" / "data")
+    #    import_library(Path(__file__).parent / "songs" / "data")
 
     # Use Lilypond to build song fragments
-    utils.build_all_songs()
+    #    utils.build_all_songs()
 
     # Mount the "tmp" folder to serve files
     tmp_path = Path(__file__).parent / "tmp"
@@ -182,6 +181,8 @@ def get_source_detail_page(
     statement = (
         select(Song)
         .where(Song.source_id == source_id)
+        .order_by(Song.signature)
+        .order_by(Song.page)
         .offset(10 * (page - 1))
         .limit(10)
     )
@@ -215,6 +216,8 @@ def get_source_detail(
     statement = (
         select(Song)
         .where(Song.source_id == source_id)
+        .order_by(Song.signature)
+        .order_by(Song.page)
         .offset(10 * (page - 1))
         .limit(10)
     )

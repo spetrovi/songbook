@@ -20,6 +20,16 @@
   </div>
 {% endif %}
 
+{% if song.page %}
+  <div class="container-fluid">
+    <div class="row row-cols-auto">
+      <div class="col-md-2">
+        {% if song.signature %}{{song.signature}}{% endif %}        <p>{{song.page}}</p>
+      </div>
+    </div>
+  </div>
+{% endif %}
+
 {% if song.lytex %}
   <img src="/tmp/{{ song.id }}/source.cropped{% if theme == "dark" %}.dark{% endif %}.png" />
 {% endif %}
