@@ -66,7 +66,8 @@ class Song(SQLModel, table=True):
     verses: Optional[str]
     source_id: Optional[uuid.UUID] = Field(default=None, foreign_key="source.id")
     source: Optional["Source"] = Relationship()
-
+    signature: Optional[str]
+    page: Optional[int]
     tempo: Optional[int]
     type: Optional[str]
     year: Optional[int]
