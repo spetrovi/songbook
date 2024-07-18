@@ -68,6 +68,35 @@ def make_entry(session, meta_orig, lytex_source, verses_source):
     return song
 
 
+def update_metadata(song, meta):
+    # Remove nested dictionaries
+    clean_data = {
+        key: value for key, value in meta.items() if not isinstance(value, dict)
+    }
+
+    # Update only top-level attributes
+    updated = False
+    for key, value in clean_data.items():
+        try:
+            if hasattr(song, key):
+                current_value = getattr(song, key)
+                if current_value != value:
+                    updated = True
+                    setattr(song, key, value)
+        except Exception:
+            continue
+    return song, updated
+
+
+#    for key, value in meta.items():
+#        song[key] = value
+#        if hasattr(song, key):
+#            setattr(song, key, value)
+#    for key, item in meta.items()
+#        try:
+#            song.
+
+
 def find_song_by_id(db_songs_ids, target_id):
     for song_id, song in db_songs_ids:
         if song_id == target_id:
@@ -107,8 +136,9 @@ def process_song(meta_path, db_songs, db_songs_ids, session):
     if song is None:
         song = make_entry(session, meta, lytex_source, verses_source)
     else:
-        # TODO Update metadata too!!!
-        song.title = meta["title"]
+        song, updated = update_metadata(song, meta)
+        if updated:
+            session.commit()
         if lytex_source and song.lytex != lytex_source:
             song.lytex = lytex_source
             session.commit()
