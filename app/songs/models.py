@@ -68,6 +68,7 @@ class Song(SQLModel, table=True):
     source: Optional["Source"] = Relationship()
     signature: Optional[str]
     page: Optional[int]
+    number: Optional[int]
     tempo: Optional[int]
     type: Optional[str]
     year: Optional[int]
