@@ -2,9 +2,11 @@ from logging.config import fileConfig
 
 from alembic import context
 from sqlmodel import create_engine
-from sqlmodel import SQLModel
 
 from app.config import get_settings
+from app.songbooks.models import SQLModel  # noqa
+from app.songs.models import SQLModel  # noqa
+from app.users.models import SQLModel  # noqa
 
 settings = get_settings()
 
