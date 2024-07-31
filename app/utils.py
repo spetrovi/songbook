@@ -57,10 +57,10 @@ def dark_theme_png(dest_path):
     image.save(dest_path / "source.cropped.dark.png")
 
 
-def build_song(song):
+def build_song(song, force=False):
     dest_path = Path("app/tmp/" + str(song.id))
     pdf_path = dest_path / "source.pdf"
-    if pdf_path.exists():
+    if pdf_path.exists() and not force:
         return
     dest_path.mkdir(parents=True, exist_ok=True)
     source = dest_path / "source.lytex"

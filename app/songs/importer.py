@@ -11,6 +11,7 @@ from .models import Person
 from .models import Song
 from .models import Source
 from app.config import get_settings
+from app.utils import build_song
 
 settings = get_settings()
 engine = create_engine(settings.database_url)
@@ -142,6 +143,7 @@ def process_song(meta_path, db_songs, db_songs_ids, session):
         if lytex_source and song.lytex != lytex_source:
             song.lytex = lytex_source
             session.commit()
+            build_song(song, force=True)
         if verses_source and song.verses != verses_source:
             song.verses = verses_source
             session.commit()
