@@ -15,9 +15,11 @@ from app.songbooks import models as songbooksmodels
 from app.songbooks.models import Entry
 from app.songbooks.models import Songbook
 from app.songs import models as songsmodels
+from app.songs.models import Song
 from app.users import models as usermodels
 from app.users.decorators import admin_login_required
 from app.users.models import User
+from app.utils import build_song
 
 router = APIRouter(prefix="/admin")
 
@@ -216,6 +218,16 @@ def admin_users_view(
         {"instances": instances, "columns": columns, "id_name": id_name},
         status_code=200,
     )
+
+
+@router.get("/regenerate/{id_name}", response_class=HTMLResponse)
+@admin_login_required
+def regenerate_song(
+    request: Request, id_name: str, session: Session = Depends(db.yield_session)
+):
+    song = session.exec(select(Song).where(Song.id == id_name)).one()
+    build_song(song, force=True)
+    return HTMLResponse("", status_code=200)
 
 
 @router.delete("/delete/{object}/{id}", response_class=HTMLResponse)

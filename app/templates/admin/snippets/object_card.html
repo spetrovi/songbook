@@ -21,7 +21,39 @@
                     <li><button type="button" class="btn btn-info my-2 mx-5 text-align-left" hx-swap="outerHTML" hx-get="/admin/edit/{{instance.__class__.__name__}}/{{instance[id_name]}}">Edit</button></li>
                 </ul>
             </div>
+
+            {% if instance.__class__.__name__ == "Song" %}
+                <div class="col btn mt-auto">
+                    <button type="button" class="btn btn-info my-2 mx-5 text-align-left"
+                            hx-get="/admin/regenerate/{{instance[id_name]}}"
+                            hx-trigger="click"
+                            hx-indicator=".loading-indicator">
+                        <i class="bi bi-arrow-counterclockwise"></i>
+                        <span class="loading-indicator" style="display:none;">Regenerating...</span>
+                    </button>
+                </div>
+            {% endif %}
+
         </div>
 
     </div>
 </div>
+
+
+<script>
+    document.addEventListener("htmx:beforeRequest", function(event) {
+        if (event.target.matches('[hx-get]')) {
+            let button = event.target;
+            button.querySelector('.bi').style.display = 'none'; // Hide the icon
+            button.querySelector('.loading-indicator').style.display = 'inline'; // Show the loading indicator
+        }
+    });
+
+    document.addEventListener("htmx:afterRequest", function(event) {
+        if (event.target.matches('[hx-get]')) {
+            let button = event.target;
+            button.querySelector('.bi').style.display = 'inline'; // Show the icon
+            button.querySelector('.loading-indicator').style.display = 'none'; // Hide the loading indicator
+        }
+    });
+</script>
