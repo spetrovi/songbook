@@ -5,7 +5,7 @@
          hx-target="this"{% endif %}{% endif %}>
       <h2 class="accordion-header" id="heading{{song.id}}">
         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{song.id}}" aria-expanded="false" aria-controls="collapse{{song.id}}">
-          {{ song.title }}
+          {% if song.number %}{{song.number}}. {% endif %}{{ song.title }}
         </button>
       </h2>
       <style>
