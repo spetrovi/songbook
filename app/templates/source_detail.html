@@ -30,6 +30,7 @@
       <button type="button" class="btn btn-primary dropdown-toggle mx-3" data-bs-toggle="dropdown" data-bs-auto-close="true" aria-expanded="false"><i class="bi bi-plus-circle-fill"></i></button>
       <ul class="dropdown-menu">
         <button class="btn btn-primary mx-3" hx-get="/filter_partial/location" hx-target="#filter_container" hx-swap="beforeend" data-bs-toggle="tooltip" data-bs-title="Add filter">Location</button></li>
+      {% if source.type == "archive" %}<button class="btn btn-primary mx-3" hx-get="/filter_partial/signature" hx-target="#filter_container" hx-swap="beforeend" data-bs-toggle="tooltip" data-bs-title="Add filter">Signature</button></li>{% endif %}
       <button class="btn btn-primary mx-3" hx-get="/filter_partial/title" hx-target="#filter_container" hx-swap="beforeend" data-bs-toggle="tooltip" data-bs-title="Add filter">Title</button></li>
     <button class="btn btn-primary mx-3" hx-get="/filter_partial/type" hx-target="#filter_container" hx-swap="beforeend" data-bs-toggle="tooltip" data-bs-title="Add filter">Type</button></li>
   <button class="btn btn-primary mx-3" hx-get="/filter_partial/tempo" hx-target="#filter_container" hx-swap="beforeend" data-bs-toggle="tooltip" data-bs-title="Add filter">Tempo</button></li>

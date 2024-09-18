@@ -11,6 +11,7 @@ class SourceType(str, Enum):
     book = "book"
     cd = "cd"
     lp = "lp"
+    archive = "archive"
 
 
 class Person(SQLModel, table=True):

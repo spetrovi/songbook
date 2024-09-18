@@ -34,7 +34,7 @@
   <img src="/tmp/{{ song.id }}/source.cropped{% if theme == "dark" %}.dark{% endif %}.png" />
 {% endif %}
 {% if song.verses %}
-  <div class="container mx-0">
+  <div class="container mx-0 my-2">
     <div class="row row-cols-auto">
       {% set verses = song.verses.split('\n\n') %}
       {% for verse in verses %}

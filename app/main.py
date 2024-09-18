@@ -20,6 +20,7 @@ from .routers.songbook_router import router as songbook_router
 from .shortcuts import redirect
 from .shortcuts import render
 from .songbooks.models import Songbook
+from .songs.importer import import_library  # noqa
 from .songs.models import Song
 from .songs.models import Source
 from .users.backend import JWTCookieBackend
@@ -43,10 +44,10 @@ from .handlers import *  # noqa
 @app.on_event("startup")
 def on_startup():
     # Populate db
-    #    import_library(Path(__file__).parent / "songs" / "data")
+    # import_library(Path(__file__).parent / "songs" / "data")
 
     # Use Lilypond to build song fragments
-    #    utils.build_all_songs()
+    # utils.build_all_songs()
 
     # Mount the "tmp" folder to serve files
     tmp_path = Path(__file__).parent / "tmp"
@@ -183,6 +184,7 @@ def get_source_detail_page(
         .where(Song.source_id == source_id)
         .order_by(Song.signature)
         .order_by(Song.page)
+        .order_by(Song.number)
         .offset(10 * (page - 1))
         .limit(10)
     )
@@ -218,10 +220,19 @@ def get_source_detail(
         .where(Song.source_id == source_id)
         .order_by(Song.signature)
         .order_by(Song.page)
+        .order_by(Song.number)
         .offset(10 * (page - 1))
         .limit(10)
     )
     songs = session.exec(statement).all()
+
+    statement = select(Song.signature).where(Song.source_id == source_id).distinct()
+    signatures = session.exec(statement).all()
+
+    statement = select(Song.location).where(Song.source_id == source_id).distinct()
+    locations = session.exec(statement).all()
+
+    filter_helpers = {"signatures": signatures, "locations": locations}
 
     statement = select(Songbook).where(Songbook.user_id == request.user.username)
     songbooks = session.exec(statement).all()
@@ -234,5 +245,6 @@ def get_source_detail(
             "songbooks": songbooks,
             "page": page + 1,
             "infinite_scroll": True,
+            "filter_helpers": filter_helpers,
         },
     )
