@@ -57,8 +57,13 @@ def on_startup():
 @login_required
 def dashboard_view(request: Request, session: Session):
     context = {}
-    context["songs"] = session.exec(select(Song).limit(15))
     context["sources"] = session.exec(select(Source)).all()
+    # OPTIMISE THIS PLEASE
+    context["songs_per_source"] = {}
+    for source in context["sources"]:
+        context["songs_per_source"][source.title] = str(
+            len(session.exec(select(Song).where(Song.source_id == source.id)).all())
+        )
     statement = select(Songbook).where(Songbook.user_id == request.user.username)
     context["songbooks"] = session.exec(statement).all()
     return render(request, "dashboard.html", context, status_code=200)
