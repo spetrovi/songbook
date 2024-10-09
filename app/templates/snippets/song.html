@@ -35,18 +35,18 @@
 {% endif %}
 {% if song.verses %}
   <div class="container mx-0 my-2">
-    <div class="row row-cols-auto">
+    <div class="row d-flex">
       {% set verses = song.verses.split('\n\n') %}
       {% for verse in verses %}
-        <div class="col-md-2">
-          <div class="verse">
-            {{ loop.index }}.
-            {% set lines = verse.split('\n') %}
+        <div class="col-auto">
+          {{ loop.index }}.
+          {% set lines = verse.split('\n') %}
+          <ul class="list-unstyled text-nowrap">
             {% for line in lines %}
-              {{ line }}<br />
+              <li>{{ line }}</li>
             {% endfor %}
-            <br />
-          </div>
+          </ul>
+          <br/>
         </div>
       {% endfor %}
     </div>
