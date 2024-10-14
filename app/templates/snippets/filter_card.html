@@ -1,0 +1,30 @@
+<div class="my-3" hx-target="this">
+    <div class="card">
+        <div class="card-header">
+            <div class="row justify-content-between">
+                <div class="col">
+                    <h5 class="card-title text-capitalize">{{filter.type}}</h5>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            {% if filter.hinted %}
+                <input name='{{filter.type}}' class="tagify--custom-dropdown form-control" type="search" name="search_term" hx-post="/source/filter" hx-target="#songbook_accordion" hx-indicator=".htmx-indicator"  hx-trigger="input changed delay:500ms" placeholder="Select from available">
+                <script>
+                    var input = document.querySelector('input[name="{{filter.type}}"]'),
+                        tagify = new Tagify(input, {
+                        whitelist: [{% for hint in filter.hints %}"{{hint}}"{% if not loop.last %},{% endif %} {% endfor %}],
+                        dropdown: {
+                            maxItems: 20,           // <- mixumum allowed rendered suggestions
+                            classname: 'tags-look', // <- custom classname for this dropdown, so it could be targeted
+                            enabled: 0,             // <- show suggestions on focus
+                            closeOnSelect: false    // <- do not hide the suggestions dropdown once an item has been selected
+                        }
+                    })
+                </script>
+            {% else %}
+                <input class="form-control" type="search" name="{{filter.type}}" placeholder="Begin Typing To Search Songs..." hx-post="/source/filter" hx-target="#songbook_accordion" hx-indicator=".htmx-indicator"  hx-trigger="input changed delay:500ms">
+            {% endif %}
+        </div>
+    </div>
+</div>

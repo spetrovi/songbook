@@ -210,16 +210,35 @@ def get_source_detail_page(
     )
 
 
+def generate_filters(source, session) -> [dict]:
+    filter_names = ["location", "title"]
+    if source.type == "archive":
+        filter_names.append("signature")
+
+    hinted = ["location", "signature"]
+
+    filter_list = []
+
+    for filter_name in filter_names:
+        filter_dict = {"type": filter_name, "hinted": False, "hints": None}
+        if filter_name in hinted:
+            song_column = getattr(Song, filter_name, None)
+            filter_dict["hinted"] = True
+            filter_dict["hints"] = session.exec(
+                select(song_column).where(Song.source_id == source.id).distinct()
+            ).all()
+        #            print(filter_dict["hints"])
+        filter_list.append(filter_dict)
+    return filter_list
+
+
 @app.get("/source/{source_id}/", response_class=HTMLResponse)
 @login_required
 def get_source_detail(
     request: Request, source_id: str, session: Session = Depends(db.yield_session)
 ):
-    statement = select(Source).where(Source.id == source_id)
-    source = session.exec(statement).one()
-
+    source = session.exec(select(Source).where(Source.id == source_id)).one()
     page = 1
-
     statement = (
         select(Song)
         .where(Song.source_id == source_id)
@@ -231,13 +250,7 @@ def get_source_detail(
     )
     songs = session.exec(statement).all()
 
-    statement = select(Song.signature).where(Song.source_id == source_id).distinct()
-    signatures = session.exec(statement).all()
-
-    statement = select(Song.location).where(Song.source_id == source_id).distinct()
-    locations = session.exec(statement).all()
-
-    filter_helpers = {"signatures": signatures, "locations": locations}
+    filters = generate_filters(source, session)
 
     statement = select(Songbook).where(Songbook.user_id == request.user.username)
     songbooks = session.exec(statement).all()
@@ -250,6 +263,6 @@ def get_source_detail(
             "songbooks": songbooks,
             "page": page + 1,
             "infinite_scroll": True,
-            "filter_helpers": filter_helpers,
+            "filters": filters,
         },
     )

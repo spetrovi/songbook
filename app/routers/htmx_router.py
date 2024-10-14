@@ -1,3 +1,4 @@
+import json
 from typing import Union
 
 from fastapi import APIRouter
@@ -212,40 +213,27 @@ async def post_source_filter(
     session: Session = Depends(db.yield_session),
 ):
     form_data = await request.form()
-    categories = form_data.getlist("category")
-    print(categories)
-    search_terms = form_data.getlist("search_term")
-
     source_id = form_data.get("source_id")
 
     statement = select(Song).where(Song.source_id == source_id)
-
-    for i, key in enumerate(categories):
+    for key, value in form_data.items():
+        print(key, value)
+        if not value:
+            continue
+        if key == "source_id":
+            continue
         if key == "title":
             statement = statement.filter(
-                func.similarity(
-                    func.unaccent(Song.title), func.unaccent(search_terms[i])
-                )
-                > 0.5
+                func.similarity(func.unaccent(Song.title), func.unaccent(value)) > 0.5
             )
-        if key == "type":
-            statement = statement.filter(
-                func.similarity(
-                    func.unaccent(Song.type), func.unaccent(search_terms[i])
-                )
-                > 0.5
-            )
-        if key == "location":
-            statement = statement.filter(
-                func.similarity(
-                    func.unaccent(Song.location), func.unaccent(search_terms[i])
-                )
-                > 0.2
-            )
-    #        if key == "tempo":
-    #            statement = statement.filter(func.similarity(func.unaccent(Song.type), func.unaccent(search_terms[i])) > 0.5)
+        else:
+            data = json.loads(value)
+            values = [item["value"] for item in data]
+            song_column = getattr(Song, key, None)
+            statement = statement.filter(song_column.in_(values))
+
     statement = statement.order_by(Song.signature).order_by(Song.page)
-    songs = session.exec(statement).all()  #
+    songs = session.exec(statement).all()
 
     statement = select(Source).where(Source.id == source_id)
     source = session.exec(statement).one()
