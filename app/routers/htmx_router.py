@@ -190,7 +190,9 @@ async def post_source_filter(
             song_column = getattr(Song, key, None)
             statement = statement.filter(song_column.in_(values))
 
-    statement = statement.order_by(Song.signature).order_by(Song.page)
+    statement = (
+        statement.order_by(Song.signature).order_by(Song.number).order_by(Song.page)
+    )
     songs = session.exec(statement).all()
 
     statement = select(Source).where(Source.id == source_id)
