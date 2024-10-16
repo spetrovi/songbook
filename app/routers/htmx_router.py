@@ -166,47 +166,6 @@ def get_songbook_card_body(request: Request, songbook_id: str):
         )
 
 
-@router.get("/filter_partial/{search_type}", response_class=HTMLResponse)
-def get_filter_partial(
-    request: Request,
-    search_type: str,
-):
-    return render(request, "htmx/filter_partial.html", {"search_type": search_type})
-
-
-@router.post("/source/search/{source_id}", response_class=HTMLResponse)
-@login_required
-def put_source_search(
-    request: Request,
-    source_id: str,
-    search: str = Form(...),
-    session: Session = Depends(db.yield_session),
-):
-    statement = (
-        select(Song)
-        .where(Song.source_id == source_id)
-        .filter(func.similarity(func.unaccent(Song.title), func.unaccent(search)) > 0.5)
-    )
-    songs = session.exec(statement).all()
-
-    statement = select(Source).where(Source.id == source_id)
-    source = session.exec(statement).one()
-
-    statement = select(Songbook).where(Songbook.user_id == request.user.username)
-    songbooks = session.exec(statement).all()
-
-    return render(
-        request,
-        "snippets/songs_accordion_partial.html",
-        {
-            "source": source,
-            "songs": songs,
-            "songbooks": songbooks,
-            "infinite_scroll": False,
-        },
-    )
-
-
 @router.post("/source/filter", response_class=HTMLResponse)
 async def post_source_filter(
     request: Request,
@@ -217,7 +176,6 @@ async def post_source_filter(
 
     statement = select(Song).where(Song.source_id == source_id)
     for key, value in form_data.items():
-        print(key, value)
         if not value:
             continue
         if key == "source_id":
