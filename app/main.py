@@ -59,7 +59,9 @@ def on_startup():
 
 class FileChangeHandler(FileSystemEventHandler):
     def on_modified(self, event):
-        if event.is_directory:
+        if event.is_directory and all(
+            not part.startswith(".") for part in Path(event.src_path).parts
+        ):
             try:
                 update_song(Path(event.src_path))
             except Exception as e:
