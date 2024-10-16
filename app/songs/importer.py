@@ -105,6 +105,42 @@ def find_song_by_id(db_songs_ids, target_id):
     return None  # Return None if no matching song is found
 
 
+def update_song(path):
+    with open(path / "metadata.json", "r") as meta_source:
+        try:
+            meta = json.load(meta_source)
+        except json.decoder.JSONDecodeError as e:
+            print(f"\033[32mBad song at {path}: {e}\033[0m")
+            return None
+
+    lytex_path = path / "source.lytex"
+    if lytex_path.exists():
+        lytex_source = lytex_path.read_text()
+    else:
+        lytex_source = None
+    verses_path = path / "verses"
+    if verses_path.exists():
+        verses_source = verses_path.read_text()
+    else:
+        verses_source = None
+
+    with Session(engine) as session:
+        song = session.exec(select(Song).where(Song.id == meta["id"])).first()
+        if song:
+            song, updated = update_metadata(song, meta)
+            if updated:
+                session.commit()
+            if lytex_source and song.lytex != lytex_source:
+                song.lytex = lytex_source
+                session.commit()
+                build_song(song, force=True)
+            if verses_source and song.verses != verses_source:
+                song.verses = verses_source
+                session.commit()
+        else:
+            song = make_entry(session, meta, lytex_source, verses_source)
+
+
 def process_song(meta_path, db_songs, db_songs_ids, session):
     print(f"\033[32mOpening file {meta_path}\033[0m")
     with open(meta_path, "r") as meta_source:

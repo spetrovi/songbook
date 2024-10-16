@@ -10,6 +10,8 @@ from sqlmodel import select
 from sqlmodel import Session
 from sqlmodel import SQLModel
 from starlette.middleware.authentication import AuthenticationMiddleware
+from watchdog.events import FileSystemEventHandler
+from watchdog.observers import Observer
 
 from . import config
 from . import db
@@ -21,6 +23,7 @@ from .shortcuts import redirect
 from .shortcuts import render
 from .songbooks.models import Songbook
 from .songs.importer import import_library  # noqa
+from .songs.importer import update_song  # noqa
 from .songs.models import Song
 from .songs.models import Source
 from .users.backend import JWTCookieBackend
@@ -52,6 +55,22 @@ def on_startup():
     # Mount the "tmp" folder to serve files
     tmp_path = Path(__file__).parent / "tmp"
     app.mount("/tmp", StaticFiles(directory=tmp_path), name="tmp")
+
+
+class FileChangeHandler(FileSystemEventHandler):
+    def on_modified(self, event):
+        if event.is_directory:
+            try:
+                update_song(Path(event.src_path))
+            except Exception as e:
+                print(f"Couldn't update song on {event.src_path}: {e}")
+
+
+@app.on_event("startup")
+def start_file_watcher():
+    observer = Observer()
+    observer.schedule(FileChangeHandler(), "app/songs/data", recursive=True)
+    observer.start()
 
 
 @login_required

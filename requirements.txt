@@ -13,3 +13,4 @@ pre-commit
 pillow
 alembic
 psycopg2-binary
+watchdog
