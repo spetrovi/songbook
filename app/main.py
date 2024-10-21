@@ -287,3 +287,15 @@ def get_source_detail(
             "filters": filters,
         },
     )
+
+
+@app.get("/song_editor/", response_class=HTMLResponse)
+@login_required
+def get_song_editor(request: Request, session: Session = Depends(db.yield_session)):
+    uuid = "8223dcc3-4d61-4d4c-babb-9d35bb4ad942"
+    song = session.exec(select(Song).where(Song.id == uuid)).one()
+    return render(
+        request,
+        "song_editor.html",
+        {"song": song, "rows": 20, "uuid": "8223dcc3-4d61-4d4c-cacc-9d35bb4ad942"},
+    )
