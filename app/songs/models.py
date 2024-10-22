@@ -142,7 +142,7 @@ class SongEdit(SQLModel, table=True):
     signature: Optional[str]
     page: Optional[int]
     number: Optional[int]
-    tempo: Optional[int]
+
     type: Optional[str]
     year: Optional[int]
     location: Optional[str]

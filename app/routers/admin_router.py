@@ -64,34 +64,55 @@ def get_classes():
     return classes, class_names
 
 
+@router.put("/transcript_assign/{songedit_id}/{user_id}", response_class=HTMLResponse)
+@admin_login_required
+def transcript_aassign(
+    request: Request,
+    songedit_id: str,
+    user_id: str,
+    session: Session = Depends(db.yield_session),
+):
+    songedit = session.exec(select(SongEdit).where(SongEdit.id == songedit_id)).one()
+    songedit.user_id = user_id
+    session.commit()
+    return HTMLResponse("", status_code=200)
+
+
 @router.get("/transcript_queue", response_class=HTMLResponse)
 @admin_login_required
 def admin_queue(request: Request, session: Session = Depends(db.yield_session)):
     main_folder = Path("app/transcript_queue")
+
+    users = session.exec(select(User)).all()
+
     images = []
-
-    json_source = main_folder / "info.json"
-    with open(json_source, "r") as f:
-        info = json.load(f)
-
     songs = []
-    for path in main_folder.rglob("*jpg"):
-        images.append(path.name)
+    folders = []
+    subfolders = main_folder.glob("*")
+    for subfolder in subfolders:
+        folders.append(subfolder.name)
+        json_source = subfolder / "info.json"
+        with open(json_source, "r") as f:
+            info = json.load(f)
 
-        song = session.exec(
-            select(SongEdit).where(SongEdit.img_src_path == path.name)
-        ).first()
-        if not song:
-            info["img_src_path"] = path.name
-            song = SongEdit.from_dict(info)
-            session.add(song)
-            session.commit()
-        songs.append(song)
+        for path in subfolder.rglob("*jpg"):
+            server_path = str(path.relative_to("app"))
+            images.append(server_path)
+
+            song = session.exec(
+                select(SongEdit).where(SongEdit.img_src_path == server_path)
+            ).first()
+            if not song:
+                info["img_src_path"] = server_path
+                song = SongEdit.from_dict(info)
+                session.add(song)
+                session.commit()
+            songs.append(song)
 
     return render(
         request,
         "admin/transcript_queue.html",
-        {"images": images, "songs": songs},
+        {"images": images, "songs": songs, "folders": folders, "users": users},
         status_code=200,
     )
 

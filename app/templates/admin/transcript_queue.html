@@ -2,24 +2,55 @@
 
 {% block content %}
 
-    <div class="container d-grid mx-3">
-        <div class="row">
-            {% for song in songs %}
-                <div class="col-auto">
-                    <div class="card my-3">
-                        <div class="card-header">
-                            {{song.img_src_path}}
-                        </div>
-                        <div class="card-body">
-                            <img src="/transcript_queue/{{song.img_src_path}}" width="100px" height="200px">
-                        </div>
-                        <div class="card-footer">
-                            <a href="/song_editor/{{song.id}}" class="btn btn-primary">Edit</a>
-                            <button class="btn btn-primary">Asign</button>
+
+    <div class="accordion" id="accordionExample">
+        {% for folder in folders %}:
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        {{folder}}
+                    </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <div class="container d-grid mx-3">
+                            <div class="row">
+                                {% for song in songs %}
+                                    {% if folder in song.img_src_path %}
+                                        <div class="col-auto">
+                                            <div class="card my-3">
+                                                <div class="card-header">
+                                                    {{song.img_src_path}}
+                                                </div>
+                                                <div class="card-body">
+                                                    <img src="/{{song.img_src_path}}" width="100px" height="200px">
+                                                </div>
+                                                <div class="card-footer">
+                                                    <a href="/song_editor/{{song.id}}" class="btn btn-primary">Edit</a>
+                                                    <div class="btn-group dropend mt-auto">
+                                                        <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Assign</button>
+                                                        <ul class="dropdown-menu">
+                                                            {% for user in users %}
+                                                                <li><a class="dropdown-item" hx-put="/admin/transcript_assign/{{song.id}}/{{user.user_id}}" href="#">{{user.email}}</a></li>
+                                                            {% endfor %}
+                                                        </ul>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
                         </div>
                     </div>
                 </div>
-            {% endfor %}
-        </div>
+            </div>
+        {% endfor %}
     </div>
+
+
+
+
+
 {% endblock %}

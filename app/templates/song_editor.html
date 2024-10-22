@@ -10,7 +10,7 @@
                     </div>
 
                     <div class="card-body">
-                        <form hx-post="/song_editor/update_metadata" hx-trigger="change delay:500ms" hx-target="this" hx-swap="none" id="metadataForm">
+                        <form hx-post="/song_editor/update_metadata" hx-trigger="keyup, change delay:500ms" hx-target="this" hx-swap="none" id="metadataForm">
                             {% for key, item in metadata.items() %}
                                 <div>
                                     <label for="{{key}}">{{key}}</label>
@@ -29,7 +29,7 @@
                             </div>
 
                             <div class="card-body">
-                                <form hx-post="/song_editor/update_lytex" hx-trigger="change delay:500ms" hx-target="this" hx-swap="none" id="songForm">
+                                <form hx-post="/song_editor/update_lytex" hx-trigger="keyup, change delay:500ms" hx-target="this" hx-swap="none" id="songForm">
                                     <input type='hidden' name='uuid' value='{{songedit_id}}'/>
                                     <div>
                                         <input type="checkbox" hx-post="/song_editor/update_lytex" name="autobeamoff" {% if song.autobeamoff %}checked{% endif %}/>
@@ -54,18 +54,18 @@
                                     <div class="row my-2">
                                         <label for="key_value">Key</label>
                                         <select name="key_value">
-                                            <option value="c" {% if song.key_value == c %}selected{% endif %}>C</option>
-                                            <option value="cis"{% if song.key_value == cis %}selected{% endif %}>Cis</option>
-                                            <option value="d" {% if song.key_value == d %}selected{% endif %}>D</option>
-                                            <option value="dis" {% if song.key_value == dis %}selected{% endif %}>Dis</option>
-                                            <option value="e" {% if song.key_value == e %}selected{% endif %}>E</option>
-                                            <option value="f" {% if song.key_value == f %}selected{% endif %}>F</option>
-                                            <option value="fis" {% if song.key_value == fis %}selected{% endif %}>Fis</option>
-                                            <option value="g" {% if song.key_value == g %}selected{% endif %}>G</option>
-                                            <option value="gis" {% if song.key_value == gis %}selected{% endif %}>Gis</option>
-                                            <option value="a" {% if song.key_value == a %}selected{% endif %}>A</option>
-                                            <option value="bes" {% if song.key_value == bes %}selected{% endif %}>B</option>
-                                            <option value="B" {% if song.key_value == b %}selected{% endif %}>H</option>
+                                            <option value="c" {% if song.key_value == "c" %}selected{% endif %}>C</option>
+                                            <option value="cis"{% if song.key_value == "cis" %}selected{% endif %}>Cis</option>
+                                            <option value="d" {% if song.key_value == "d" %}selected{% endif %}>D</option>
+                                            <option value="dis" {% if song.key_value == "dis" %}selected{% endif %}>Dis</option>
+                                            <option value="e" {% if song.key_value == "e" %}selected{% endif %}>E</option>
+                                            <option value="f" {% if song.key_value == "f" %}selected{% endif %}>F</option>
+                                            <option value="fis" {% if song.key_value == "fis" %}selected{% endif %}>Fis</option>
+                                            <option value="g" {% if song.key_value == "g" %}selected{% endif %}>G</option>
+                                            <option value="gis" {% if song.key_value == "gis" %}selected{% endif %}>Gis</option>
+                                            <option value="a" {% if song.key_value == "a" %}selected{% endif %}>A</option>
+                                            <option value="bes" {% if song.key_value == "bes" %}selected{% endif %}>B</option>
+                                            <option value="B" {% if song.key_value == "b" %}selected{% endif %}>H</option>
                                         </select>
                                     </div>
 
@@ -112,7 +112,7 @@
                         <h2>Verses</h2>
                     </div>
                     <div class="card-body">
-                        <form hx-post="/song_editor/update_verses" hx-trigger="change delay:500ms" hx-target="this" hx-swap="none" id="versesForm">
+                        <form hx-post="/song_editor/update_verses" hx-trigger="keyup delay:500ms" hx-target="this" hx-swap="none" id="versesForm">
                             <input type='hidden' name='songedit_id' value='{{songedit_id}}'/>
                             <textarea class="form-control" name="verses" rows="{{rows}}" style="min-width:500px; max-width:100%; min-height:50px; height:100%; width:100%;">{% if song.verses %}{{song.verses}}{% endif %}</textarea>
                         </form>
@@ -120,7 +120,7 @@
                 </div>
             </div>
             <div class="col col-md-6">
-                <img src="/transcript_queue/{{song.img_src_path}}" class="sticky-top" width=500px>
+                <img src="/{{song.img_src_path}}" class="sticky-top" width=500px>
             </div>
 
         </div>
