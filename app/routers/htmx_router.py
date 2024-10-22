@@ -23,6 +23,7 @@ from app.shortcuts import render
 from app.songbooks.models import Entry
 from app.songbooks.models import Songbook
 from app.songs.models import Song
+from app.songs.models import SongEdit
 from app.songs.models import Source
 from app.users.decorators import login_required
 from app.users.exceptions import UserDoesntExistException
@@ -219,25 +220,60 @@ async def post_source_filter(
     )
 
 
-@router.post("/song_editor/preamble", response_class=HTMLResponse)
-async def post_songbook_editor_preamble(
+@router.post("/song_editor/update_verses", response_class=HTMLResponse)
+async def post_songbook_editor_update_verses(
     request: Request,
     session: Session = Depends(db.yield_session),
 ):
+    # check if user has permissions to update
+    # Either user must be admin or have uuid in user_id
+
     form_data = await request.form()
-    print(form_data)
-    autobeamoff = form_data.get("autobeamoff")
+    verses = form_data.get("verses")
+    songedit_id = form_data.get("songedit_id")
+    song = session.exec(select(SongEdit).where(SongEdit.id == songedit_id)).one()
+    song.verses = verses
+
+    print(song.verses)
+    session.commit()
+
+    return
+
+
+@router.post("/song_editor/update_metadata", response_class=HTMLResponse)
+async def post_songbook_editor_update_metadata(
+    request: Request,
+    session: Session = Depends(db.yield_session),
+):
+    # check if user has permissions to update
+    # Either user must be admin or have uuid in user_id
+    form_data = await request.form()
+    print(f"Updating metadata {form_data}")
+    return
+
+
+@router.post("/song_editor/update_lytex", response_class=HTMLResponse)
+async def post_songbook_editor_update_lytex(
+    request: Request,
+    session: Session = Depends(db.yield_session),
+):
+    # check if user has permissions to update
+    # Either user must be admin or have uuid in user_id
+    form_data = await request.form()
+    autobeamoff = True if form_data.get("autobeamoff") == "on" else False
+
+    print(autobeamoff)
     time_numerator = form_data.get("time_numerator")
     time_denominator = form_data.get("time_denominator")
     key_value = form_data.get("key_value")
     key_type = form_data.get("key_type")
-    tempo = form_data.get("tempo")
+    tempo = None if not form_data.get("tempo") else form_data.get("tempo")
     tempomidi = form_data.get("tempomidi")
     firsttone = form_data.get("firsttone")
     tones = form_data.get("tones")
     uuid = form_data.get("uuid")
 
-    print(tempomidi)
+    song = session.exec(select(SongEdit).where(SongEdit.id == uuid)).one()
 
     # Creating a dictionary to pass to the template
     template_data = {
@@ -252,6 +288,9 @@ async def post_songbook_editor_preamble(
         "tones": tones,
     }
 
+    song.update_from_dict(template_data)
+    session.commit()
+
     env = Environment(
         loader=jinja2.FileSystemLoader(settings.templates_dir),
     )
@@ -259,7 +298,7 @@ async def post_songbook_editor_preamble(
     song_template = env.get_template("song.jinja2")
     song_lytex = song_template.render(template_data)
 
-    dest_path = Path("app/tmp/" + uuid)
+    dest_path = Path("app/tmp/editor/" + uuid)
     dest_path.mkdir(parents=True, exist_ok=True)
     source = dest_path / "source.lytex"
 

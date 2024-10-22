@@ -1,4 +1,5 @@
 import uuid
+from datetime import datetime
 from typing import Optional
 
 from sqlmodel import Enum
@@ -106,3 +107,65 @@ class Song(SQLModel, table=True):
 
     def __repr__(self):
         return f"Song(title={self.title})"
+
+
+class SongEdit(SQLModel, table=True):
+    id: Optional[uuid.UUID] = Field(
+        default_factory=uuid.uuid4, primary_key=True, index=True
+    )
+
+    user_id: Optional[uuid.UUID] = Field(default=None, foreign_key="user.user_id")
+
+    modified: Optional[datetime]
+    img_src_path: Optional[str] = Field(default=None)
+
+    # lilypond stuff
+    lytex: Optional[str]
+    autobeamoff: Optional[bool] = Field(default=True)
+    includelyrics: Optional[bool] = Field(default=False)
+    time_numerator: Optional[int] = Field(default=2)
+    time_denominator: Optional[int] = Field(default=4)
+    key_value: Optional[str] = Field(default="c")
+    key_type: Optional[str] = Field(default="major")
+    tempo: Optional[str] = Field(default=None)
+    tempomidi: Optional[int] = Field(default=120)
+    firsttone: Optional[str] = Field(default="a")
+    tones: Optional[str] = Field(default=None)
+    message: Optional[str] = Field(default=None)
+    scorelyrics: Optional[str] = Field(default=None)
+    #    uuid = form_data.get("uuid")
+
+    verses: Optional[str] = Field(default=None)
+
+    # metadata
+    title: Optional[str]
+    signature: Optional[str]
+    page: Optional[int]
+    number: Optional[int]
+    tempo: Optional[int]
+    type: Optional[str]
+    year: Optional[int]
+    location: Optional[str]
+
+    recorded_by_name: Optional[str]
+    recorded_by_surname: Optional[str]
+
+    recorded_name: Optional[str]
+    recorded_surname: Optional[str]
+    recorded_age: Optional[int]
+
+    def __str__(self):
+        return self.__repr__()
+
+    def __repr__(self):
+        return f"SongEdit(title={self.title})"
+
+    @classmethod
+    def from_dict(cls, data: dict):
+        return cls(**data)
+
+    def update_from_dict(self, data: dict):
+        """Updates an existing instance based on a dictionary."""
+        for key, value in data.items():
+            if hasattr(self, key):  # Check if the attribute exists on the object
+                setattr(self, key, value)

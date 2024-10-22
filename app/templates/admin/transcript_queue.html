@@ -1,0 +1,25 @@
+{% extends "admin/admin_base.html" %}
+
+{% block content %}
+
+    <div class="container d-grid mx-3">
+        <div class="row">
+            {% for song in songs %}
+                <div class="col-auto">
+                    <div class="card my-3">
+                        <div class="card-header">
+                            {{song.img_src_path}}
+                        </div>
+                        <div class="card-body">
+                            <img src="/transcript_queue/{{song.img_src_path}}" width="100px" height="200px">
+                        </div>
+                        <div class="card-footer">
+                            <a href="/song_editor/{{song.id}}" class="btn btn-primary">Edit</a>
+                            <button class="btn btn-primary">Asign</button>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

@@ -1,111 +1,134 @@
 {% extends "base.html" %}
 
 {% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col col-md-6">
+                <div class="card my-5 mx-1">
+                    <div class="card-header">
+                        <h2>Metadata</h2>
+                    </div>
 
-    <div class="card my-5 mx-1">
-        <div class="card-header">
-            <h2>Metadata</h2>
-        </div>
-        <div class="card-body">
-            <p>{{song.title}}</p>
-        </div>
-    </div>
-
-
-    <div class="card my-5 mx-1">
-        <div class="col-md-4 col-sm-6 my-3">
-            <div class="card mx-2 my-2">
-                <div class="card-header">
-                    <h5 class="card-title">Preamble</h5>
+                    <div class="card-body">
+                        <form hx-post="/song_editor/update_metadata" hx-trigger="change delay:500ms" hx-target="this" hx-swap="none" id="metadataForm">
+                            {% for key, item in metadata.items() %}
+                                <div>
+                                    <label for="{{key}}">{{key}}</label>
+                                    <input type="text" name="{{key}}" placeholder="Empty" {% if item %}value="{{item}}{% endif %}">
+                                </div>
+                            {% endfor %}
+                        </form>
+                    </div>
                 </div>
 
-                <div class="card-body">
-                    <form hx-post="/song_editor/preamble" hx-trigger="change delay:500ms" hx-target="this" hx-swap="none" id="songForm">
-                        <input type='hidden' name='uuid' value='{{uuid}}'/>
-                        <div>
-                            <input type="checkbox" hx-post="/song_editor/preamble" name="autobeamoff" checked/>
-                            <label for="autobeamoff">Autobeamoff</label>
-                        </div>
+                <div class="card my-5 mx-1">
+                    <div class=" col-md-12 my-3">
+                        <div class="card mx-2 my-2">
+                            <div class="card-header">
+                                <h5 class="card-title">Score</h5>
+                            </div>
+
+                            <div class="card-body">
+                                <form hx-post="/song_editor/update_lytex" hx-trigger="change delay:500ms" hx-target="this" hx-swap="none" id="songForm">
+                                    <input type='hidden' name='uuid' value='{{songedit_id}}'/>
+                                    <div>
+                                        <input type="checkbox" hx-post="/song_editor/update_lytex" name="autobeamoff" {% if song.autobeamoff %}checked{% endif %}/>
+                                        <label for="autobeamoff">Autobeamoff</label>
+                                    </div>
 
 
-                        <div>
-                            <input type="checkbox" name="includelyrics"/>
-                            <label for="includelyrics">Include lyrics</label>
-                        </div>
+                                    <div>
+                                        <input type="checkbox" name="includelyrics"/>
+                                        <label for="includelyrics">Include lyrics</label>
+                                    </div>
 
-                        <div class="row my-2">
-                            <div class="col col-2">
-                                <label for="time-signature">Time</label>
-                                <input type="number" name="time_numerator" placeholder="2" value=2 size="1"> /
-                                <input type="number" name="time_denominator" placeholder="4" value=4 size="1">
+                                    <div class="row my-2">
+                                        <div class="col col-2">
+                                            <label for="time-signature">Time</label>
+                                            <input type="number" name="time_numerator" placeholder="2" value={% if song.time_numerator %}{{song.time_numerator}}{% else %}2{% endif %} size="1"> /
+                                            <input type="number" name="time_denominator" placeholder="4" value={% if song.time_denominator %}{{song.time_denominator}}{% else %}4{% endif %}  size="1">
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row my-2">
+                                        <label for="key_value">Key</label>
+                                        <select name="key_value">
+                                            <option value="c" {% if song.key_value == c %}selected{% endif %}>C</option>
+                                            <option value="cis"{% if song.key_value == cis %}selected{% endif %}>Cis</option>
+                                            <option value="d" {% if song.key_value == d %}selected{% endif %}>D</option>
+                                            <option value="dis" {% if song.key_value == dis %}selected{% endif %}>Dis</option>
+                                            <option value="e" {% if song.key_value == e %}selected{% endif %}>E</option>
+                                            <option value="f" {% if song.key_value == f %}selected{% endif %}>F</option>
+                                            <option value="fis" {% if song.key_value == fis %}selected{% endif %}>Fis</option>
+                                            <option value="g" {% if song.key_value == g %}selected{% endif %}>G</option>
+                                            <option value="gis" {% if song.key_value == gis %}selected{% endif %}>Gis</option>
+                                            <option value="a" {% if song.key_value == a %}selected{% endif %}>A</option>
+                                            <option value="bes" {% if song.key_value == bes %}selected{% endif %}>B</option>
+                                            <option value="B" {% if song.key_value == b %}selected{% endif %}>H</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="row my-1">
+                                        <div class="col col-2">
+                                            <input type="radio" name="key_type" value="major" {% if song.key_type=="major" %}checked{% endif %}>
+                                            <label for="major">major</label><br>
+                                        </div>
+                                        <div class="col col-2">
+                                            <input type="radio" name="key_type" value="minor" {% if song.key_type=="minor" %}checked{% endif %}>
+                                            <label for="minor">minor</label><br>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row my-2">
+                                        <div class="col col-2">
+                                            <label for="tempo">Tempo</label>
+                                            <input type="text" name="tempo" placeholder="Rychle" {% if song.tempo %}value="{{song.tempo}}"{% endif %}>
+
+                                            <label for="tempomidi">TempoMIDI</label>
+                                            <input type="number" name="tempomidi" value={{song.tempomidi}} placeholder="120">
+                                        </div>
+                                    </div>
+
+                                    <div class="row my-2">
+                                        <div class="col col-2">
+                                            <label for="firsttone">First tone</label>
+                                            <input type="text" name="firsttone" placeholder="c" value="{% if song.firsttone %}{{song.firsttone}}{% else %}c{% endif %}">
+                                        </div>
+                                    </div>
+
+                                    <textarea id=rows="{{rows}}" name="tones" style="min-width:500px; max-width:100%; min-height:50px; height:100%; width:100%;">{% if song.tones %}{{song.tones}}{% else %}c{% endif %}</textarea>
+                                </form>
                             </div>
                         </div>
+                        <img id="dynamicImage" src="/tmp/editor/{{songedit_id}}/source.cropped{% if theme == "dark" %}.dark{% endif %}.png"/>
+                    </div>
 
+                </div>
 
-                        <div class="row my-2">
-                            <label for="key_value">Key</label>
-                            <select name="key_value">
-                                <option value="c" selected>C</option>
-                                <option value="cis">Cis</option>
-                                <option value="d">D</option>
-                                <option value="dis">Dis</option>
-                                <option value="e">E</option>
-                                <option value="f">F</option>
-                                <option value="fis">Fis</option>
-                                <option value="g">G</option>
-                                <option value="gis">Gis</option>
-                                <option value="a">A</option>
-                                <option value="bes">B</option>
-                                <option value="B">H</option>
-                            </select>
-                        </div>
-
-                        <div class="row my-1">
-                            <div class="col col-2">
-                                <input type="radio" name="key_type" value="major" checked>
-                                <label for="major">major</label><br>
-                            </div>
-                            <div class="col col-2">
-                                <input type="radio" name="key_type" value="minor">
-                                <label for="minor">minor</label><br>
-                            </div>
-                        </div>
-
-
-                        <div class="row my-2">
-                            <div class="col col-2">
-                                <label for="tempo">Tempo</label>
-                                <input type="text" name="tempo" placeholder="Rychle">
-
-                                <label for="tempomidi">TempoMIDI</label>
-                                <input type="number" name="tempomidi" value=120 placeholder="120">
-                            </div>
-                        </div>
-
-                        <div class="row my-2">
-                            <div class="col col-2">
-                                <label for="firsttone">First tone</label>
-                                <input type="text" name="firsttone" placeholder="c" value="c">
-                            </div>
-                        </div>
-
-                        <textarea id=rows="{{rows}}" name="tones" style="min-width:500px; max-width:100%; min-height:50px; height:100%; width:100%;">c8 d4 b4 fis8 g a</textarea>
-                    </form>
+                <div class="card my-5">
+                    <div class="card-header">
+                        <h2>Verses</h2>
+                    </div>
+                    <div class="card-body">
+                        <form hx-post="/song_editor/update_verses" hx-trigger="change delay:500ms" hx-target="this" hx-swap="none" id="versesForm">
+                            <input type='hidden' name='songedit_id' value='{{songedit_id}}'/>
+                            <textarea class="form-control" name="verses" rows="{{rows}}" style="min-width:500px; max-width:100%; min-height:50px; height:100%; width:100%;">{% if song.verses %}{{song.verses}}{% endif %}</textarea>
+                        </form>
+                    </div>
                 </div>
             </div>
-            <img id="dynamicImage" src="/tmp/{{uuid}}/source.cropped{% if theme == "dark" %}.dark{% endif %}.png"/>
-        </div>
+            <div class="col col-md-6">
+                <img src="/transcript_queue/{{song.img_src_path}}" class="sticky-top" width=500px>
+            </div>
 
+        </div>
     </div>
 
-    <div class="card my-5">
-        <div class="card-header">
-            <h2>Verses</h2>
-        </div>
-        <div class="card-body">
-            <textarea class="form-control" rows="{{rows}}" style="min-width:500px; max-width:100%; min-height:50px; height:100%; width:100%;">{{song.verses}}</textarea>
-        </div>
-    </div>
+
+
+
     <script>
 
         document.addEventListener('htmx:afterRequest', (event) => {

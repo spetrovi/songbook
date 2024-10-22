@@ -25,6 +25,7 @@ from .songbooks.models import Songbook
 from .songs.importer import import_library  # noqa
 from .songs.importer import update_song  # noqa
 from .songs.models import Song
+from .songs.models import SongEdit
 from .songs.models import Source
 from .users.backend import JWTCookieBackend
 from .users.decorators import login_required
@@ -55,6 +56,12 @@ def on_startup():
     # Mount the "tmp" folder to serve files
     tmp_path = Path(__file__).parent / "tmp"
     app.mount("/tmp", StaticFiles(directory=tmp_path), name="tmp")
+
+    # Mount the "tmp" folder to serve files
+    queue_path = Path(__file__).parent / "transcript_queue"
+    app.mount(
+        "/transcript_queue", StaticFiles(directory=queue_path), name="transcript_queue"
+    )
 
 
 class FileChangeHandler(FileSystemEventHandler):
@@ -289,13 +296,31 @@ def get_source_detail(
     )
 
 
-@app.get("/song_editor/", response_class=HTMLResponse)
+@app.get("/song_editor/{songedit_id}", response_class=HTMLResponse)
 @login_required
-def get_song_editor(request: Request, session: Session = Depends(db.yield_session)):
-    uuid = "8223dcc3-4d61-4d4c-babb-9d35bb4ad942"
-    song = session.exec(select(Song).where(Song.id == uuid)).one()
+def get_song_editor(
+    request: Request, songedit_id: str, session: Session = Depends(db.yield_session)
+):
+    # check if user can edit this song
+
+    song = session.exec(select(SongEdit).where(SongEdit.id == songedit_id)).one()
+
+    metadata = {
+        "title": song.title,
+        "signature": song.signature,
+        "page": song.page,
+        "number": song.number,
+        "type": song.type,
+        "year": song.year,
+        "location": song.location,
+        "recorded_by_name": song.recorded_by_name,
+        "recorded_by_surname": song.recorded_by_surname,
+        "recorded_name": song.recorded_name,
+        "recorded_surname": song.recorded_surname,
+        "recorded_age": song.recorded_age,
+    }
     return render(
         request,
         "song_editor.html",
-        {"song": song, "rows": 20, "uuid": "8223dcc3-4d61-4d4c-cacc-9d35bb4ad942"},
+        {"song": song, "metadata": metadata, "rows": 20, "songedit_id": songedit_id},
     )
