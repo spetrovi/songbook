@@ -113,79 +113,117 @@
                                     </h2>
                                     <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                                         <div class="accordion-body">
-                                            <p>For changing time inside score, write <code>\time 4/4</code>. For changing time in the beginning, please use form above</p>
-                                            <p>For tuplet (triola) write <code>\tuplet 2/3 {a8 g8 g8} </code></p>
-                                            <p>For bowing, use ( for beginning and ) for end of the bow, e.g. <code>a4( b8)</code></p>
-                                            <p>For after grace, use <code>\afterGrace a4 {\once \omit Flag.stroke=grace e8) }</code></p>
-                                            <p>For repetition, enclose the repeated block like this \repeat volta 2 {a4 b8 c8}</p>
-                                            <p>For linebreak, use <code>\break</code>. Please break according to the score</p>
-                                            <p>For rest, write r with duration, e.g <code>r4 r8 r16</code></p>
-                                            <p>Please use english notation for h and b, i.e. b and bes<p>
-                                            </div>
-                                            </div>
+                                            <h3>Time signature</h3>
+                                            <p>For changing time inside score, write <code>\time 4/4</code>. For changing time in the beginning, please use form above.<br>
+                                                Example:<br>
+                                                <code> a4 a8 g8 \time 3/4 a4 a8 g8 g4</code></p>
+                                            <img src="/static/images/lilypond_help/time.svg">
+
+                                            <h3>Tuplet (triola)</h3>
+                                            <p>For tuplet (triola) write <code>\tuplet 2/3 {a8 g8 g8} </code> <br>
+                                                Example:<br>
+                                                <code> a4 g4 | a4 \tuplet 3/2 {a8 g8 g8}</code></p>
+                                            <img src="/static/images/lilypond_help/tuplet.svg">
+                                        </p>
+
+                                        <h3>Legato</h3>
+                                        <p>For legato, use ( for beginning and ) for end of the bow. <br>
+                                            Example:<br>
+                                            <code>a4 g4 a4( b 8 c8) d4 g8( a8)</code></p>
+                                        <img src="/static/images/lilypond_help/legato.svg">
+
+                                        <h3>Grace after</h3>
+                                        <p>For after grace, you have to use <code>\afterGrace</code> and change override the shape of the note.<br>
+                                            Example:<br>
+                                            <code>a4 g4 a \afterGrace b4 {\once \override Flag.stroke-style = "grace" e8} d4 e4</code></p>
+                                        <img src="/static/images/lilypond_help/aftergrace.svg"><br><br>
+                                        <p>You can also use legato.<br>
+                                            <code>a4 g4 a \afterGrace b4( {\once \override Flag.stroke-style = "grace" e8)} d4 e4</code><br>
+                                            <img src="/static/images/lilypond_help/aftergracelegato.svg"></p>
+
+
+                                        <h3>Repetition</h3>
+                                        <p>For repetition, enclose the repeated block like this \repeat volta 2 {a4 b8 c8}
+                                            Example:<br>
+                                            <code>a4 g c a \repeat volta 2 {a4 b8 c8} a4 c</code></p>
+                                        <img src="/static/images/lilypond_help/repeat.svg">
+
+                                        <h3>Break</h3>
+                                        <p>For linebreak, use <code>\break</code>. Please break according to the score</p>
+
+                                        <h3>Rest</h3>
+                                        <p>For rest, write r with duration.
+                                            Example
+                                            <code>r4 r8 r16 r8.</code></p>
+                                        <img src="/static/images/lilypond_help/rest.svg">
+
+                                        <h3>English notation</h3>
+                                        <p>Please use english notation for h and b, i.e. b and bes<p>
+                                        </div>
                                         </div>
                                     </div>
                                 </div>
-
-
                             </div>
+
 
                         </div>
 
-                        <div class="card my-5">
-                            <div class="card-header">
-                                <h2>Verses</h2>
-                            </div>
-                            <div class="card-body">
-                                <form hx-post="/song_editor/update_verses" hx-trigger="keyup delay:500ms" hx-target="this" hx-swap="none" id="versesForm">
-                                    <input type='hidden' name='songedit_id' value='{{songedit_id}}'/>
-                                    <textarea class="form-control" name="verses" rows="{{rows}}" style="min-width:500px; max-width:100%; min-height:50px; height:100%; width:100%;">{% if song.verses %}{{song.verses}}{% endif %}</textarea>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col col-md-6">
-                        <img src="/{{song.img_src_path}}" class="sticky-top" width=500px>
                     </div>
 
+                    <div class="card my-5">
+                        <div class="card-header">
+                            <h2>Verses</h2>
+                        </div>
+                        <div class="card-body">
+                            <form hx-post="/song_editor/update_verses" hx-trigger="keyup delay:500ms" hx-target="this" hx-swap="none" id="versesForm">
+                                <input type='hidden' name='songedit_id' value='{{songedit_id}}'/>
+                                <textarea class="form-control" name="verses" rows="{{rows}}" style="min-width:500px; max-width:100%; min-height:50px; height:100%; width:100%;">{% if song.verses %}{{song.verses}}{% endif %}</textarea>
+                            </form>
+                        </div>
+                    </div>
                 </div>
+                <div class="col col-md-6">
+                    <img src="/{{song.img_src_path}}" class="sticky-top" width=500px>
+                </div>
+
             </div>
+        </div>
 
 
 
 
-            <script>
+        <script>
 
-                document.addEventListener('htmx:afterRequest', (event) => {
-                    refreshImage();
-                });
-                function refreshImage() {
-                    const resultImg = document.getElementById('dynamicImage');
+            document.addEventListener('htmx:afterRequest', (event) => {
+                refreshImage();
+            });
+            function refreshImage() {
+                const resultImg = document.getElementById('dynamicImage');
 
     // Get the current src value of the image
-                    let currentSrc = resultImg.getAttribute('src');
+                let currentSrc = resultImg.getAttribute('src');
 
     // Remove any existing timestamp from the URL
-                    currentSrc = currentSrc.split('?')[0];
+                currentSrc = currentSrc.split('?')[0];
 
     // Append a unique timestamp to force reload of the image
-                    const timestamp = new Date().getTime();
-                    const newSrc = `${currentSrc}?t=${timestamp}`;
+                const timestamp = new Date().getTime();
+                const newSrc = `${currentSrc}?t=${timestamp}`;
 
     // Set a delay to allow the backend to update the image
 
-                    console.log('Reloading image after delay...');
+                console.log('Reloading image after delay...');
 
         // Preload the image to avoid flicker
-                    const preloadedImg = new Image();
-                    preloadedImg.src = newSrc;
+                const preloadedImg = new Image();
+                preloadedImg.src = newSrc;
 
-                    preloadedImg.onload = function() {
+                preloadedImg.onload = function() {
             // Once the image is preloaded, replace the displayed image
-                        resultImg.src = newSrc;
-                    };
+                    resultImg.src = newSrc;
+                };
 
 
-                }
-            </script>
+            }
+        </script>
 {% endblock %}

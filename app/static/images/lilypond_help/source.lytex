@@ -1,0 +1,29 @@
+#(ly:set-option 'crop #t)
+spev = {
+  \version "2.24.1"
+  \clef violin
+  \key c \major
+  \autoBeamOff
+  \time 2/4
+ \relative a' {
+r4 r8 r16 r8. "|."
+
+}
+
+ }
+
+
+
+% The score definition
+\score {
+    <<
+                \new Staff <<
+                \context Voice = "Spev" {  \spev }
+                >>
+
+        >>
+
+ \layout {}
+\midi{\tempo 4 = 120}
+
+}

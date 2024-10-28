@@ -63,6 +63,10 @@ def on_startup():
         "/transcript_queue", StaticFiles(directory=queue_path), name="transcript_queue"
     )
 
+    # Mount the "tmp" folder to serve files
+    queue_path = Path(__file__).parent / "static"
+    app.mount("/static", StaticFiles(directory=queue_path), name="static")
+
 
 class FileChangeHandler(FileSystemEventHandler):
     def on_modified(self, event):
