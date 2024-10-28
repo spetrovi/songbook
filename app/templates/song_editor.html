@@ -103,64 +103,89 @@
                             </div>
                             <img id="dynamicImage" src="/tmp/editor/{{songedit_id}}/source.cropped{% if theme == "dark" %}.dark{% endif %}.png"/>
                         </div>
+                        <div class="container mt-5">
+                            <div class="accordion" id="accordionExample">
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="headingOne">
+                                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                            Help
+                                        </button>
+                                    </h2>
+                                    <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                        <div class="accordion-body">
+                                            <p>For changing time inside score, write <code>\time 4/4</code>. For changing time in the beginning, please use form above</p>
+                                            <p>For tuplet (triola) write <code>\tuplet 2/3 {a8 g8 g8} </code></p>
+                                            <p>For bowing, use ( for beginning and ) for end of the bow, e.g. <code>a4( b8)</code></p>
+                                            <p>For after grace, use <code>\afterGrace a4 {\once \omit Flag.stroke=grace e8) }</code></p>
+                                            <p>For repetition, enclose the repeated block like this \repeat volta 2 {a4 b8 c8}</p>
+                                            <p>For linebreak, use <code>\break</code>. Please break according to the score</p>
+                                            <p>For rest, write r with duration, e.g <code>r4 r8 r16</code></p>
+                                            <p>Please use english notation for h and b, i.e. b and bes<p>
+                                            </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                        </div>
+
+                        <div class="card my-5">
+                            <div class="card-header">
+                                <h2>Verses</h2>
+                            </div>
+                            <div class="card-body">
+                                <form hx-post="/song_editor/update_verses" hx-trigger="keyup delay:500ms" hx-target="this" hx-swap="none" id="versesForm">
+                                    <input type='hidden' name='songedit_id' value='{{songedit_id}}'/>
+                                    <textarea class="form-control" name="verses" rows="{{rows}}" style="min-width:500px; max-width:100%; min-height:50px; height:100%; width:100%;">{% if song.verses %}{{song.verses}}{% endif %}</textarea>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col col-md-6">
+                        <img src="/{{song.img_src_path}}" class="sticky-top" width=500px>
                     </div>
 
                 </div>
-
-                <div class="card my-5">
-                    <div class="card-header">
-                        <h2>Verses</h2>
-                    </div>
-                    <div class="card-body">
-                        <form hx-post="/song_editor/update_verses" hx-trigger="keyup delay:500ms" hx-target="this" hx-swap="none" id="versesForm">
-                            <input type='hidden' name='songedit_id' value='{{songedit_id}}'/>
-                            <textarea class="form-control" name="verses" rows="{{rows}}" style="min-width:500px; max-width:100%; min-height:50px; height:100%; width:100%;">{% if song.verses %}{{song.verses}}{% endif %}</textarea>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <div class="col col-md-6">
-                <img src="/{{song.img_src_path}}" class="sticky-top" width=500px>
             </div>
 
-        </div>
-    </div>
 
 
 
+            <script>
 
-    <script>
-
-        document.addEventListener('htmx:afterRequest', (event) => {
-            refreshImage();
-        });
-        function refreshImage() {
-            const resultImg = document.getElementById('dynamicImage');
+                document.addEventListener('htmx:afterRequest', (event) => {
+                    refreshImage();
+                });
+                function refreshImage() {
+                    const resultImg = document.getElementById('dynamicImage');
 
     // Get the current src value of the image
-            let currentSrc = resultImg.getAttribute('src');
+                    let currentSrc = resultImg.getAttribute('src');
 
     // Remove any existing timestamp from the URL
-            currentSrc = currentSrc.split('?')[0];
+                    currentSrc = currentSrc.split('?')[0];
 
     // Append a unique timestamp to force reload of the image
-            const timestamp = new Date().getTime();
-            const newSrc = `${currentSrc}?t=${timestamp}`;
+                    const timestamp = new Date().getTime();
+                    const newSrc = `${currentSrc}?t=${timestamp}`;
 
     // Set a delay to allow the backend to update the image
 
-            console.log('Reloading image after delay...');
+                    console.log('Reloading image after delay...');
 
         // Preload the image to avoid flicker
-            const preloadedImg = new Image();
-            preloadedImg.src = newSrc;
+                    const preloadedImg = new Image();
+                    preloadedImg.src = newSrc;
 
-            preloadedImg.onload = function() {
+                    preloadedImg.onload = function() {
             // Once the image is preloaded, replace the displayed image
-                resultImg.src = newSrc;
-            };
+                        resultImg.src = newSrc;
+                    };
 
 
-        }
-    </script>
+                }
+            </script>
 {% endblock %}

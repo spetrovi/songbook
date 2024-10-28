@@ -1,4 +1,4 @@
-{% extends "admin/admin_base.html" %}
+{% extends "base.html" %}
 
 {% block content %}
 
@@ -24,19 +24,9 @@
                                                 </div>
                                                 <div class="card-body">
                                                     <img src="/{{song.img_src_path}}" width="100px" height="200px">
-                                                    <p>Current user: {{song.user_id}}</p>
                                                 </div>
                                                 <div class="card-footer">
                                                     <a href="/song_editor/{{song.id}}" class="btn btn-primary">Edit</a>
-                                                    <div class="btn-group dropend mt-auto">
-                                                        <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Assign</button>
-                                                        <ul class="dropdown-menu">
-                                                            {% for user in users %}
-                                                                <li><a class="dropdown-item" hx-put="/admin/transcript_assign/{{song.id}}/{{user.user_id}}" href="#">{{user.email}}</a></li>
-                                                            {% endfor %}
-                                                        </ul>
-                                                    </div>
-
                                                 </div>
                                             </div>
                                         </div>

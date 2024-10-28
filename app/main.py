@@ -324,3 +324,22 @@ def get_song_editor(
         "song_editor.html",
         {"song": song, "metadata": metadata, "rows": 20, "songedit_id": songedit_id},
     )
+
+
+@app.get("/transcript_queue", response_class=HTMLResponse)
+@login_required
+def transcript_queue(request: Request, session: Session = Depends(db.yield_session)):
+    # give me songedits
+    songs = session.exec(
+        select(SongEdit).where(SongEdit.user_id == request.user.username)
+    ).all()
+    # Extract unique folders
+    unique_folders = {str(Path(song.img_src_path).parent) for song in songs}
+    folders = list(unique_folders)
+
+    return render(
+        request,
+        "transcript_queue.html",
+        {"songs": songs, "folders": folders},
+        status_code=200,
+    )
