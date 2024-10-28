@@ -1,0 +1,191 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col col-md-6">
+                <div class="card my-5 mx-1">
+                    <div class="card-header">
+                        <h2>Metadata</h2>
+                    </div>
+
+                    <div class="card-body">
+                        <form hx-post="/song_editor/update_metadata" hx-trigger="keyup, change delay:500ms" hx-target="this" hx-swap="none" id="metadataForm">
+                            {% for key, item in metadata.items() %}
+                                <div>
+                                    <label for="{{key}}">{{key}}</label>
+                                    <input type="text" name="{{key}}" placeholder="Empty" {% if item %}value="{{item}}{% endif %}">
+                                </div>
+                            {% endfor %}
+                        </form>
+                    </div>
+                </div>
+
+                <div class="card my-5 mx-1">
+                    <div class=" col-md-12 my-3">
+                        <div class="card mx-2 my-2">
+                            <div class="card-header">
+                                <h5 class="card-title">Score</h5>
+                            </div>
+
+                            <div class="card-body">
+                                <form hx-post="/song_editor/update_lytex" hx-trigger="keyup, change delay:500ms" hx-target="this" hx-swap="none" id="songForm">
+                                    <input type='hidden' name='uuid' value='{{songedit_id}}'/>
+                                    <div>
+                                        <input type="checkbox" hx-post="/song_editor/update_lytex" name="autobeamoff" {% if song.autobeamoff %}checked{% endif %}/>
+                                        <label for="autobeamoff">Autobeamoff</label>
+                                    </div>
+
+
+                                    <div>
+                                        <input type="checkbox" name="includelyrics"/>
+                                        <label for="includelyrics">Include lyrics</label>
+                                    </div>
+
+                                    <div class="row my-2">
+                                        <div class="col col-2">
+                                            <label for="time-signature">Time</label>
+                                            <input type="number" name="time_numerator" placeholder="2" value={% if song.time_numerator %}{{song.time_numerator}}{% else %}2{% endif %} size="1"> /
+                                            <input type="number" name="time_denominator" placeholder="4" value={% if song.time_denominator %}{{song.time_denominator}}{% else %}4{% endif %}  size="1">
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row my-2">
+                                        <label for="key_value">Key</label>
+                                        <select name="key_value">
+                                            <option value="c" {% if song.key_value == "c" %}selected{% endif %}>C</option>
+                                            <option value="cis"{% if song.key_value == "cis" %}selected{% endif %}>Cis</option>
+                                            <option value="d" {% if song.key_value == "d" %}selected{% endif %}>D</option>
+                                            <option value="dis" {% if song.key_value == "dis" %}selected{% endif %}>Dis</option>
+                                            <option value="e" {% if song.key_value == "e" %}selected{% endif %}>E</option>
+                                            <option value="f" {% if song.key_value == "f" %}selected{% endif %}>F</option>
+                                            <option value="fis" {% if song.key_value == "fis" %}selected{% endif %}>Fis</option>
+                                            <option value="g" {% if song.key_value == "g" %}selected{% endif %}>G</option>
+                                            <option value="gis" {% if song.key_value == "gis" %}selected{% endif %}>Gis</option>
+                                            <option value="a" {% if song.key_value == "a" %}selected{% endif %}>A</option>
+                                            <option value="bes" {% if song.key_value == "bes" %}selected{% endif %}>B</option>
+                                            <option value="B" {% if song.key_value == "b" %}selected{% endif %}>H</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="row my-1">
+                                        <div class="col col-2">
+                                            <input type="radio" name="key_type" value="major" {% if song.key_type=="major" %}checked{% endif %}>
+                                            <label for="major">major</label><br>
+                                        </div>
+                                        <div class="col col-2">
+                                            <input type="radio" name="key_type" value="minor" {% if song.key_type=="minor" %}checked{% endif %}>
+                                            <label for="minor">minor</label><br>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row my-2">
+                                        <div class="col col-2">
+                                            <label for="tempo">Tempo</label>
+                                            <input type="text" name="tempo" placeholder="Rychle" {% if song.tempo %}value="{{song.tempo}}"{% endif %}>
+
+                                            <label for="tempomidi">TempoMIDI</label>
+                                            <input type="number" name="tempomidi" value={{song.tempomidi}} placeholder="120">
+                                        </div>
+                                    </div>
+
+                                    <div class="row my-2">
+                                        <div class="col col-2">
+                                            <label for="firsttone">First tone</label>
+                                            <input type="text" name="firsttone" placeholder="c" value="{% if song.firsttone %}{{song.firsttone}}{% else %}c{% endif %}">
+                                        </div>
+                                    </div>
+
+                                    <textarea id=rows="{{rows}}" name="tones" style="min-width:500px; max-width:100%; min-height:50px; height:100%; width:100%;">{% if song.tones %}{{song.tones}}{% else %}c{% endif %}</textarea>
+                                </form>
+                            </div>
+                            <img id="dynamicImage" src="/tmp/editor/{{songedit_id}}/source.cropped{% if theme == "dark" %}.dark{% endif %}.png"/>
+                        </div>
+                        <div class="container mt-5">
+                            <div class="accordion" id="accordionExample">
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="headingOne">
+                                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                            Help
+                                        </button>
+                                    </h2>
+                                    <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                        <div class="accordion-body">
+                                            <p>For changing time inside score, write <code>\time 4/4</code>. For changing time in the beginning, please use form above</p>
+                                            <p>For tuplet (triola) write <code>\tuplet 2/3 {a8 g8 g8} </code></p>
+                                            <p>For bowing, use ( for beginning and ) for end of the bow, e.g. <code>a4( b8)</code></p>
+                                            <p>For after grace, use <code>\afterGrace a4 {\once \omit Flag.stroke=grace e8) }</code></p>
+                                            <p>For repetition, enclose the repeated block like this \repeat volta 2 {a4 b8 c8}</p>
+                                            <p>For linebreak, use <code>\break</code>. Please break according to the score</p>
+                                            <p>For rest, write r with duration, e.g <code>r4 r8 r16</code></p>
+                                            <p>Please use english notation for h and b, i.e. b and bes<p>
+                                            </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                        </div>
+
+                        <div class="card my-5">
+                            <div class="card-header">
+                                <h2>Verses</h2>
+                            </div>
+                            <div class="card-body">
+                                <form hx-post="/song_editor/update_verses" hx-trigger="keyup delay:500ms" hx-target="this" hx-swap="none" id="versesForm">
+                                    <input type='hidden' name='songedit_id' value='{{songedit_id}}'/>
+                                    <textarea class="form-control" name="verses" rows="{{rows}}" style="min-width:500px; max-width:100%; min-height:50px; height:100%; width:100%;">{% if song.verses %}{{song.verses}}{% endif %}</textarea>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col col-md-6">
+                        <img src="/{{song.img_src_path}}" class="sticky-top" width=500px>
+                    </div>
+
+                </div>
+            </div>
+
+
+
+
+            <script>
+
+                document.addEventListener('htmx:afterRequest', (event) => {
+                    refreshImage();
+                });
+                function refreshImage() {
+                    const resultImg = document.getElementById('dynamicImage');
+
+    // Get the current src value of the image
+                    let currentSrc = resultImg.getAttribute('src');
+
+    // Remove any existing timestamp from the URL
+                    currentSrc = currentSrc.split('?')[0];
+
+    // Append a unique timestamp to force reload of the image
+                    const timestamp = new Date().getTime();
+                    const newSrc = `${currentSrc}?t=${timestamp}`;
+
+    // Set a delay to allow the backend to update the image
+
+                    console.log('Reloading image after delay...');
+
+        // Preload the image to avoid flicker
+                    const preloadedImg = new Image();
+                    preloadedImg.src = newSrc;
+
+                    preloadedImg.onload = function() {
+            // Once the image is preloaded, replace the displayed image
+                        resultImg.src = newSrc;
+                    };
+
+
+                }
+            </script>
+{% endblock %}

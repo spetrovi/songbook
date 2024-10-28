@@ -1,4 +1,6 @@
 import inspect as another_inspect
+import json
+from pathlib import Path
 
 from fastapi import APIRouter
 from fastapi import Depends
@@ -16,6 +18,7 @@ from app.songbooks.models import Entry
 from app.songbooks.models import Songbook
 from app.songs import models as songsmodels
 from app.songs.models import Song
+from app.songs.models import SongEdit
 from app.users import models as usermodels
 from app.users.decorators import admin_login_required
 from app.users.models import User
@@ -59,6 +62,59 @@ def get_classes():
 
     class_names = [cls[0] for cls in classes]
     return classes, class_names
+
+
+@router.put("/transcript_assign/{songedit_id}/{user_id}", response_class=HTMLResponse)
+@admin_login_required
+def transcript_aassign(
+    request: Request,
+    songedit_id: str,
+    user_id: str,
+    session: Session = Depends(db.yield_session),
+):
+    songedit = session.exec(select(SongEdit).where(SongEdit.id == songedit_id)).one()
+    songedit.user_id = user_id
+    session.commit()
+    return HTMLResponse("", status_code=200)
+
+
+@router.get("/transcript_queue", response_class=HTMLResponse)
+@admin_login_required
+def admin_queue(request: Request, session: Session = Depends(db.yield_session)):
+    main_folder = Path("app/transcript_queue")
+
+    users = session.exec(select(User)).all()
+
+    images = []
+    songs = []
+    folders = []
+    subfolders = main_folder.glob("*")
+    for subfolder in subfolders:
+        folders.append(subfolder.name)
+        json_source = subfolder / "info.json"
+        with open(json_source, "r") as f:
+            info = json.load(f)
+
+        for path in subfolder.rglob("*jpg"):
+            server_path = str(path.relative_to("app"))
+            images.append(server_path)
+
+            song = session.exec(
+                select(SongEdit).where(SongEdit.img_src_path == server_path)
+            ).first()
+            if not song:
+                info["img_src_path"] = server_path
+                song = SongEdit.from_dict(info)
+                session.add(song)
+                session.commit()
+            songs.append(song)
+
+    return render(
+        request,
+        "admin/transcript_queue.html",
+        {"images": images, "songs": songs, "folders": folders, "users": users},
+        status_code=200,
+    )
 
 
 @router.get("/cls/{cls_str}", response_class=HTMLResponse)
@@ -194,30 +250,30 @@ def admin_logout_post_view(request: Request):
     return redirect("/login", remove_session=True)
 
 
-@router.get("/{object}", response_class=HTMLResponse)
-@admin_login_required
-def admin_users_view(
-    request: Request, object: str, session: Session = Depends(db.yield_session)
-):
-    cls = None
-    if object == "users":
-        cls = User
-    if object == "songbooks":
-        cls = Songbook
-    if object == "entries":
-        cls = Entry
+# @router.get("/{object}", response_class=HTMLResponse)
+# @admin_login_required
+# def admin_users_view(
+#    request: Request, object: str, session: Session = Depends(db.yield_session)
+# ):
+#    cls = None
+#    if object == "users":
+#        cls = User
+#    if object == "songbooks":
+#        cls = Songbook
+#    if object == "entries":
+#        cls = Entry
+#
+#    instances = session.query(cls).all()
 
-    instances = session.query(cls).all()
+#    id_name = (inspect(cls).primary_key)[0].name#
 
-    id_name = (inspect(cls).primary_key)[0].name
-
-    columns = [column.name for column in inspect(cls).c]
-    return render(
-        request,
-        "admin/objects.html",
-        {"instances": instances, "columns": columns, "id_name": id_name},
-        status_code=200,
-    )
+#    columns = [column.name for column in inspect(cls).c]
+#    return render(
+#        request,
+#        "admin/objects.html",
+#        {"instances": instances, "columns": columns, "id_name": id_name},
+#        status_code=200,
+#    )
 
 
 @router.get("/regenerate/{id_name}", response_class=HTMLResponse)

@@ -1,0 +1,44 @@
+\include "articulate.ly"
+
+spev = {
+  \version "2.24.1"
+  \clef violin
+  \key {{key_value}} \{{key_type}}
+  {% if autobeamoff %}\autoBeamOff{% endif %}
+  \time {{time_numerator}}/{{time_denominator}}
+  {% if tempo %}\tempo "{{tempo}}"{% endif %}
+  \relative {{firsttone}} {
+ {{tones}} \bar "|."
+  }
+}
+
+{% if includelyrics %}
+scorelyrics = \lyricmode{
+{{lyrics}}
+}
+{% endif %}
+
+
+% The score definition
+\score {
+    <<
+                \new Staff <<
+                \context Voice = "Spev" {  \spev }
+                {% if includelyrics %}\new Lyrics \scorelyrics {% endif %}
+                >>
+        >>
+ \layout {}
+}
+
+
+% The score definition
+\score {
+      \unfoldRepeats \articulate {
+    <<
+                \new Staff <<
+                \context Voice = "Spev" {  \spev }
+                >>
+        >>
+      }
+\midi{\tempo 4 = {{tempomidi}}}
+}

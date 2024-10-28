@@ -25,6 +25,7 @@ from .songbooks.models import Songbook
 from .songs.importer import import_library  # noqa
 from .songs.importer import update_song  # noqa
 from .songs.models import Song
+from .songs.models import SongEdit
 from .songs.models import Source
 from .users.backend import JWTCookieBackend
 from .users.decorators import login_required
@@ -55,6 +56,12 @@ def on_startup():
     # Mount the "tmp" folder to serve files
     tmp_path = Path(__file__).parent / "tmp"
     app.mount("/tmp", StaticFiles(directory=tmp_path), name="tmp")
+
+    # Mount the "tmp" folder to serve files
+    queue_path = Path(__file__).parent / "transcript_queue"
+    app.mount(
+        "/transcript_queue", StaticFiles(directory=queue_path), name="transcript_queue"
+    )
 
 
 class FileChangeHandler(FileSystemEventHandler):
@@ -286,4 +293,53 @@ def get_source_detail(
             "infinite_scroll": True,
             "filters": filters,
         },
+    )
+
+
+@app.get("/song_editor/{songedit_id}", response_class=HTMLResponse)
+@login_required
+def get_song_editor(
+    request: Request, songedit_id: str, session: Session = Depends(db.yield_session)
+):
+    # check if user can edit this song
+
+    song = session.exec(select(SongEdit).where(SongEdit.id == songedit_id)).one()
+
+    metadata = {
+        "title": song.title,
+        "signature": song.signature,
+        "page": song.page,
+        "number": song.number,
+        "type": song.type,
+        "year": song.year,
+        "location": song.location,
+        "recorded_by_name": song.recorded_by_name,
+        "recorded_by_surname": song.recorded_by_surname,
+        "recorded_name": song.recorded_name,
+        "recorded_surname": song.recorded_surname,
+        "recorded_age": song.recorded_age,
+    }
+    return render(
+        request,
+        "song_editor.html",
+        {"song": song, "metadata": metadata, "rows": 20, "songedit_id": songedit_id},
+    )
+
+
+@app.get("/transcript_queue", response_class=HTMLResponse)
+@login_required
+def transcript_queue(request: Request, session: Session = Depends(db.yield_session)):
+    # give me songedits
+    songs = session.exec(
+        select(SongEdit).where(SongEdit.user_id == request.user.username)
+    ).all()
+    # Extract unique folders
+    unique_folders = {str(Path(song.img_src_path).parent) for song in songs}
+    folders = list(unique_folders)
+
+    return render(
+        request,
+        "transcript_queue.html",
+        {"songs": songs, "folders": folders},
+        status_code=200,
     )
