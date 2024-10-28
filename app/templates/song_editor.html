@@ -101,8 +101,8 @@
                                     <textarea id=rows="{{rows}}" name="tones" style="min-width:500px; max-width:100%; min-height:50px; height:100%; width:100%;">{% if song.tones %}{{song.tones}}{% else %}c{% endif %}</textarea>
                                 </form>
                             </div>
+                            <img id="dynamicImage" src="/tmp/editor/{{songedit_id}}/source.cropped{% if theme == "dark" %}.dark{% endif %}.png"/>
                         </div>
-                        <img id="dynamicImage" src="/tmp/editor/{{songedit_id}}/source.cropped{% if theme == "dark" %}.dark{% endif %}.png"/>
                     </div>
 
                 </div>
