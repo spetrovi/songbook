@@ -259,7 +259,7 @@ async def post_songbook_editor_update_metadata(
     song.recorded_name = form_data.get("recorded_name")
     song.recorded_surname = form_data.get("recorded_surname")
     song.recorded_age = form_data.get("recorded_age")
-    song.commit()
+    session.commit()
 
     return
 
