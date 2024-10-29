@@ -81,8 +81,7 @@ def transcript_aassign(
 @router.get("/transcript_queue", response_class=HTMLResponse)
 @admin_login_required
 def admin_queue(request: Request, session: Session = Depends(db.yield_session)):
-    main_folder = Path("app/transcript_queue")
-
+    main_folder = Path(__file__).parent.parent / "transcript_queue"
     users = session.exec(select(User)).all()
 
     images = []
@@ -96,7 +95,7 @@ def admin_queue(request: Request, session: Session = Depends(db.yield_session)):
             info = json.load(f)
 
         for path in subfolder.rglob("*jpg"):
-            server_path = str(path.relative_to("app"))
+            server_path = "".join(str(path).split("/code/app/"))
             images.append(server_path)
 
             song = session.exec(
