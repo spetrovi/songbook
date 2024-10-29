@@ -11,6 +11,7 @@
 
                     <div class="card-body">
                         <form hx-post="/song_editor/update_metadata" hx-trigger="keyup, change delay:500ms" hx-target="this" hx-swap="none" id="metadataForm">
+                            <input type='hidden' name='songedit_id' value='{{songedit_id}}'/>
                             {% for key, item in metadata.items() %}
                                 <div>
                                     <label for="{{key}}">{{key}}</label>
