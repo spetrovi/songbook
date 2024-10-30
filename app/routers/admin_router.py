@@ -2,14 +2,17 @@ import inspect as another_inspect
 import json
 from pathlib import Path
 
+import jinja2
 from fastapi import APIRouter
 from fastapi import Depends
 from fastapi import Request
 from fastapi.responses import HTMLResponse
+from jinja2 import Environment
 from sqlalchemy import inspect
 from sqlmodel import select
 from sqlmodel import Session
 
+from app import config
 from app import db
 from app.shortcuts import redirect
 from app.shortcuts import render
@@ -25,6 +28,7 @@ from app.users.models import User
 from app.utils import build_song
 
 router = APIRouter(prefix="/admin")
+settings = config.get_settings()
 
 
 @router.get("/", response_class=HTMLResponse)
@@ -108,6 +112,52 @@ def admin_queue(request: Request, session: Session = Depends(db.yield_session)):
         request,
         "admin/transcript_queue.html",
         {"songs": songs, "folders": folders, "users": users},
+        status_code=200,
+    )
+
+
+@router.get("/song_show/{songedit_id}", response_class=HTMLResponse)
+@admin_login_required
+def admin_song_show(
+    request: Request, songedit_id: str, session: Session = Depends(db.yield_session)
+):
+    song = session.exec(select(SongEdit).where(SongEdit.id == songedit_id)).one()
+
+    env = Environment(
+        loader=jinja2.FileSystemLoader(settings.templates_dir),
+    )
+
+    # List of fields to include in the JSON output
+    fields_to_include = [
+        "title",
+        "signature",
+        "page",
+        "number",
+        "type",
+        "year",
+        "location",
+        "recorded_by_name",
+        "recorded_by_surname",
+        "recorded_name",
+        "recorded_surname",
+        "recorded_age",
+    ]
+
+    # Assuming `song` is your SongEdit instance, filter only specified fields
+    filtered_metadata = {field: getattr(song, field) for field in fields_to_include}
+
+    # Convert the filtered dictionary to JSON
+    metadata_json = json.dumps(
+        filtered_metadata, indent=4
+    )  # Format JSON with indentation for readability
+
+    song_template = env.get_template("song.jinja2")
+    song_lytex = song_template.render(dict(song))
+    source_lytex = "#(ly:set-option 'crop #t)\n" + song_lytex
+    return render(
+        request,
+        "admin/song_show.html",
+        {"song": song, "source_lytex": source_lytex, "metadata": metadata_json},
         status_code=200,
     )
 

@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col col-md-6">
+                <div class="card my-5 mx-1">
+                    <div class="card-header">
+                        <h2>Metadata     <button class="btn btn-primary" onclick="copyToClipboard('codeBlock1')" style="margin-bottom: 10px;">Copy Code Block 1</button> </h2>
+                    </div>
+
+                    <div class="card-body">
+                        <code id="codeBlock1" style="white-space: pre;">{{ metadata }}</code>
+                    </div>
+                </div>
+
+                <div class="card my-5 mx-1">
+                    <div class=" col-md-12 my-3">
+                        <div class="card mx-2 my-2">
+                            <div class="card-header">
+                                <h5 class="card-title">Score     <button class="btn btn-primary" onclick="copyToClipboard('codeBlock2')" style="margin-bottom: 10px;">Copy Code Block 2</button> </h5>
+                            </div>
+
+                            <div class="card-body">
+
+                                <code id="codeBlock2" style="white-space: pre;">{{ source_lytex }}</code>
+                            </div>
+                            <img id="dynamicImage" src="/tmp/editor/{{songedit_id}}/source.cropped{% if theme == "dark" %}.dark{% endif %}.png"/>
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+                <div class="card my-5">
+                    <div class="card-header">
+                        <h2>Verses     <button class="btn btn-primary" onclick="copyToClipboard('codeBlock3')" style="margin-bottom: 10px;">Copy Code Block 3</button></h2>
+                    </div>
+                    <div class="card-body">
+
+                        <code id="codeBlock3" style="white-space: pre;">{{ song.verses }}</code>
+                    </div>
+                </div>
+            </div>
+            <div class="col col-md-6">
+                <img src="/{{song.img_src_path}}" class="sticky-top" width=500px>
+            </div>
+
+        </div>
+    </div>
+
+
+
+    <script>
+        function copyToClipboard(blockId) {
+        // Get the text content of the specified code block
+            const codeContent = document.getElementById(blockId).innerText;
+
+        // Copy to clipboard
+            navigator.clipboard.writeText(codeContent).then(() => {
+            }).catch((error) => {
+                console.error("Failed to copy content:", error);
+            });
+        }
+    </script>
+{% endblock %}

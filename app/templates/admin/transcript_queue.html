@@ -24,7 +24,7 @@
                                                 </div>
                                                 <div class="card-body">
                                                     <img src="/{{song.img_src_path}}" width="100px" height="200px">
-                                                    <p>Current user: {{song.user_id}}</p>
+                                                    <p>Current user: {% for user in users %}{% if song.user_id == user.user_id %}{{user.email}}{% endif %}{% endfor %}</p>
                                                 </div>
                                                 <div class="card-footer">
                                                     <a href="/song_editor/{{song.id}}" class="btn btn-primary">Edit</a>
@@ -36,7 +36,7 @@
                                                             {% endfor %}
                                                         </ul>
                                                     </div>
-
+                                                    <a href="/admin/song_show/{{song.id}}" class="btn btn-info">View</a>
                                                 </div>
                                             </div>
                                         </div>
