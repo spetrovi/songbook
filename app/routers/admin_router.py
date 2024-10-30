@@ -84,7 +84,6 @@ def admin_queue(request: Request, session: Session = Depends(db.yield_session)):
     main_folder = Path(__file__).parent.parent / "transcript_queue"
     users = session.exec(select(User)).all()
 
-    images = []
     songs = []
     folders = []
     subfolders = main_folder.glob("*")
@@ -95,8 +94,7 @@ def admin_queue(request: Request, session: Session = Depends(db.yield_session)):
             info = json.load(f)
 
         for path in subfolder.rglob("*jpg"):
-            server_path = "".join(str(path).split("/code/app/"))
-            images.append(server_path)
+            server_path = str(Path(*path.parts[-3:]))
 
             song = session.exec(
                 select(SongEdit).where(SongEdit.img_src_path == server_path)
@@ -111,7 +109,7 @@ def admin_queue(request: Request, session: Session = Depends(db.yield_session)):
     return render(
         request,
         "admin/transcript_queue.html",
-        {"images": images, "songs": songs, "folders": folders, "users": users},
+        {"songs": songs, "folders": folders, "users": users},
         status_code=200,
     )
 
