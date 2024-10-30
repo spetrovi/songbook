@@ -84,7 +84,6 @@ def admin_queue(request: Request, session: Session = Depends(db.yield_session)):
     main_folder = Path(__file__).parent.parent / "transcript_queue"
     users = session.exec(select(User)).all()
 
-    songs = []
     folders = []
     subfolders = main_folder.glob("*")
     for subfolder in subfolders:
@@ -104,8 +103,7 @@ def admin_queue(request: Request, session: Session = Depends(db.yield_session)):
                 song = SongEdit.from_dict(info)
                 session.add(song)
                 session.commit()
-            songs.append(song)
-
+    songs = session.exec(select(SongEdit).order_by(SongEdit.img_src_path)).all()
     return render(
         request,
         "admin/transcript_queue.html",

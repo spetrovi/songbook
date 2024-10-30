@@ -335,7 +335,9 @@ def get_song_editor(
 def transcript_queue(request: Request, session: Session = Depends(db.yield_session)):
     # give me songedits
     songs = session.exec(
-        select(SongEdit).where(SongEdit.user_id == request.user.username)
+        select(SongEdit)
+        .where(SongEdit.user_id == request.user.username)
+        .order_by(SongEdit.img_src_path)
     ).all()
     # Extract unique folders
     unique_folders = {str(Path(song.img_src_path).parent) for song in songs}
