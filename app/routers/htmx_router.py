@@ -247,20 +247,22 @@ async def post_songbook_editor_update_metadata(
     songedit_id = form_data.get("songedit_id")
     song = session.exec(select(SongEdit).where(SongEdit.id == songedit_id)).one()
 
-    song.title = form_data.get("title")
-    song.signature = form_data.get("signature")
-    song.page = form_data.get("page")
-    song.number = form_data.get("number")
-    song.type = form_data.get("type")
-    song.year = form_data.get("year")
-    song.location = form_data.get("location")
-    song.recorded_by_name = form_data.get("recorded_by_name")
-    song.recorded_by_surname = form_data.get("recorded_by_surname")
-    song.recorded_name = form_data.get("recorded_name")
-    song.recorded_surname = form_data.get("recorded_surname")
-    song.recorded_age = form_data.get("recorded_age")
+    metadata = {
+        "title": form_data.get("title"),
+        "signature": form_data.get("signature"),
+        "page": form_data.get("page"),
+        "number": form_data.get("number"),
+        "type": form_data.get("type"),
+        "year": form_data.get("year"),
+        "location": form_data.get("location"),
+        "recorded_by_name": form_data.get("recorded_by_name"),
+        "recorded_by_surname": form_data.get("recorded_by_surname"),
+        "recorded_name": form_data.get("recorded_name"),
+        "recorded_surname": form_data.get("recorded_surname"),
+        "recorded_age": form_data.get("recorded_age"),
+    }
+    song.update_from_dict(metadata)
     session.commit()
-
     return
 
 
