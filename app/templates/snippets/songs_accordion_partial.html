@@ -11,13 +11,10 @@
     <div id="collapse{{song.id}}" class="accordion-collapse collapse" aria-labelledby="heading{{song.id}}" data-bs-parent="#accordionExample">
       <div class="accordion-body">
         {% include "snippets/song.html" %}
-        <a href="/song/{{song.id}}" class="btn btn-primary">Detail</a>
-        {% include "snippets/song_add_button.html" %}
-        {% if song.lytex %}
-          <div><font color='black'>
-            <midi-player src="/tmp/{{ song.id }}/source.midi" sound-font></midi-player>
-          </font></div>
-        {% endif %}
+        <div class="d-flex justify-content-start align-items-center mt-2">
+          <a href="/song/{{ song.id }}" class="btn btn-primary me-2">Detail</a>
+          {% include "snippets/song_add_button.html" %}
+        </div>
       </div>
     </div>
   </div>

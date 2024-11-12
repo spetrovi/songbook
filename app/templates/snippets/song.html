@@ -32,7 +32,13 @@
 
 {% if song.lytex %}
   <img src="/tmp/{{ song.id }}/source.cropped{% if theme == "dark" %}.dark{% endif %}.png" />
+  <div class="my-1">
+    <font color='black'>
+      <midi-player src="/tmp/{{ song.id }}/source.midi" sound-font></midi-player>
+    </font>
+  </div>
 {% endif %}
+
 {% if song.verses %}
   <div class="container mx-0 my-2">
     <div class="row d-flex">
