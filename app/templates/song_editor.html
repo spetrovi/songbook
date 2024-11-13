@@ -103,6 +103,12 @@
                                 </form>
                             </div>
                             <img id="dynamicImage" src="/tmp/editor/{{songedit_id}}/source.cropped{% if theme == "dark" %}.dark{% endif %}.png"/>
+                            <div>
+                                <font color='black'>
+                                    <midi-player id="dynamicMIDI" src="/tmp/editor/{{songedit_id}}/source.midi" sound-font></midi-player>
+                                </font>
+                            </div>
+
                         </div>
                         <div class="container mt-5">
                             <div class="accordion" id="accordionExample">
@@ -200,29 +206,35 @@
             });
             function refreshImage() {
                 const resultImg = document.getElementById('dynamicImage');
+                const resultMIDI = document.getElementById('dynamicMIDI');
 
-    // Get the current src value of the image
+                // Get the current src value of the image
                 let currentSrc = resultImg.getAttribute('src');
+                let currentMIDISrc = resultMIDI.getAttribute('src');
 
-    // Remove any existing timestamp from the URL
+                // Remove any existing timestamp from the URL
                 currentSrc = currentSrc.split('?')[0];
+                currentMIDISrc = currentMIDISrc.split('?')[0];
 
-    // Append a unique timestamp to force reload of the image
+                // Append a unique timestamp to force reload of the image
                 const timestamp = new Date().getTime();
                 const newSrc = `${currentSrc}?t=${timestamp}`;
+                const newMIDISrc = `${currentMIDISrc}?t=${timestamp}`;
 
-    // Set a delay to allow the backend to update the image
+                // Set a delay to allow the backend to update the image
 
                 console.log('Reloading image after delay...');
 
-        // Preload the image to avoid flicker
+                // Preload the image to avoid flicker
                 const preloadedImg = new Image();
                 preloadedImg.src = newSrc;
 
                 preloadedImg.onload = function() {
-            // Once the image is preloaded, replace the displayed image
+                // Once the image is preloaded, replace the displayed image
                     resultImg.src = newSrc;
                 };
+
+                resultMIDI.src = newMIDISrc
 
 
             }
