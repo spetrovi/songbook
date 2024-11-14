@@ -45,6 +45,13 @@
 
                                     <div class="row my-2">
                                         <div class="col col-2">
+                                            <label for="tempo">Instrument</label>
+                                            <input type="text" name="instrument" placeholder="acoustic grand" {% if song.instrument %}value="{{song.instrument}}"{% endif %}>
+                                        </div>
+                                    </div>
+
+                                    <div class="row my-2">
+                                        <div class="col col-2">
                                             <label for="time-signature">Time</label>
                                             <input type="number" name="time_numerator" placeholder="2" value={% if song.time_numerator %}{{song.time_numerator}}{% else %}2{% endif %} size="1"> /
                                             <input type="number" name="time_denominator" placeholder="4" value={% if song.time_denominator %}{{song.time_denominator}}{% else %}4{% endif %}  size="1">

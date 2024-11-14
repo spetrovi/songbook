@@ -36,6 +36,7 @@ scorelyrics = \lyricmode{
       \unfoldRepeats \articulate {
     <<
                 \new Staff <<
+                \set Staff.midiInstrument = "{{instrument}}"
                 \context Voice = "Spev" {  \spev }
                 >>
         >>

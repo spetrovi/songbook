@@ -133,6 +133,7 @@ class SongEdit(SQLModel, table=True):
     tones: Optional[str] = Field(default=None)
     message: Optional[str] = Field(default=None)
     scorelyrics: Optional[str] = Field(default=None)
+    instrument: Optional[str] = Field(default="acoustic grand")
     #    uuid = form_data.get("uuid")
 
     verses: Optional[str] = Field(default=None)

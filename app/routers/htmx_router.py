@@ -286,6 +286,7 @@ async def post_songbook_editor_update_lytex(
     firsttone = form_data.get("firsttone")
     tones = form_data.get("tones")
     uuid = form_data.get("uuid")
+    instrument = form_data.get("instrument")
 
     song = session.exec(select(SongEdit).where(SongEdit.id == uuid)).one()
 
@@ -300,6 +301,7 @@ async def post_songbook_editor_update_lytex(
         "tempomidi": tempomidi,
         "firsttone": firsttone,
         "tones": tones,
+        "instrument": instrument,
     }
 
     song.update_from_dict(template_data)
