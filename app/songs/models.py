@@ -168,6 +168,6 @@ class SongEdit(SQLModel, table=True):
     def update_from_dict(self, data: dict):
         """Updates an existing instance based on a dictionary."""
         for key, value in data.items():
-            if value:
+            if value is not None:
                 if hasattr(self, key):  # Check if the attribute exists on the object
                     setattr(self, key, value)
