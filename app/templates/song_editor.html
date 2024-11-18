@@ -110,10 +110,11 @@
                                 </form>
                             </div>
                             <img id="dynamicImage" src="/tmp/editor/{{songedit_id}}/source.cropped{% if theme == "dark" %}.dark{% endif %}.png"/>
-                            <div>
+                            <div class="d-flex align-items-center mb-3">
                                 <font color='black'>
                                     <midi-player id="dynamicMIDI" src="/tmp/editor/{{songedit_id}}/source.midi" sound-font></midi-player>
                                 </font>
+                                <a href="/tmp/editor/{{songbedit_id}}/source.midi" class="btn btn-secondary"><i class="bi bi-download"></i></a>
                             </div>
 
                         </div>
