@@ -7,6 +7,7 @@ spev = {
   {% if autobeamoff %}\autoBeamOff{% endif %}
   \time {{time_numerator}}/{{time_denominator}}
   {% if tempo %}\tempo "{{tempo}}"{% endif %}
+  \autoLineBreaksOff
   \relative {{firsttone}} {
  {{tones}} \bar "|."
   }
