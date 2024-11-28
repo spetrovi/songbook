@@ -148,7 +148,7 @@ def admin_song_show(
 
     # Convert the filtered dictionary to JSON
     metadata_json = json.dumps(
-        filtered_metadata, indent=4
+        filtered_metadata, indent=4, ensure_ascii=False
     )  # Format JSON with indentation for readability
 
     song_template = env.get_template("song.jinja2")
