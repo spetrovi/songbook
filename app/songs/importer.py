@@ -139,6 +139,7 @@ def update_song(path):
                 session.commit()
         else:
             song = make_entry(session, meta, lytex_source, verses_source)
+            build_song(song, force=True)
 
 
 def process_song(meta_path, db_songs, db_songs_ids, session):
