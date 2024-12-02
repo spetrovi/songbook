@@ -14,7 +14,7 @@ class UserLoginSchema(BaseModel):
     password: SecretStr
     session_id: str = None
 
-    @root_validator
+    @root_validator(skip_on_failure=True)
     def validate_user(cls, values):
         err_msg = "Incorrect credentials, please try again."
         email = values.get("email") or None

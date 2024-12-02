@@ -1,10 +1,10 @@
 import sys
 from pathlib import Path
 
-from pydantic import BaseSettings
 from pydantic import Field
+from pydantic import ValidationError
 from pydantic import validator
-from pydantic.error_wrappers import ValidationError
+from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):

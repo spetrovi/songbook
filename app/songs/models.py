@@ -39,6 +39,9 @@ class Person(SQLModel, table=True):
 
 
 class Source(SQLModel, table=True):
+    class Config:
+        arbitrary_types_allowed = True
+
     id: Optional[uuid.UUID] = Field(
         default_factory=uuid.uuid4, primary_key=True, index=True
     )
