@@ -30,15 +30,23 @@
   </div>
 {% endif %}
 
-{% if song.signature %}
+{% if song.year %}
   <div class="container-fluid">
     <div class="row row-cols-auto">
       <div class="col-md-2">
-        <p>{{song.signature}}: {{song.number}}</p>
+        <p>{{song.year}}</p>
       </div>
     </div>
   </div>
 {% endif %}
+
+<div class="container-fluid">
+  <div class="row row-cols-auto">
+    <div class="col-md-2">
+      <p>{{song.source.title}}</p>
+    </div>
+  </div>
+</div>
 
 {% if song.signature %}
   <div class="container-fluid">
@@ -49,6 +57,7 @@
     </div>
   </div>
 {% endif %}
+
 
 {% if song.lytex %}
   <img src="/tmp/{{ song.id }}/source.cropped{% if theme == "dark" %}.dark{% endif %}.png" />
