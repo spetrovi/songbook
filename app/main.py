@@ -6,6 +6,8 @@ from fastapi import Form
 from fastapi import Request
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
+from sqlalchemy import func
+from sqlalchemy import or_
 from sqlmodel import select
 from sqlmodel import Session
 from sqlmodel import SQLModel
@@ -112,14 +114,35 @@ def homepage(request: Request, session: Session = Depends(db.yield_session)):
         if user.is_admin:
             return redirect("/admin")
         return dashboard_view(request, session)
-    return redirect("/login")
+    return landing_view(request, session)
 
 
-@app.get("/account", response_class=HTMLResponse)
-@login_required
-def account_view(request: Request):
+@app.get("/landing", response_class=HTMLResponse)
+def landing_view(request: Request, session):
     context = {}
-    return render(request, "account.html", context)
+    context["sources"] = session.exec(
+        select(Source).where(
+            or_(
+                Source.id == "16a7fdb0-39bd-43bf-819b-539a56a3dc4b",
+                Source.id == "62f8cafc-15ef-48a4-a533-bcf385b02ea9",
+            )
+        )
+    ).all()
+
+    # One query to get counts of songs per source
+    results = session.exec(
+        select(Song.source_id, func.count(Song.id)).group_by(Song.source_id)
+    ).all()
+
+    # Turn into a dictionary keyed by source_id
+    songs_per_source = {source_id: count for source_id, count in results}
+
+    # Map source titles to counts (default to 0 if no songs)
+    context["songs_per_source"] = {
+        source.title: str(songs_per_source.get(source.id, 0))
+        for source in context["sources"]
+    }
+    return render(request, "landing.html", context)
 
 
 @app.get("/login", response_class=HTMLResponse)
@@ -185,19 +208,20 @@ def logout_get_view(request: Request):
 
 @app.post("/logout", response_class=HTMLResponse)
 def logout_post_view(request: Request):
-    return redirect("/login", remove_session=True)
+    return redirect("/", remove_session=True)
 
 
 @app.get("/song/{song_id}", response_class=HTMLResponse)
-@login_required
 def get_song_detail(
     request: Request, song_id: str, session: Session = Depends(db.yield_session)
 ):
     statement = select(Song).where(Song.id == song_id)
     song = session.exec(statement).one()
-    statement = select(Songbook).where(Songbook.user_id == request.user.username)
-    songbooks = session.exec(statement).all()
-
+    if request.user.is_authenticated:
+        statement = select(Songbook).where(Songbook.user_id == request.user.username)
+        songbooks = session.exec(statement).all()
+    else:
+        songbooks = []
     return render(
         request,
         "song_detail.html",
@@ -206,7 +230,6 @@ def get_song_detail(
 
 
 @app.get("/source/{source_id}/{page}", response_class=HTMLResponse)
-@login_required
 def get_source_detail_page(
     request: Request,
     source_id: str,
@@ -227,8 +250,11 @@ def get_source_detail_page(
     )
     songs = session.exec(statement).all()
 
-    statement = select(Songbook).where(Songbook.user_id == request.user.username)
-    songbooks = session.exec(statement).all()
+    if request.user.is_authenticated:
+        statement = select(Songbook).where(Songbook.user_id == request.user.username)
+        songbooks = session.exec(statement).all()
+    else:
+        songbooks = []
     return render(
         request,
         "snippets/songs_accordion_partial.html",
@@ -265,7 +291,6 @@ def generate_filters(source, session) -> [dict]:
 
 
 @app.get("/source/{source_id}/", response_class=HTMLResponse)
-@login_required
 def get_source_detail(
     request: Request, source_id: str, session: Session = Depends(db.yield_session)
 ):
@@ -284,8 +309,11 @@ def get_source_detail(
 
     filters = generate_filters(source, session)
 
-    statement = select(Songbook).where(Songbook.user_id == request.user.username)
-    songbooks = session.exec(statement).all()
+    if request.user.is_authenticated:
+        statement = select(Songbook).where(Songbook.user_id == request.user.username)
+        songbooks = session.exec(statement).all()
+    else:
+        songbooks = []
     return render(
         request,
         "source_detail.html",

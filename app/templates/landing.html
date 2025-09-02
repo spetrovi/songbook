@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block content %}
+    <style>
+
+        .card:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow on hover */
+
+
+        }
+        .smooth {
+            transition: all 1s ease-in;
+        }
+    </style>
+    <div class="container">
+        <h1>Songium</h1>
+            <!-- Hero Band -->
+        <section class="py-5 text-center text-dark" style="background-color: #FFD966;">
+            <div class="container">
+                <div class="row align-items-center">
+                  <!-- Left column: text -->
+                    <div class="col-md-6">
+                        <h1 class="display-4 fw-bold">Folklore Songbooks</h1>
+                        <p class="lead">Discover, transcribe, and preserve traditional songs.</p>
+                        <a href="/login" class="btn btn-dark btn-lg mt-3">Login</a>
+                    </div>
+                  <!-- Right column: image -->
+                    <div class="col-md-6">
+                        <img src="static/images/logo/songium_alpha.png" alt="Songium logo" class="img-fluid w-50">
+                    </div>
+                </div>
+            </div>
+        </section>
+    <!-- Books Section -->
+        <div class="my-5">
+            <h2>Publicly available sources</h2>
+            <!-- Book Cards -->
+            <div class="container">
+                <div class="row">
+                    {% for source in sources %}
+                        <div class="col-md-4 col-sm-6">
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <h5>{{ source.title }}</h5>
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-text">{{ source.author.name }} {{ source.author.surname }}, {{ source.year }}</p>
+                                    <p class="card-text">Number of songs: {{songs_per_source[source.title]}}</p>
+                                    <a href="source/{{ source.id }}" class="btn btn-primary">Read More</a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+{% endblock %}
