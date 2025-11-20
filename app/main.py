@@ -147,7 +147,7 @@ def landing_view(request: Request, session):
 
 @app.get("/pubquiz", response_class=HTMLResponse)
 def pubquiz_view(request: Request):
-    return redirect("/templates/quiz.html")
+    return render(request, "quiz.html", {})
 
 
 @app.get("/login", response_class=HTMLResponse)
