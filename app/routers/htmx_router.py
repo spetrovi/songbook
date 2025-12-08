@@ -156,6 +156,85 @@ def get_rename_songbook(
     )
 
 
+@router.post("/pubquiz_submit", response_class=HTMLResponse)
+async def pubquiz_view(request: Request):
+    form_data = await request.form()
+    # form_data is an ImmutableMultiDict; convert to dict
+    answers = dict(form_data)
+
+    CORRECT_ANSWERS = {
+        # Brno
+        "brno_1": "tugendhat",
+        "brno_2": "mahenovo",
+        "brno_3": "svratka_svitava",
+        "brno_4": "11",
+        "brno_5": "jost",
+        "brno_6": "1645",
+        "brno_7": "racny",
+        # Vseobecne
+        "gen_1": "8",
+        "gen_2": "slep",
+        "gen_3": "seismograf",
+        "gen_4": "10b",
+        "gen_5": "queen",
+        "gen_6": "orwell",
+        "gen_7": "1494",
+        "gen_8": "excalibur",
+        "gen_9": "madar",
+        "gen_10": "4",
+        "gen_11": "mona",
+        "gen_12": "kopernik",
+        "gen_13": "tue",
+        # Film
+        "film_1": "mia_vincent",
+        "film_2": "dicaprio",
+        "film_3": "keaton",
+        "film_4": "ledger",
+        "film_5": "vader",
+        "film_6": "spasitel",
+        "film_7": "melmac",
+        "film_8": "nakatomi",
+        "film_9": "stallone",
+        # PanPrstenu
+        "lotr_1": "20",
+        "lotr_2": "9",
+        "lotr_3": "shore",
+        "lotr_4": "glamdring",
+        "lotr_5": "prancing",
+        # CoByloDrive
+        "earlier_1": "bach",
+        "earlier_2": "aurora",
+        "earlier_3": "davinci",
+        "earlier_4": "columbus",
+        "earlier_5": "youtube",
+        "earlier_6": "flash",
+        "earlier_7": "buttons",
+        "earlier_8": "nintendo",
+        "prog_1": "basic_input_output_system",
+        "prog_2": "11.001001",
+        "prog_3": "bcpl",
+        "prog_4": "kurt_godel",
+        "prog_5": "2001-09-17",
+        "prog_6": "sapo",
+    }
+
+    # Compute score
+    score = 0
+
+    for qid, correct_value in CORRECT_ANSWERS.items():
+        submitted_value = answers.get(f"q_{qid}")
+        is_correct = submitted_value == correct_value
+        if is_correct:
+            score += 1
+
+    # Render a response fragment (could be full page or just results)
+    return render(
+        request,
+        "pubquiz_result.html",
+        {"score": score},
+    )
+
+
 @router.get("/songbook_card_body/{songbook_id}", response_class=HTMLResponse)
 @login_required
 def get_songbook_card_body(request: Request, songbook_id: str):

@@ -1,402 +1,123 @@
 <!DOCTYPE html>
-<html lang="cs">
+<html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>Full Quiz CZ/EN</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Quiz</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
         <style>
-            .lang-toggle {
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                z-index: 2000;
-            }
+            .lang-en.d-none { display: none; }
+            .lang-cz.d-none { display: none; }
         </style>
+        <script src="https://unpkg.com/htmx.org@1.7.0/dist/htmx.min.js"></script>
     </head>
-    <body class="bg-light">
-
-<!-- Language Toggle -->
-        <div class="lang-toggle">
-            <div class="btn-group">
-                <button id="btn-cz" class="btn btn-primary btn-sm active">CZ</button>
-                <button id="btn-en" class="btn btn-outline-primary btn-sm">EN</button>
-            </div>
-        </div>
-
+    <body>
         <div class="container py-5">
+
+    <!-- Language Toggle -->
+            <div class="lang-toggle mb-4 text-center">
+                <div class="btn-group">
+                    <button id="btn-cz" class="btn btn-primary btn-sm active">CZ</button>
+                    <button id="btn-en" class="btn btn-outline-primary btn-sm">EN</button>
+                </div>
+            </div>
+
             <h1 class="text-center mb-5">🎉 QUIZ 🎉</h1>
 
-            <div class="accordion" id="quizAccordion">
+            <form id="quizForm" method="POST" hx-post="/pubquiz_submit" hx-target="this" hx-swap="outerHTML">
+                <div class="accordion" id="quizAccordion">
 
-        <!-- BRNO -->
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="headingBrno">
-                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseBrno">
-                            BRNO
-                        </button>
-                    </h2>
-                    <div id="collapseBrno" class="accordion-collapse collapse show" data-bs-parent="#quizAccordion">
-                        <div class="accordion-body">
-                            <div class="lang-cz">
-                                <ul>
-                                    <li><strong>Jaká brněnská stavba je zapsána na seznamu UNESCO?</strong>
-                                        <ul><li>hrad Špilberk</li><li>vila Tugendhat</li><li>Stará Radnice</li></ul>
-                                    </li>
-                                    <li><strong>Historické divadlo na Malinovského náměstí:</strong>
-                                        <ul><li>Janáčkovo</li><li>Národní</li><li>Mahenovo</li></ul>
-                                    </li>
-                                    <li><strong>Řeky v Brně:</strong>
-                                        <ul><li>Morava a Svratka</li><li>Svratka a Svitava</li><li>Svitava a Dyje</li></ul>
-                                    </li>
-                                    <li><strong>Kdy odbíjejí hodiny podle pověsti?</strong>
-                                        <ul><li>12 hodin</li><li>11 hodin</li><li>13 hodin</li></ul>
-                                    </li>
-                                    <li><strong>Socha jezdce u sv. Tomáše:</strong>
-                                        <ul><li>Váňa</li><li>Horymír</li><li>Jošt Moravský</li></ul>
-                                    </li>
-                                    <li><strong>Obléhání Brna Švédy:</strong>
-                                        <ul><li>1420</li><li>1645</li><li>1805</li></ul>
-                                    </li>
-                                    <li><strong>Hantec (brněnský slang):</strong>
-                                        <ul><li>hodinky – ráčny</li><li>trolejbus – šmirgl</li><li>práce – hokna</li></ul>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="lang-en d-none">
-                                <ul>
-                                    <li><strong>Which Brno building is listed by UNESCO?</strong>
-                                        <ul><li>Špilberk Castle</li><li>Tugendhat Villa</li><li>Old Town Hall</li></ul>
-                                    </li>
-                                    <li><strong>Historic theatre on Malinovský Square:</strong>
-                                        <ul><li>Janáček Theatre</li><li>National Theatre</li><li>Mahen Theatre</li></ul>
-                                    </li>
-                                    <li><strong>Which rivers flow through Brno?</strong>
-                                        <ul><li>Morava and Svratka</li><li>Svratka and Svitava</li><li>Svitava and Dyje</li></ul>
-                                    </li>
-                                    <li><strong>At what hour do the famous Brno clocks chime according to legend?</strong>
-                                        <ul><li>12</li><li>11</li><li>13</li></ul>
-                                    </li>
-                                    <li><strong>Statue of horse rider at St. Thomas Church:</strong>
-                                        <ul><li>Váňa (local jockey)</li><li>Horymír</li><li>Jošt of Moravia</li></ul>
-                                    </li>
-                                    <li><strong>When was Brno besieged by the Swedes?</strong>
-                                        <ul><li>1420</li><li>1645</li><li>1805</li></ul>
-                                    </li>
-                                    <li><strong>Hantec (Brno slang):</strong>
-                                        <ul><li>hodinky = ráčny (watch)</li><li>trolejbus = šmirgl (trolleybus)</li><li>práce = hokna (work)</li></ul>
-                                    </li>
-                                </ul>
+                    {% for category, questions in areas.items() %}
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="heading{{ loop.index }}">
+                                <button class="accordion-button collapsed" type="button"
+                                        data-bs-toggle="collapse"
+                                        data-bs-target="#collapse{{ loop.index }}"
+                                        aria-expanded="false"
+                                        aria-controls="collapse{{ loop.index }}">
+                                    {{ category }}
+                                </button>
+                            </h2>
+
+                            <div id="collapse{{ loop.index }}" class="accordion-collapse collapse"
+                                 aria-labelledby="heading{{ loop.index }}"
+                                 data-bs-parent="#quizAccordion">
+                                <div class="accordion-body">
+
+                                    {% for q in questions %}
+                                        <fieldset class="mb-4" data-question-id="{{ q.id }}">
+                                            <legend class="h6 lang-cz">{{ q.question.cz }}</legend>
+                                            <legend class="h6 lang-en d-none">{{ q.question.en }}</legend>
+
+                                            {% for ans in q.answers %}
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio"
+                                                           name="q_{{ q.id }}"
+                                                           id="q_{{ q.id }}_{{ loop.index0 }}"
+                                                           value="{{ ans.value }}">
+                                                    <label class="form-check-label lang-text"
+                                                           data-cz="{{ ans.cz }}"
+                                                           data-en="{{ ans.en }}"
+                                                           for="q_{{ q.id }}_{{ loop.index0 }}">{{ ans.cz }}</label>
+                                                </div>
+                                            {% endfor %}
+
+                                        </fieldset>
+                                    {% endfor %}
+
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    {% endfor %}
+
                 </div>
 
-        <!-- VŠEOBECNÉ OTÁZKY -->
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="headingGeneral">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseGeneral">
-                            VŠEOBECNÉ OTÁZKY / GENERAL KNOWLEDGE
-                        </button>
-                    </h2>
-                    <div id="collapseGeneral" class="accordion-collapse collapse" data-bs-parent="#quizAccordion">
-                        <div class="accordion-body">
-                            <div class="lang-cz">
-                                <ul>
-                                    <li>Kolik různých hodnot mincí má měna Euro? – 8 (1,2,5,10,20,50 centů, 1 euro, 2 euro)</li>
-                                    <li>Jakým handicapem trpěl Homér? – Byl slepý</li>
-                                    <li>Jak se nazývá přístroj, který měří otřesy Země? – Seizmograf</li>
-                                    <li>Světelný rok měří přibližně: 1 bilion / 10 bilionů / 100 bilionů km</li>
-                                    <li>Za jaké situace šachista řekne „garde“? – Při ohrožení dámy soupeřem</li>
-                                    <li>Anglický spisovatel, autor Farmy zvířat a 1984 – George Orwell</li>
-                                    <li>Římské číslo MCDXCIV = 1494</li>
-                                    <li>Meč krále Artuše – Excalibur</li>
-                                    <li>Erno Rubik – Maďar</li>
-                                    <li>Počet oceánů – 4</li>
-                                    <li>Hvězda, která exploduje – Supernova</li>
-                                    <li>Polka pochází z Čech</li>
-                                    <li>Zvíře ve větě: „Kvůli tobě jsem dostal pětku“ – Vůl</li>
-                                    <li>La Gioconda – známější jméno Mona Lisa</li>
-                                    <li>Hmotnost látky na objem – Hustota</li>
-                                    <li>Průkopník heliocentrismu – Mikuláš Koperník</li>
-                                    <li>Citát „I ty, Brute?“ – při zradě přítele</li>
-                                    <li>Marie Curie-Sklodowská – objevitelka radia</li>
-                                    <li>Pokud před třemi dny byl den přecházející pátku, pozítří bude – Úterý</li>
-                                    <li>Jak „slyší“ had? – Registruje vibrace čelistí</li>
-                                </ul>
-                            </div>
-                            <div class="lang-en d-none">
-                                <ul>
-                                    <li>How many coin values are in the Euro? – 8 (1,2,5,10,20,50 cents, 1 euro, 2 euro)</li>
-                                    <li>What handicap did Homer have? – He was blind</li>
-                                    <li>Device that measures earthquakes – Seismograph</li>
-                                    <li>Light year measures approximately: 1 trillion / 10 trillion / 100 trillion km</li>
-                                    <li>When does a chess player say "garde"? – When the queen is threatened by opponent</li>
-                                    <li>English author of Animal Farm and 1984 – George Orwell</li>
-                                    <li>Roman numeral MCDXCIV = 1494</li>
-                                    <li>King Arthur's sword – Excalibur</li>
-                                    <li>Erno Rubik – Hungarian</li>
-                                    <li>Number of oceans – 4</li>
-                                    <li>A star that explodes – Supernova</li>
-                                    <li>Polka originates from Czechia</li>
-                                    <li>Find the animal in sentence: "I got a five because of you" – Ox</li>
-                                    <li>La Gioconda – more famous name Mona Lisa</li>
-                                    <li>Mass of substance per volume – Density</li>
-                                    <li>Heliocentrism pioneer – Nicolaus Copernicus</li>
-                                    <li>Quote "Et tu, Brute?" – during betrayal by a friend</li>
-                                    <li>Polish scientist who discovered radium – Marie Curie-Sklodowska</li>
-                                    <li>If three days ago was the day before Friday, the day after tomorrow will be – Tuesday</li>
-                                    <li>How does a snake "hear"? – Detects vibrations via jaw</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+                <div class="text-center mt-4 id="quizbutton"">
+                    <button type="submit" class="btn btn-success btn-lg">SEND</button>
                 </div>
+            </form>
 
-        <!-- FILM -->
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="headingFilm">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFilm">
-                            FILM
-                        </button>
-                    </h2>
-                    <div id="collapseFilm" class="accordion-collapse collapse" data-bs-parent="#quizAccordion">
-                        <div class="accordion-body">
-                            <div class="lang-cz">
-                                <ul>
-                                    <li>Pulp Fiction – postavy, které vyhrály Jack Rabbit’s Twist – Mia Wallace a Vincent Vega</li>
-                                    <li>Alespoň 4 herci, kteří hráli Jamese Bonda – Sean Connery, David Niven, George Lazenby, Roger Moore, Timothy Dalton, Pierce Brosnan, Daniel Craig</li>
-                                    <li>Alespoň 4 herci, kteří hráli Batmana – Lewis Wilson, Robert Lowery, Adam West, Michael Keaton, Val Kilmer, George Clooney, Christian Bale, Ben Affleck, Robert Pattinson</li>
-                                    <li>Alespoň 2 herci, kteří hráli Jokera – Jack Nicholson, Heath Ledger, Joaquin Phoenix</li>
-                                    <li>Loď Jacka Sparrowa – Černá perla</li>
-                                    <li>Anakin Skywalker – Darth Vader</li>
-                                    <li>Pes rodiny Simpsonů – Spasitel</li>
-                                    <li>Alf přiletěl z planety – Melmac</li>
-                                    <li>Název mrakodrapu ve filmu Die Hard – Nakatomi Plaza</li>
-                                    <li>Autor scénáře Rocky – Sylvester Stallone</li>
-                                </ul>
-                            </div>
-                            <div class="lang-en d-none">
-                                <ul>
-                                    <li>Pulp Fiction – characters who won Jack Rabbit’s Twist – Mia Wallace and Vincent Vega</li>
-                                    <li>At least 4 actors who played James Bond – Sean Connery, David Niven, George Lazenby, Roger Moore, Timothy Dalton, Pierce Brosnan, Daniel Craig</li>
-                                    <li>At least 4 actors who played Batman – Lewis Wilson, Robert Lowery, Adam West, Michael Keaton, Val Kilmer, George Clooney, Christian Bale, Ben Affleck, Robert Pattinson</li>
-                                    <li>At least 2 actors who played Joker – Jack Nicholson, Heath Ledger, Joaquin Phoenix</li>
-                                    <li>Jack Sparrow's ship – Black Pearl</li>
-                                    <li>Anakin Skywalker – Darth Vader</li>
-                                    <li>Simpsons family dog – Santa's Little Helper</li>
-                                    <li>Alf came from planet – Melmac</li>
-                                    <li>Skyscraper in Die Hard – Nakatomi Plaza</li>
-                                    <li>Rocky screenplay – Sylvester Stallone</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-        <!-- LOTR -->
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="headingLOTR">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseLOTR">
-                            LOTR
-                        </button>
-                    </h2>
-                    <div id="collapseLOTR" class="accordion-collapse collapse" data-bs-parent="#quizAccordion">
-                        <div class="accordion-body">
-                            <div class="lang-cz">
-                                <ul>
-                                    <li>Kolik prstenů bylo vytvořeno pro lidi, trpaslíky a elfy? – 9, 3, 7</li>
-                                    <li>Kolik členů má Společenstvo? – 9</li>
-                                    <li>Kdo složil hudbu k trilogii? – Howard Shore</li>
-                                </ul>
-                            </div>
-                            <div class="lang-en d-none">
-                                <ul>
-                                    <li>How many rings were made for men, dwarves, and elves? – 9, 3, 7</li>
-                                    <li>How many members are in the Fellowship? – 9</li>
-                                    <li>Who composed the music for the trilogy? – Howard Shore</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-        <!-- SLAVNÉ DVOJICE / FAMOUS PAIRS -->
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="headingPairs">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePairs">
-                            SLAVNÉ DVOJICE / FAMOUS PAIRS
-                        </button>
-                    </h2>
-                    <div id="collapsePairs" class="accordion-collapse collapse" data-bs-parent="#quizAccordion">
-                        <div class="accordion-body">
-                            <div class="lang-cz">
-                                <ul>
-                                    <li>Yoko Ono / John Lennon</li>
-                                    <li>Laurel / Hardy</li>
-                                    <li>Monika / Andrej (Babiš)</li>
-                                    <li>Courtney Love / Kurt Cobain</li>
-                                    <li>Beyoncé / Jay-Z</li>
-                                    <li>Pat / Mat</li>
-                                    <li>Paul Simon / Carrie Fisher</li>
-                                </ul>
-                            </div>
-                            <div class="lang-en d-none">
-                                <ul>
-                                    <li>Yoko Ono / John Lennon</li>
-                                    <li>Laurel / Hardy</li>
-                                    <li>Monika / Andrej (Babiš)</li>
-                                    <li>Courtney Love / Kurt Cobain</li>
-                                    <li>Beyoncé / Jay-Z</li>
-                                    <li>Pat / Mat</li>
-                                    <li>Paul Simon / Carrie Fisher</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-        <!-- KDO/CO BYL(O) DŘÍV? / WHO/WHAT CAME FIRST -->
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="headingFirst">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFirst">
-                            KDO/CO BYL(O) DŘÍV? / WHO/WHAT CAME FIRST
-                        </button>
-                    </h2>
-                    <div id="collapseFirst" class="accordion-collapse collapse" data-bs-parent="#quizAccordion">
-                        <div class="accordion-body">
-                            <div class="lang-cz">
-                                <ul>
-                                    <li>Mozart / Bach</li>
-                                    <li>Titanic / Aurora – 1912 / 1903</li>
-                                    <li>Leonardo da Vinci / Michelangelo – 1452 / 1564</li>
-                                    <li>Kolumbus / Magellan – 1451 / 1480</li>
-                                    <li>YouTube / první iPhone – 2005 / 2007</li>
-                                    <li>WWW / Flash paměť – 1989 / 1980-1984</li>
-                                    <li>Knoflíky / knihtisk – 13. stol. / 1439</li>
-                                </ul>
-                            </div>
-                            <div class="lang-en d-none">
-                                <ul>
-                                    <li>Mozart / Bach</li>
-                                    <li>Titanic / Aurora – 1912 / 1903</li>
-                                    <li>Leonardo da Vinci / Michelangelo – 1452 / 1564</li>
-                                    <li>Columbus / Magellan – 1451 / 1480</li>
-                                    <li>YouTube / first iPhone – 2005 / 2007</li>
-                                    <li>WWW / Flash memory – 1989 / 1980-1984</li>
-                                    <li>Buttons / printing press – 13th century / 1439</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-        <!-- OTÁZKY NA POZNÁVÁNÍ / PERSONAL QUESTIONS -->
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="headingPersonal">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePersonal">
-                            OTÁZKY NA POZNÁVÁNÍ / PERSONAL QUESTIONS
-                        </button>
-                    </h2>
-                    <div id="collapsePersonal" class="accordion-collapse collapse" data-bs-parent="#quizAccordion">
-                        <div class="accordion-body">
-                            <div class="lang-cz">
-                                <ul>
-                                    <li>Co tě vyděsí nebo děsí?</li>
-                                    <li>Co tě dělá šťastným/šťastnou?</li>
-                                    <li>Co máš rád/a na setkávání s novými lidmi?</li>
-                                    <li>Kdybys mohl/a cestovat kamkoliv, kam by to bylo?</li>
-                                    <li>Je něco, na co jsi pyšný/á?</li>
-                                    <li>Co si myslíš, že je nejlepší práce a proč?</li>
-                                    <li>Co tě nejvíce uklidňuje?</li>
-                                    <li>Co tě vždycky rozesměje?</li>
-                                    <li>Existuje něco, co bys rád/a vyzkoušel/a, ale ještě jsi neměl/a odvahu?</li>
-                                    <li>Jaká je tvá idea perfektního dne?</li>
-                                    <li>Jak bys sebe popsal/a pár slovy?</li>
-                                </ul>
-                            </div>
-                            <div class="lang-en d-none">
-                                <ul>
-                                    <li>What scares you or frightens you?</li>
-                                    <li>What makes you happy?</li>
-                                    <li>What do you enjoy about meeting new people?</li>
-                                    <li>If you could travel anywhere, where would it be?</li>
-                                    <li>Is there something you are proud of?</li>
-                                    <li>What do you think is the best job in the world and why?</li>
-                                    <li>What calms you the most?</li>
-                                    <li>What always makes you laugh?</li>
-                                    <li>Is there something you’d like to try but haven’t had the courage yet?</li>
-                                    <li>What is your idea of a perfect day?</li>
-                                    <li>How would you describe yourself in a few words?</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-        <!-- JIRKA OTÁZKY -->
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="headingJirka">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseJirka">
-                            JIRKA OTÁZKY
-                        </button>
-                    </h2>
-                    <div id="collapseJirka" class="accordion-collapse collapse" data-bs-parent="#quizAccordion">
-                        <div class="accordion-body">
-                            <div class="lang-cz">
-                                <ul>
-                                    <li>Co znamená zkratka BIOS?</li>
-                                    <li>Jaké číslo přibližně představuje konstanta PI v binární soustavě? – 11.0010010000111111</li>
-                                    <li>Který programovací jazyk je předchůdcem jazyka C?</li>
-                                    <li>Kdo byl významný matematik narozený v Brně?</li>
-                                    <li>Kdy byla vydána první verze Linux kernelu (0.01)? – 17. 9. 2001</li>
-                                    <li>Jak se jmenoval první československý programovatelný počítač? – SAPO</li>
-                                    <li>Kdo vedl jeho vývoj? – Antonín Svoboda</li>
-                                    <li>Co je Augec?</li>
-                                    <li>Co jsou to hózny?</li>
-                                    <li>Jak se řekne v hantecu slunce?</li>
-                                </ul>
-                            </div>
-                            <div class="lang-en d-none">
-                                <ul>
-                                    <li>What does the abbreviation BIOS mean?</li>
-                                    <li>Which number approximately represents the constant PI in binary? – 11.0010010000111111</li>
-                                    <li>Which programming language is the predecessor of C?</li>
-                                    <li>Which notable mathematician was born in Brno?</li>
-                                    <li>When was the first Linux kernel released (0.01)? – 17 Sep 2001</li>
-                                    <li>What was the first Czechoslovak programmable computer called? – SAPO</li>
-                                    <li>Who led its development? – Antonín Svoboda</li>
-                                    <li>What is Augec?</li>
-                                    <li>What are hózny?</li>
-                                    <li>How do you say sun in Hantec slang?</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+            <div id="quizContainer">
+    <!-- The quiz or results will be replaced here by HTMX -->
             </div>
         </div>
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
         <script>
-            const btnCZ = document.getElementById('btn-cz');
-            const btnEN = document.getElementById('btn-en');
-            const langCZ = document.querySelectorAll('.lang-cz');
-            const langEN = document.querySelectorAll('.lang-en');
+            function setLanguage(lang) {
+    // Switch answers
+                document.querySelectorAll(".lang-text").forEach(label => {
+                    label.textContent = label.dataset[lang];
+                });
 
-            btnCZ.addEventListener('click', () => {
-                langCZ.forEach(el => el.classList.remove('d-none'));
-                langEN.forEach(el => el.classList.add('d-none'));
-                btnCZ.classList.add('active');
-                btnEN.classList.remove('active');
-            });
+    // Switch questions
+                document.querySelectorAll("legend.lang-cz, legend.lang-en").forEach(legend => {
+                    if(lang === "cz") {
+                        legend.classList.toggle("d-none", !legend.classList.contains("lang-cz") ? true : false);
+                    } else {
+                        legend.classList.toggle("d-none", !legend.classList.contains("lang-en") ? true : false);
+                    }
+                });
 
-            btnEN.addEventListener('click', () => {
-                langCZ.forEach(el => el.classList.add('d-none'));
-                langEN.forEach(el => el.classList.remove('d-none'));
-                btnCZ.classList.remove('active');
-                btnEN.classList.add('active');
-            });
+    // Update button styling
+                if(lang === "cz") {
+                    btnCz.classList.add("btn-primary", "active");
+                    btnCz.classList.remove("btn-outline-primary");
+                    btnEn.classList.add("btn-outline-primary");
+                    btnEn.classList.remove("btn-primary", "active");
+                } else {
+                    btnEn.classList.add("btn-primary", "active");
+                    btnEn.classList.remove("btn-outline-primary");
+                    btnCz.classList.add("btn-outline-primary");
+                    btnCz.classList.remove("btn-primary", "active");
+                }
+            }
+
+            const btnCz = document.getElementById("btn-cz");
+            const btnEn = document.getElementById("btn-en");
+            btnCz.addEventListener("click", () => setLanguage("cz"));
+            btnEn.addEventListener("click", () => setLanguage("en"));
         </script>
 
     </body>

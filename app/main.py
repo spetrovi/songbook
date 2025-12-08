@@ -1,3 +1,4 @@
+import json
 from pathlib import Path
 
 from fastapi import Depends
@@ -147,10 +148,11 @@ def landing_view(request: Request, session):
 
 @app.get("/pubquiz", response_class=HTMLResponse)
 def pubquiz_view(request: Request):
-    return render(request, "quiz.html", {})
+    with open("app/templates/quiz.json", "r", encoding="utf-8") as f:
+        questions = json.load(f)
+    return render(request, "quiz.html", {"areas": questions})
 
 
-@app.get("/login", response_class=HTMLResponse)
 def login_get_view(request: Request):
     return render(request, "auth/login.html", {})
 
