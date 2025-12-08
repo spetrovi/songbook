@@ -1,0 +1,583 @@
+{
+  "Brno": [
+    {
+      "id": "brno_1",
+      "question": {
+        "cz": "Jaká brněnská stavba je zapsána na seznamu UNESCO?",
+        "en": "Which Brno landmark is listed as a UNESCO site?"
+      },
+      "answers": [
+        {"value": "spilberk", "cz": "hrad Špilberk", "en": "Špilberk Castle"},
+        {"value": "tugendhat", "cz": "vila Tugendhat", "en": "Villa Tugendhat"},
+        {"value": "stara_radnice", "cz": "Stará Radnice", "en": "Old Town Hall"}
+      ]
+    },
+    {
+      "id": "brno_2",
+      "question": {
+        "cz": "Historické divadlo na Malinovského náměstí:",
+        "en": "Which historic theatre is located on Malinovský Square?"
+      },
+      "answers": [
+        {"value": "janackovo", "cz": "Janáčkovo", "en": "Janáček Theatre"},
+        {"value": "narodni", "cz": "Národní", "en": "National Theatre"},
+        {"value": "mahenovo", "cz": "Mahenovo", "en": "Mahen Theatre"}
+      ]
+    },
+    {
+      "id": "brno_3",
+      "question": {
+        "cz": "Řeky v Brně:",
+        "en": "Rivers in Brno:"
+      },
+      "answers": [
+        {"value": "morava_svratka", "cz": "Morava a Svratka", "en": "Morava and Svratka"},
+        {"value": "svratka_svitava", "cz": "Svratka a Svitava", "en": "Svratka and Svitava"},
+        {"value": "svitava_dyje", "cz": "Svitava a Dyje", "en": "Svitava and Dyje"}
+      ]
+    },
+    {
+      "id": "brno_4",
+      "question": {
+        "cz": "Kdy odbíjejí hodiny podle pověsti?",
+        "en": "When do the legendary Brno bells chime?"
+      },
+      "answers": [
+        {"value": "12", "cz": "12 hodin", "en": "At 12 o’clock"},
+        {"value": "11", "cz": "11 hodin", "en": "At 11 o’clock"},
+        {"value": "13", "cz": "13 hodin", "en": "At 1 pm (13:00)"}
+      ]
+    },
+    {
+      "id": "brno_5",
+      "question": {
+        "cz": "Socha jezdce u sv. Tomáše:",
+        "en": "The rider statue at St. Thomas:"
+      },
+      "answers": [
+        {"value": "vana", "cz": "žokej Váňa", "en": "jockey Váňa"},
+        {"value": "horymir", "cz": "Horymír", "en": "Horymír"},
+        {"value": "jost", "cz": "Jošt Moravský", "en": "Jobst of Moravia"}
+      ]
+    },
+    {
+      "id": "brno_6",
+      "question": {
+        "cz": "Obléhání Brna Švédy:",
+        "en": "Siege of Brno by the Swedes occurred in:"
+      },
+      "answers": [
+        {"value": "1420", "cz": "1420", "en": "1420"},
+        {"value": "1645", "cz": "1645", "en": "1645"},
+        {"value": "1805", "cz": "1805", "en": "1805"}
+      ]
+    },
+    {
+      "id": "brno_7",
+      "question": {
+        "cz": "Hantec (brněnský slang): hodinky = ?",
+        "en": "Hantec (Brno slang): 'hodinky' means?"
+      },
+      "answers": [
+        {"value": "racny", "cz": "ráčny", "en": "ráčny"},
+        {"value": "smirgl", "cz": "šmirgl", "en": "šmirgl"},
+        {"value": "hokna", "cz": "hokna", "en": "hokna"}
+      ]
+    }
+  ],
+
+  "Vseobecne": [
+    {
+      "id": "gen_1",
+      "question": {
+        "cz": "Kolik různých hodnot mincí má měna Euro?",
+        "en": "How many different Euro coin denominations exist?"
+      },
+      "answers": [
+        {"value": "6", "cz": "6", "en": "6"},
+        {"value": "7", "cz": "7", "en": "7"},
+        {"value": "8", "cz": "8", "en": "8"}
+      ]
+    },
+    {
+      "id": "gen_2",
+      "question": {
+        "cz": "Jakým handicapem trpěl Homér?",
+        "en": "What disability did Homer suffer from?"
+      },
+      "answers": [
+        {"value": "hluchy", "cz": "Byl hluchý", "en": "He was deaf"},
+        {"value": "slep", "cz": "Byl slepý", "en": "He was blind"},
+        {"value": "chromy", "cz": "Byl chromý", "en": "He was lame"}
+      ]
+    },
+    {
+      "id": "gen_3",
+      "question": {
+        "cz": "Jak se nazývá přístroj, který měří otřesy Země?",
+        "en": "What device measures Earth tremors?"
+      },
+      "answers": [
+        {"value": "barograf", "cz": "Barograf", "en": "Barograph"},
+        {"value": "seismograf", "cz": "Seismograf", "en": "Seismograph"},
+        {"value": "altimetr", "cz": "Altimetr", "en": "Altimeter"}
+      ]
+    },
+    {
+      "id": "gen_4",
+      "question": {
+        "cz": "Světelný rok měří přibližně:",
+        "en": "A light year measures approximately:"
+      },
+      "answers": [
+        {"value": "1b", "cz": "1 bilion km", "en": "1 trillion km"},
+        {"value": "10b", "cz": "10 bilionů km", "en": "10 trillion km"},
+        {"value": "100b", "cz": "100 bilionů km", "en": "100 trillion km"}
+      ]
+    },
+    {
+      "id": "gen_5",
+      "question": {
+        "cz": "Za jaké situace šachista řekne „garde“?",
+        "en": "When does a chess player say 'garde'?"
+      },
+      "answers": [
+        {"value": "king", "cz": "Při ohrožení krále", "en": "When the king is threatened"},
+        {"value": "queen", "cz": "Při ohrožení dámy", "en": "When the queen is threatened"},
+        {"value": "rook", "cz": "Při ohrožení věže", "en": "When the rook is threatened"}
+      ]
+    },
+    {
+      "id": "gen_6",
+      "question": {
+        "cz": "Anglický spisovatel, autor Farmy zvířat a 1984:",
+        "en": "English writer, author of Animal Farm and 1984:"
+      },
+      "answers": [
+        {"value": "tolkien", "cz": "J. R. R. Tolkien", "en": "J. R. R. Tolkien"},
+        {"value": "orwell", "cz": "George Orwell", "en": "George Orwell"}
+      ]
+    },
+    {
+      "id": "gen_7",
+      "question": {
+        "cz": "Římské číslo MCDXCIV je:",
+        "en": "The Roman numeral MCDXCIV equals:"
+      },
+      "answers": [
+        {"value": "1494", "cz": "1494", "en": "1494"},
+        {"value": "1594", "cz": "1594", "en": "1594"},
+        {"value": "1344", "cz": "1344", "en": "1344"}
+      ]
+    },
+    {
+      "id": "gen_8",
+      "question": {
+        "cz": "Meč krále Artuše se jmenuje:",
+        "en": "The sword of King Arthur is called:"
+      },
+      "answers": [
+        {"value": "durandal", "cz": "Durandal", "en": "Durandal"},
+        {"value": "excalibur", "cz": "Excalibur", "en": "Excalibur"}
+      ]
+    },
+    {
+      "id": "gen_9",
+      "question": {
+        "cz": "Erno Rubik byl:",
+        "en": "Ernő Rubik was:"
+      },
+      "answers": [
+        {"value": "polak", "cz": "Polák", "en": "Polish"},
+        {"value": "madar", "cz": "Maďar", "en": "Hungarian"},
+        {"value": "ital", "cz": "Ital", "en": "Italian"}
+      ]
+    },
+    {
+      "id": "gen_10",
+      "question": {
+        "cz": "Počet oceánů:",
+        "en": "Number of oceans:"
+      },
+      "answers": [
+        {"value": "4", "cz": "4", "en": "4"},
+        {"value": "5", "cz": "5", "en": "5"},
+        {"value": "6", "cz": "6", "en": "6"}
+      ]
+    },
+    {
+      "id": "gen_11",
+      "question": {
+        "cz": "La Gioconda je známější jako:",
+        "en": "La Gioconda is better known as:"
+      },
+      "answers": [
+        {"value": "mona", "cz": "Mona Lisa", "en": "Mona Lisa"},
+        {"value": "venus", "cz": "Zrození Venuše", "en": "The Birth of Venus"}
+      ]
+    },
+    {
+      "id": "gen_12",
+      "question": {
+        "cz": "Tvůrce heliocentrické teorie",
+        "en": "Creator of the heliocentric theory:"
+      },
+      "answers": [
+        {"value": "kopernik", "cz": "Mikuláš Koperník", "en": "Nicolaus Copernicus"},
+        {"value": "ptolemaios", "cz": "Ptolemaios", "en": "Ptolemy"},
+        {"value": "brahe", "cz": "Tycho Brahe", "en": "Tycho Brahe"}
+      ]
+    },
+    {
+      "id": "gen_13",
+      "question": {
+        "cz": "Pokud před třemi dny byl den přecházející pátku, pozítří bude:",
+        "en": "If three days ago was the day before Friday, then the day after tomorrow will be:"
+      },
+      "answers": [
+        {"value": "mon", "cz": "Pondělí", "en": "Monday"},
+        {"value": "tue", "cz": "Úterý", "en": "Tuesday"}
+      ]
+    }
+  ],
+
+  "Film": [
+    {
+      "id": "film_1",
+      "question": {
+        "cz": "Pulp Fiction – Ktoré dve postavy vyhrali Jack Rabbit’s Twist?",
+        "en": "Pulp Fiction – Which two characters win the Jack Rabbit’s Twist contest?"
+      },
+      "answers": [
+        {"value": "mia_vincent", "cz": "Mia Wallace a Vincent Vega", "en": "Mia Wallace and Vincent Vega"},
+        {"value": "jules_vincent", "cz": "Jules a Vincent", "en": "Jules and Vincent"},
+        {"value": "mia_marsellus", "cz": "Mia Wallace a Marsellus Wallace", "en": "Mia Wallace and Marsellus Wallace"}
+      ]
+    },
+    {
+      "id": "film_2",
+      "question": {
+        "cz": "James Bond – Ktorý herec nehral Jamese Bonda?",
+        "en": "James Bond – Which actor did NOT play James Bond?"
+      },
+      "answers": [
+        {"value": "connery", "cz": "Sean Connery", "en": "Sean Connery"},
+        {"value": "moore", "cz": "Roger Moore", "en": "Roger Moore"},
+        {"value": "dicaprio", "cz": "Leonardo DiCaprio", "en": "Leonardo DiCaprio"}
+      ]
+    },
+    {
+      "id": "film_3",
+      "question": {
+        "cz": "Batman – Ktorý herec hral Batmana v 90. rokoch?",
+        "en": "Batman – Which actor played Batman in the 1990s?"
+      },
+      "answers": [
+        {"value": "keaton", "cz": "Michael Keaton", "en": "Michael Keaton"},
+        {"value": "west", "cz": "Adam West", "en": "Adam West"},
+        {"value": "pattinson", "cz": "Robert Pattinson", "en": "Robert Pattinson"}
+      ]
+    },
+    {
+      "id": "film_4",
+      "question": {
+        "cz": "Joker – Ktorý herec stvárnil Jokera vo filme z roku 2008?",
+        "en": "Joker – Who played the Joker in the 2008 film?"
+      },
+      "answers": [
+        {"value": "nicholson", "cz": "Jack Nicholson", "en": "Jack Nicholson"},
+        {"value": "ledger", "cz": "Heath Ledger", "en": "Heath Ledger"},
+        {"value": "phoenix", "cz": "Joaquin Phoenix", "en": "Joaquin Phoenix"}
+      ]
+    },
+    {
+      "id": "film_5",
+      "question": {
+        "cz": "Star Wars – Ako sa volal Anakin Skywalker po prechode na temnú stranu?",
+        "en": "Star Wars – What was Anakin Skywalker called after turning to the dark side?"
+      },
+      "answers": [
+        {"value": "vader", "cz": "Darth Vader", "en": "Darth Vader"},
+        {"value": "luke", "cz": "Luke Skywalker", "en": "Luke Skywalker"},
+        {"value": "palpatine", "cz": "Palpatine", "en": "Palpatine"}
+      ]
+    },
+    {
+      "id": "film_6",
+      "question": {
+        "cz": "Simpsonovci – Ako sa volá pes rodiny Simpsonovcov?",
+        "en": "The Simpsons – What is the name of the Simpsons’ dog?"
+      },
+      "answers": [
+        {"value": "spasitel", "cz": "Spasitel", "en": "Santa's Little Helper"},
+        {"value": "snowball", "cz": "Snowball", "en": "Snowball"},
+        {"value": "marley", "cz": "Marley", "en": "Marley"}
+      ]
+    },
+    {
+      "id": "film_7",
+      "question": {
+        "cz": "Alf – Z akej planéty pochádza Alf?",
+        "en": "ALF – What planet is Alf from?"
+      },
+      "answers": [
+        {"value": "melmac", "cz": "Melmac", "en": "Melmac"},
+        {"value": "krypton", "cz": "Krypton", "en": "Krypton"},
+        {"value": "vulcan", "cz": "Vulcan", "en": "Vulcan"}
+      ]
+    },
+    {
+      "id": "film_8",
+      "question": {
+        "cz": "Die Hard – Aký je názov mrakodrapu vo filme?",
+        "en": "Die Hard – What is the name of the skyscraper in the film?"
+      },
+      "answers": [
+        {"value": "nakatomi", "cz": "Nakatomi Plaza", "en": "Nakatomi Plaza"},
+        {"value": "empire", "cz": "Empire State Building", "en": "Empire State Building"},
+        {"value": "willis", "cz": "Willis Tower", "en": "Willis Tower"}
+      ]
+    },
+    {
+      "id": "film_9",
+      "question": {
+        "cz": "Rocky – Kto napísal scenár k filmu?",
+        "en": "Rocky – Who wrote the screenplay?"
+      },
+      "answers": [
+        {"value": "stallone", "cz": "Sylvester Stallone", "en": "Sylvester Stallone"},
+        {"value": "scorsese", "cz": "Martin Scorsese", "en": "Martin Scorsese"},
+        {"value": "spielberg", "cz": "Steven Spielberg", "en": "Steven Spielberg"}
+      ]
+    }
+  ],
+
+  "PanPrstenu": [
+    {
+      "id": "lotr_1",
+      "question": {
+        "cz": "Kolik prstenů síly bylo vytvořeno?",
+        "en": "How many Rings of Power were forged?"
+      },
+      "answers": [
+        {"value": "9", "cz": "9", "en": "9"},
+        {"value": "15", "cz": "15", "en": "15"},
+        {"value": "20", "cz": "20", "en": "20"}
+      ]
+    },
+    {
+      "id": "lotr_2",
+      "question": {
+        "cz": "Kolik členů má Společenstvo Prstenu?",
+        "en": "How many members are in the Fellowship of the Ring?"
+      },
+      "answers": [
+        {"value": "9", "cz": "9", "en": "9"},
+        {"value": "7", "cz": "7", "en": "7"},
+        {"value": "12", "cz": "12", "en": "12"}
+      ]
+    },
+    {
+      "id": "lotr_3",
+      "question": {
+        "cz": "Kdo složil hudbu k trilogii Pán prstenů?",
+        "en": "Who composed the music for the Lord of the Rings trilogy?"
+      },
+      "answers": [
+        {"value": "shore", "cz": "Howard Shore", "en": "Howard Shore"},
+        {"value": "williams", "cz": "John Williams", "en": "John Williams"},
+        {"value": "zimmer", "cz": "Hans Zimmer", "en": "Hans Zimmer"}
+      ]
+    },
+    {
+      "id": "lotr_4",
+      "question": {
+        "cz": "Jak se jmenuje meč Gandalfa?",
+        "en": "What is the name of Gandalf’s sword?"
+      },
+      "answers": [
+        {"value": "glamdring", "cz": "Glamdring", "en": "Glamdring"},
+        {"value": "anduril", "cz": "Andúril", "en": "Andúril"},
+        {"value": "sting", "cz": "Žihadlo", "en": "Sting"},
+        {"value": "orcrist", "cz": "Orcrist", "en": "Orcrist"}
+      ]
+    },
+    {
+      "id": "lotr_5",
+      "question": {
+        "cz": "Jak se jmenuje krčma, kde hobiti potkají Aragorna v Hůrce?",
+        "en": "What is the name of the inn where the hobbits meet Aragorn in Bree?"
+      },
+      "answers": [
+        {"value": "prancing", "cz": "U Skákajícího poníka", "en": "The Prancing Pony"},
+        {"value": "green", "cz": "U Zeleného draka", "en": "The Green Dragon"},
+        {"value": "golden", "cz": "U Zlatého Okouna", "en": "The Golden Perch"}
+      ]
+    }
+  ],
+
+"CoByloDrive": [
+  {
+    "id": "earlier_1",
+    "question": {
+      "cz": "Kdo byl dřív",
+      "en": "Who came first?"
+    },
+    "answers": [
+      {"value": "mozart", "cz": "Mozart", "en": "Mozart"},
+      {"value": "bach", "cz": "Bach", "en": "Bach"}
+    ]
+  },
+  {
+    "id": "earlier_2",
+    "question": {
+      "cz": "Co bylo dřív",
+      "en": "Which came first?"
+    },
+    "answers": [
+      {"value": "titanic", "cz": "Titanic", "en": "Titanic"},
+      {"value": "aurora", "cz": "Aurora*", "en": "Aurora*"}
+    ]
+  },
+  {
+    "id": "earlier_3",
+    "question": {
+      "cz": "Kdo byl dřív",
+      "en": "Who came first?"
+    },
+    "answers": [
+      {"value": "davinci", "cz": "Leonardo da Vinci*", "en": "Leonardo da Vinci*"},
+      {"value": "michelangelo", "cz": "Michelangelo", "en": "Michelangelo"}
+    ]
+  },
+  {
+    "id": "earlier_4",
+    "question": {
+      "cz": "Kdo byl dřív",
+      "en": "Who came first?"
+    },
+    "answers": [
+      {"value": "columbus", "cz": "Kolumbus*", "en": "Columbus*"},
+      {"value": "magellan", "cz": "Magellan", "en": "Magellan"}
+    ]
+  },
+  {
+    "id": "earlier_5",
+    "question": {
+      "cz": "Co bylo dřív",
+      "en": "Which came first?"
+    },
+    "answers": [
+      {"value": "youtube", "cz": "YouTube*", "en": "YouTube*"},
+      {"value": "iphone", "cz": "první iPhone", "en": "the first iPhone"}
+    ]
+  },
+  {
+    "id": "earlier_6",
+    "question": {
+      "cz": "Co bylo dřív",
+      "en": "Which came first?"
+    },
+    "answers": [
+      {"value": "www", "cz": "WWW", "en": "WWW"},
+      {"value": "flash", "cz": "Flash paměť*", "en": "Flash memory*"}
+    ]
+  },
+  {
+    "id": "earlier_7",
+    "question": {
+      "cz": "Co bylo dřív",
+      "en": "Which came first?"
+    },
+    "answers": [
+      {"value": "buttons", "cz": "Knoflíky*", "en": "Buttons*"},
+      {"value": "printing", "cz": "Knihtisk", "en": "Printing press"}
+    ]
+  },
+  {
+    "id": "earlier_8",
+    "question": {
+      "cz": "Co bylo dřív",
+      "en": "Which came first?"
+    },
+    "answers": [
+      {"value": "nintendo", "cz": "Nintendo*", "en": "Nintendo*"},
+      {"value": "penicillin", "cz": "Penicilin", "en": "Penicillin"}
+    ]
+  }
+],
+ "Programovani": [
+    {
+      "id": "prog_1",
+      "question": {
+        "cz": "Co znamená zkratka BIOS?",
+        "en": "What does the acronym BIOS stand for?"
+      },
+      "answers": [
+        {"value": "basic_input_output_system", "cz": "Basic Input/Output System", "en": "Basic Input/Output System"},
+        {"value": "binary_input_output_system", "cz": "Binary Input/Output System", "en": "Binary Input/Output System"},
+        {"value": "basic_internal_oscillator", "cz": "Basic Internal Oscillator", "en": "Basic Internal Oscillator"}
+      ]
+    },
+    {
+      "id": "prog_2",
+      "question": {
+        "cz": "Jaké číslo (přibližně) představuje konstanta PI v binární soustavě?",
+        "en": "Which number approximately represents the constant PI in binary?"
+      },
+      "answers": [
+        {"value": "11.001001", "cz": "11.001001", "en": "11.001001"},
+        {"value": "11.001010", "cz": "11.001010", "en": "11.001010"},
+        {"value": "10.101010", "cz": "10.101010", "en": "10.101010"}
+      ]
+    },
+    {
+      "id": "prog_3",
+      "question": {
+        "cz": "Který programovací jazyk je předchůdcem jazyka C?",
+        "en": "Which programming language is the predecessor of C?"
+      },
+      "answers": [
+        {"value": "bcpl", "cz": "BCPL", "en": "BCPL"},
+        {"value": "fortran", "cz": "FORTRAN", "en": "FORTRAN"},
+        {"value": "pascal", "cz": "Pascal", "en": "Pascal"}
+      ]
+    },
+    {
+      "id": "prog_4",
+      "question": {
+        "cz": "Kdo byl významný matematik narozený v Brně?",
+        "en": "Which famous mathematician was born in Brno?"
+      },
+      "answers": [
+        {"value": "bernard_bolzano", "cz": "Bernard Bolzano", "en": "Bernard Bolzano"},
+        {"value": "otto_menger", "cz": "Otto Menger", "en": "Otto Menger"},
+        {"value": "kurt_godel", "cz": "Kurt Gödel", "en": "Kurt Gödel"}
+      ]
+    },
+    {
+      "id": "prog_5",
+      "question": {
+        "cz": "Kdy byla vydána první verze Linux kernelu (verze 0.01)?",
+        "en": "When was the first version of the Linux kernel (version 0.01) released?"
+      },
+      "answers": [
+        {"value": "2001-09-17", "cz": "17. 9. 2001", "en": "September 17, 2001"},
+        {"value": "1990-08-25", "cz": "25. 8. 1990", "en": "August 25, 1990"},
+        {"value": "1992-01-01", "cz": "1. 1. 1992", "en": "January 1, 1992"}
+      ]
+    },
+    {
+      "id": "prog_6",
+      "question": {
+        "cz": "Jak se jmenoval první československý programovatelný počítač?",
+        "en": "What was the name of the first Czechoslovak programmable computer?"
+      },
+      "answers": [
+        {"value": "sapo", "cz": "SAPO", "en": "SAPO"},
+        {"value": "oton", "cz": "OTON", "en": "OTON"},
+        {"value": "amet", "cz": "AMET", "en": "AMET"}
+      ]
+    }
+  ]
+}
