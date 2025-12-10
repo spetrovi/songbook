@@ -153,6 +153,7 @@ def pubquiz_view(request: Request):
     return render(request, "quiz.html", {"areas": questions})
 
 
+@app.get("/login", response_class=HTMLResponse)
 def login_get_view(request: Request):
     return render(request, "auth/login.html", {})
 
