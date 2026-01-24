@@ -205,9 +205,18 @@ async def post_source_filter(
     statement = select(Source).where(Source.id == source_id)
     source = session.exec(statement).one()
 
-    statement = select(Songbook).where(Songbook.user_id == request.user.username)
-    songbooks = session.exec(statement).all()
+    # if request.user.is_authenticated:
+    #    statement = select(Songbook).where(Songbook.user_id == request.user.username)
+    #    songbooks = session.exec(statement).all()
+    # else
+    #    songbooks = {}
+    # songbooks={}
 
+    if getattr(request.user, "is_authenticated", False):
+        statement = select(Songbook).where(Songbook.user_id == request.user.username)
+        songbooks = session.exec(statement).all()
+    else:
+        songbooks = []
     return render(
         request,
         "snippets/songs_accordion_partial.html",
