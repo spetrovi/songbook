@@ -55,7 +55,7 @@
                                             Transcribed by {{ source.transcribed_by }}
                                         {% endif %}
 
-                                        {% if source.year %}, {{ source.year }}{% endif %}
+                                        {% if source.year and source.type != 'archive' %}, {{ source.year }}{% endif %}
                                     </p>
                                     <p class="card-text">Number of songs: {{ songs_per_source[source.title] }}</p>
                                     <a href="source/{{ source.id }}" class="btn btn-primary">Browse songs</a>
