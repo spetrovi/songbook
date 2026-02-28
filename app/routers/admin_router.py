@@ -91,7 +91,6 @@ def get_classes():
     ]
 
     classes = classes_user + classes_songs + classes_songbooks
-    print(classes)
 
     class_names = [cls[0] for cls in classes]
     return classes, class_names
@@ -334,11 +333,10 @@ def regenerate_song(
     return HTMLResponse("", status_code=200)
 
 
-@router.get("/reload_folder/", response_class=HTMLResponse)
+@router.get("/reload_folder", response_class=HTMLResponse)
 def reload_folder(
     request: Request, folder: str, session: Session = Depends(db.yield_session)
 ):
-    # ADD LOGIC FOR RELOAD FOLDER
     import_folder(folder)
     return HTMLResponse("", status_code=200)
 
