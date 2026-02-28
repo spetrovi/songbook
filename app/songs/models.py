@@ -1,11 +1,20 @@
 import uuid
 from datetime import datetime
+from typing import List
 from typing import Optional
 
 from sqlmodel import Enum
 from sqlmodel import Field
 from sqlmodel import Relationship
+from sqlmodel import select
+from sqlmodel import Session
 from sqlmodel import SQLModel
+
+
+# --- Association table for many-to-many ---
+class SourceAuthorLink(SQLModel, table=True):
+    source_id: uuid.UUID = Field(foreign_key="source.id", primary_key=True)
+    person_id: uuid.UUID = Field(foreign_key="person.id", primary_key=True)
 
 
 class SourceType(str, Enum):
@@ -15,6 +24,7 @@ class SourceType(str, Enum):
     archive = "archive"
 
 
+# --- Person model ---
 class Person(SQLModel, table=True):
     id: Optional[uuid.UUID] = Field(
         default_factory=uuid.uuid4, primary_key=True, index=True
@@ -27,6 +37,11 @@ class Person(SQLModel, table=True):
     location: Optional[str] = None
     note: Optional[str] = None
 
+    # many-to-many relationship
+    sources: List["Source"] = Relationship(
+        back_populates="authors", link_model=SourceAuthorLink
+    )
+
     def __str__(self):
         return self.__repr__()
 
@@ -38,15 +53,21 @@ class Person(SQLModel, table=True):
         return cls(**data)
 
 
+# --- Source model ---
 class Source(SQLModel, table=True):
     id: Optional[uuid.UUID] = Field(
         default_factory=uuid.uuid4, primary_key=True, index=True
     )
-    title: Optional[str] = Field(..., nullable=False)
+    title: str
     year: Optional[int]
     type: Optional[SourceType]
-    author_id: Optional[uuid.UUID] = Field(default=None, foreign_key="person.id")
-    author: Optional["Person"] = Relationship()
+    public: bool = Field(default=False, nullable=False)
+
+    # many-to-many relationship
+    authors: List[Person] = Relationship(
+        back_populates="sources", link_model=SourceAuthorLink
+    )
+    transcribed_by: Optional[str] = None
 
     def __str__(self):
         return self.__repr__()
@@ -55,8 +76,47 @@ class Source(SQLModel, table=True):
         return f"Source(title={self.title}, year={self.year})"
 
     @classmethod
-    def from_dict(cls, data: dict, author: "Person"):
-        return cls(**data, author=author)
+    def from_dict(
+        cls,
+        data: dict,
+        session: Optional[Session] = None,
+        existing_source: "Source" = None,
+    ) -> "Source":
+        """
+        Create or update a Source from a metadata dict.
+        - `existing_source`: if provided, updates that Source, otherwise creates new.
+        - `data`: expects keys like 'title', 'type', 'transcribed_by', 'public', 'authors' (list of names)
+        """
+        source = existing_source or cls()
+
+        # Basic fields
+        source.title = data.get("title")
+        source.type = data.get("type")
+        source.transcribed_by = data.get("transcribed_by")
+        source.public = data.get("public", False)  # <- automatically read public field
+
+        # Handle authors list
+        authors_names: List[str] = data.get("authors", [])
+        if session:
+            from .models import Person  # avoid circular imports
+
+            source.authors = []  # reset authors
+            for name in authors_names:
+                # split name into first/last (naive)
+                parts = name.strip().split(maxsplit=1)
+                first = parts[0]
+                last = parts[1] if len(parts) > 1 else None
+                # find or create Person
+                person = session.exec(
+                    select(Person).where(Person.name == first, Person.surname == last)
+                ).first()
+                if not person:
+                    person = Person(name=first, surname=last)
+                    session.add(person)
+                    session.commit()
+                source.authors.append(person)
+
+        return source
 
 
 class Song(SQLModel, table=True):
@@ -75,18 +135,15 @@ class Song(SQLModel, table=True):
     type: Optional[str]
     year: Optional[int]
     location: Optional[str]
+    transcribed_by: Optional[str] = None
 
     recorded_by_id: Optional[uuid.UUID] = Field(default=None, foreign_key="person.id")
-    #    recorded_person_id: Optional[uuid.UUID] = Field(default=None, foreign_key="person.id")
     recorded_by: Optional["Person"] = Relationship(
         sa_relationship_kwargs={
             "primaryjoin": "Song.recorded_by_id==Person.id",
             "lazy": "joined",
         }
     )
-    #    recorded_person: Optional["Person"] = Relationship(
-    #        sa_relationship_kwargs={"primaryjoin": "Song.recorded_person_id==Person.id", "lazy": "joined"}
-    #    )
 
     @classmethod
     def from_dict(
@@ -97,7 +154,6 @@ class Song(SQLModel, table=True):
         verses: str,
         recorded_by: "Person",
     ):
-        print(data)
         return cls(
             **data, source=source, lytex=lytex, verses=verses, recorded_by=recorded_by
         )

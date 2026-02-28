@@ -105,7 +105,7 @@ def find_song_by_id(db_songs_ids, target_id):
     return None  # Return None if no matching song is found
 
 
-def update_song(path):
+def update_song(path, force_rebuild=False):
     with open(path / "metadata.json", "r") as meta_source:
         try:
             meta = json.load(meta_source)
@@ -140,6 +140,8 @@ def update_song(path):
         else:
             song = make_entry(session, meta, lytex_source, verses_source)
             build_song(song, force=True)
+        if force_rebuild:
+            build_song(song, force=True)
 
 
 def process_song(meta_path, db_songs, db_songs_ids, session):
@@ -148,16 +150,9 @@ def process_song(meta_path, db_songs, db_songs_ids, session):
         try:
             meta = json.load(meta_source)
         except json.decoder.JSONDecodeError as e:
-            print(f"\033[32mBad song at {meta_path}\033[0m")
-            print(e)
+            print(f"\033[32mBad song at {meta_path}: {e}\033[0m")
             return None
-    #    with open(meta_path.parent / "id", "r") as id_source:
-    #        song_id = id_source.read()
-    #        meta["id"] = song_id
-    #    with open(meta_path, "w", encoding='utf8') as meta_source:
-    #        meta = reformat_meta(meta)
-    #        json.dump(meta, meta_source, indent=4, ensure_ascii=False)
-    #    print(f"Meta: {meta}")
+
     lytex_path = meta_path.parent / "source.lytex"
     if lytex_path.exists():
         lytex_source = lytex_path.read_text()
@@ -218,6 +213,35 @@ def add_source(source_dict):
         source = Source.from_dict(source_dict, author=person)
         session.add(source)
         session.commit()
+
+
+def import_folder(folder_path):
+    if isinstance(folder_path, Path):
+        root = folder_path
+    else:
+        root = Path(folder_path)
+    metadata_path = root / "source.json"
+    with open(metadata_path, "r") as fd:
+        try:
+            metadata = json.load(fd)
+        except json.decoder.JSONDecodeError as e:
+            print(f"Couldn't load source.json: {e}")
+            return 0
+    with Session(engine) as session:
+        source_id = metadata.get("id")
+        existing = (
+            session.exec(select(Source).where(Source.id == source_id)).first()
+            if source_id
+            else None
+        )
+        source = Source.from_dict(metadata, session, existing_source=existing)
+        session.add(source)
+        session.commit()
+
+
+#    song_paths = [f.parent for f in root.glob("**/metadata.json")]
+#    for path in song_paths:
+#        update_song(path, force_rebuild=True)
 
 
 def import_library(source_path):

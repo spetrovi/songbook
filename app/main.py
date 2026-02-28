@@ -24,7 +24,6 @@ from .routers.songbook_router import router as songbook_router
 from .shortcuts import redirect
 from .shortcuts import render
 from .songbooks.models import Songbook
-from .songs.importer import import_library  # noqa
 from .songs.importer import update_song  # noqa
 from .songs.models import Song
 from .songs.models import SongEdit
@@ -49,12 +48,6 @@ from .handlers import *  # noqa
 
 @app.on_event("startup")
 def on_startup():
-    # Populate db
-    # import_library(Path(__file__).parent / "songs" / "data")
-
-    # Use Lilypond to build song fragments
-    # utils.build_all_songs()
-
     # Mount the "tmp" folder to serve files
     tmp_path = Path(__file__).parent / "tmp"
     app.mount("/tmp", StaticFiles(directory=tmp_path), name="tmp")

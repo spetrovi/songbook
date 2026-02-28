@@ -3,38 +3,50 @@
 {% block content %}
 
   <div class="my-5 mx-2">
-    <div >
-      <h1>{{ source.title }} </h1>
-      <h2>{{ source.author.name }} {{ source.author.surname }}</h2>
+    <div>
+      <h1>{{ source.title }}</h1>
+      <h2>
+        {% if source.authors %}
+          {% for author in source.authors %}
+            {{ author.name }} {{ author.surname }}{% if not loop.last %}, {% endif %}
+          {% endfor %}
+        {% else %}
+          Unknown author
+        {% endif %}
+      </h2>
+      {% if source.transcribed_by %}
+        <p>Transcribed by: {{ source.transcribed_by }}</p>
+      {% endif %}
     </div>
+  </div>
 
-    <form>
-      <input type='hidden' name='source_id' value='{{source.id}}'/>
-      <div class="container mt-5">
-        <div class="accordion" id="accordionExample">
-          <div class="accordion-item">
-            <h2 class="accordion-header" id="headingOne">
-              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                Filters
-              </button>
-            </h2>
-            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-              <div class="accordion-body">
-                {% for filter in filters %}
-                  {% include "snippets/filter_card.html" %}
-                {% endfor %}
-                <button class="btn btn-primary" hx-post="/source/filter" hx-target="#songbook_accordion" hx-indicator=".htmx-indicator">Submit</button>
-              </div>
+  <form>
+    <input type='hidden' name='source_id' value='{{source.id}}'/>
+    <div class="container mt-5">
+      <div class="accordion" id="accordionExample">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingOne">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+              Filters
+            </button>
+          </h2>
+          <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+              {% for filter in filters %}
+                {% include "snippets/filter_card.html" %}
+              {% endfor %}
+              <button class="btn btn-primary" hx-post="/source/filter" hx-target="#songbook_accordion" hx-indicator=".htmx-indicator">Submit</button>
             </div>
           </div>
         </div>
       </div>
-    </form>
+    </div>
+  </form>
 
-    <div class="htmx-indicator">Filtering..</div>
+  <div class="htmx-indicator">Filtering..</div>
 
-    {% with include_add_button=True %}
-      {% include "snippets/songs_accordion.html" %}
-    {% endwith %}
+  {% with include_add_button=True %}
+    {% include "snippets/songs_accordion.html" %}
+  {% endwith %}
 {% endblock %}
 </div>

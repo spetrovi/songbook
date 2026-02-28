@@ -20,8 +20,10 @@ from app.songbooks import models as songbooksmodels
 from app.songbooks.models import Entry
 from app.songbooks.models import Songbook
 from app.songs import models as songsmodels
+from app.songs.importer import import_folder
 from app.songs.models import Song
 from app.songs.models import SongEdit
+from app.songs.models import Source
 from app.users import models as usermodels
 from app.users.decorators import admin_login_required
 from app.users.models import User
@@ -35,7 +37,34 @@ settings = config.get_settings()
 @admin_login_required
 def admin_view(request: Request, session: Session = Depends(db.yield_session)):
     classes, class_names = get_classes()
-    context = {"classes": class_names}
+
+    # Query counts from the database
+    num_users = str(len(session.exec(select(User)).all()))
+    num_songs = str(len(session.exec(select(Song)).all()))
+    sources = session.exec(select(Source)).all()
+    num_sources = str(len(sources))
+    num_songedits = str(len(session.exec(select(SongEdit)).all()))
+
+    data_path = Path(__file__).parent.parent / "songs" / "data"
+    folders = [
+        {
+            "name": f.name,  # what you display in the template
+            "path": f.resolve(),  # absolute path, for backend actions or HTMX
+        }
+        for f in data_path.iterdir()
+        if f.is_dir() and not f.name.startswith(".")
+    ]
+
+    context = {
+        "classes": class_names,
+        "num_users": num_users,
+        "num_songs": num_songs,
+        "num_sources": num_sources,
+        "num_songedits": num_songedits,
+        "folders": folders,
+        "sources": sources,
+    }
+
     return render(request, "admin/admin.html", context, status_code=200)
 
 
@@ -295,32 +324,6 @@ def admin_logout_post_view(request: Request):
     return redirect("/login", remove_session=True)
 
 
-# @router.get("/{object}", response_class=HTMLResponse)
-# @admin_login_required
-# def admin_users_view(
-#    request: Request, object: str, session: Session = Depends(db.yield_session)
-# ):
-#    cls = None
-#    if object == "users":
-#        cls = User
-#    if object == "songbooks":
-#        cls = Songbook
-#    if object == "entries":
-#        cls = Entry
-#
-#    instances = session.query(cls).all()
-
-#    id_name = (inspect(cls).primary_key)[0].name#
-
-#    columns = [column.name for column in inspect(cls).c]
-#    return render(
-#        request,
-#        "admin/objects.html",
-#        {"instances": instances, "columns": columns, "id_name": id_name},
-#        status_code=200,
-#    )
-
-
 @router.get("/regenerate/{id_name}", response_class=HTMLResponse)
 @admin_login_required
 def regenerate_song(
@@ -328,6 +331,15 @@ def regenerate_song(
 ):
     song = session.exec(select(Song).where(Song.id == id_name)).one()
     build_song(song, force=True)
+    return HTMLResponse("", status_code=200)
+
+
+@router.get("/reload_folder/", response_class=HTMLResponse)
+def reload_folder(
+    request: Request, folder: str, session: Session = Depends(db.yield_session)
+):
+    # ADD LOGIC FOR RELOAD FOLDER
+    import_folder(folder)
     return HTMLResponse("", status_code=200)
 
 

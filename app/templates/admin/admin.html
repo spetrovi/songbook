@@ -2,6 +2,74 @@
 
 
 {% block content %}
-    <title>Admin page!</title>
-    <div> ADMIN PAGE </div>
+    <h1>Admin Dashboard</h1>
+    <div class="stats">
+        <div class="card">
+            <h2>{{ num_users }}</h2>
+            <p>Users</p>
+        </div>
+        <div class="card">
+            <h2>{{ num_songs }}</h2>
+            <p>Songs</p>
+        </div>
+        <div class="card">
+            <h2>{{ num_sources }}</h2>
+            <p>Sources</p>
+        </div>
+        <div class="card">
+            <h2>{{ num_songedits }}</h2>
+            <p>Song Edits</p>
+        </div>
+    </div>
+    </br>
+    <!-- Filesystem ↔ Library Check -->
+    <h2>Filesystem ↔ Library Check</h2>
+    <div class="fs-library">
+    <!-- Filesystem column -->
+        <div class="fs-column">
+            <h3>Filesystem (app/songs/data)</h3>
+            {% if folders %}
+                {% for folder in folders %}
+                    <div class="mb-2 p-2">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="fs-file">{{ folder.name }}</div>
+                            <button type="button" class="btn btn-info btn-sm"
+                                    <button hx-get="/admin/reload_folder?folder={{ folder.path|urlencode }}"
+                                    hx-trigger="click"
+                                    hx-indicator=".loading-indicator"
+                                    hx-swap="none">
+                                <i class="bi bi-arrow-counterclockwise"></i>
+                                <span class="loading-indicator" style="display:none;">Regenerating...</span>
+                            </button>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>No folders found</p>
+            {% endif %}
+        </div>
+    <!-- Sources column -->
+        <div class="library-column">
+            <h3>Sources (Database)</h3>
+            {% if sources %}
+                {% for src in sources %}
+                    <div class="mb-2 p-2">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="source-title">{{ src.title }}</div>
+                            <button type="button" class="btn btn-info btn-sm"
+                                    hx-get="/admin/reload_sorce/{{ src.id }}"
+                                    hx-trigger="click"
+                                    hx-indicator=".loading-indicator"
+                                    hx-swap="none">
+                                <i class="bi bi-arrow-counterclockwise"></i>
+                                <span class="loading-indicator" style="display:none;">Editing...</span>
+                            </button>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>No sources in database</p>
+            {% endif %}
+        </div>
+    </div>
 {% endblock %}
