@@ -48,13 +48,17 @@
                                             {% for author in source.authors %}
                                                 {{ author.name }} {{ author.surname }}{% if not loop.last %}, {% endif %}
                                             {% endfor %}
-                                        {% else %}
-                                            <em>No author</em>
                                         {% endif %}
+
+                                        {% if source.transcribed_by %}
+                                            {% if source.authors %}, {% endif %}
+                                            Transcribed by {{ source.transcribed_by }}
+                                        {% endif %}
+
                                         {% if source.year %}, {{ source.year }}{% endif %}
                                     </p>
-                                    <p class="card-text">Number of songs: {{songs_per_source[source.title]}}</p>
-                                    <a href="source/{{ source.id }}" class="btn btn-primary">Read More</a>
+                                    <p class="card-text">Number of songs: {{ songs_per_source[source.title] }}</p>
+                                    <a href="source/{{ source.id }}" class="btn btn-primary">Browse songs</a>
                                 </div>
                             </div>
                         </div>
