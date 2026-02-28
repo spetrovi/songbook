@@ -7,7 +7,6 @@ from fastapi import Request
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from sqlalchemy import func
-from sqlalchemy import or_
 from sqlmodel import select
 from sqlmodel import Session
 from sqlmodel import SQLModel
@@ -114,13 +113,7 @@ def homepage(request: Request, session: Session = Depends(db.yield_session)):
 def landing_view(request: Request, session):
     context = {}
     context["sources"] = session.exec(
-        select(Source).where(
-            or_(
-                Source.id == "16a7fdb0-39bd-43bf-819b-539a56a3dc4b",
-                Source.id == "62f8cafc-15ef-48a4-a533-bcf385b02ea9",
-                Source.id == "24d44add-dbae-478a-8e4a-8d66829f6e0b",
-            )
-        )
+        select(Source).where(Source.public.is_(True))
     ).all()
 
     # One query to get counts of songs per source
