@@ -1,62 +1,50 @@
 
 <h1>{{ song.title }}</h1>
-{% if song.type %}
-  <div class="container">
-    <div class="row row-cols-auto">
-      <div class="col-md-1">
-        <p>{{song.type}}</p>
-      </div>
-    </div>
-  </div>
-{% endif %}
+<div class="card border-0 bg-light-subtle shadow-sm mb-3">
+  <div class="card-body py-2">
 
-{% if song.location %}
-  <div class="container-fluid">
-    <div class="row row-cols-auto">
-      <div class="col-md-2">
-        <p>{{song.location}}</p>
-      </div>
-    </div>
-  </div>
-{% endif %}
+    <div class="d-flex flex-wrap align-items-center gap-3 small text-muted">
 
-{% if song.page %}
-  <div class="container-fluid">
-    <div class="row row-cols-auto">
-      <div class="col-md-2">
-        <p>Page: {{song.page}}</p>
-      </div>
-    </div>
-  </div>
-{% endif %}
+      {% if song.type %}
+        <span class="fw-medium text-dark">
+          {{ song.type }}
+        </span>
+      {% endif %}
 
-{% if song.year %}
-  <div class="container-fluid">
-    <div class="row row-cols-auto">
-      <div class="col-md-2">
-        <p>{{song.year}}</p>
-      </div>
-    </div>
-  </div>
-{% endif %}
+      {% if song.location %}
+        <span>
+          📍 {{ song.location }}
+        </span>
+      {% endif %}
 
-<div class="container-fluid">
-  <div class="row row-cols-auto">
-    <div class="col-md-2">
-      <p>{{song.source.title}}</p>
+      {% if song.year %}
+        <span>
+          📅 {{ song.year }}
+        </span>
+      {% endif %}
+
+      {% if song.page %}
+        <span>
+          Page {{ song.page }}
+        </span>
+      {% endif %}
+
+      {% if song.source %}
+        <span>
+          Source: <span class="fw-medium text-dark">{{ song.source.title }}</span>
+        </span>
+      {% endif %}
+
+      {% if song.signature %}
+        <span>
+          {{ song.signature }}{% if song.number %}: {{ song.number }}{% endif %}
+        </span>
+      {% endif %}
+
     </div>
+
   </div>
 </div>
-
-{% if song.signature %}
-  <div class="container-fluid">
-    <div class="row row-cols-auto">
-      <div class="col-md-2">
-        <p>{{song.signature}}: {{song.number}}</p>
-      </div>
-    </div>
-  </div>
-{% endif %}
 
 
 {% if song.lytex %}

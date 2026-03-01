@@ -3,13 +3,6 @@
 {% block content %}
   <div class="my-5 mx-2">
     {% include "snippets/song.html" %}
-
-    <div class="row row-cols-auto">
-      <div class="col">Location: {{song.location}}</div>
-      <div class="col">Year: {{song.year}}</div>
-      <div class="col">Source: {{song.source.title}}, {{song.source.author.name}} {{song.source.author.surname}}, {{song.source.year}} </div>
-    </div>
-    <br>
     {% include "snippets/song_add_button.html" %}
   </div>
 {% endblock %}
