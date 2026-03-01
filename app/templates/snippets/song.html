@@ -23,15 +23,15 @@
         </span>
       {% endif %}
 
-      {% if song.page %}
-        <span>
-          Page {{ song.page }}
-        </span>
-      {% endif %}
-
       {% if song.source %}
         <span>
           Source: <span class="fw-medium text-dark">{{ song.source.title }}</span>
+        </span>
+      {% endif %}
+
+      {% if song.page %}
+        <span>
+          Page {{ song.page }}
         </span>
       {% endif %}
 
