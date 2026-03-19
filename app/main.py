@@ -110,7 +110,7 @@ def homepage(request: Request, session: Session = Depends(db.yield_session)):
 
 
 @app.get("/landing", response_class=HTMLResponse)
-def landing_view(request: Request, session: Session):
+def landing_view(request: Request, session):
     context = {}
     context["sources"] = session.exec(
         select(Source).where(Source.public.is_(True))
