@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="sk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Na Juraja</title>
+
+    <style>
+      :root {
+        --bg: #f4f4f4;
+        --text: #1d1d1d;
+        --muted: #666;
+        --accent: #5a6b5c;
+      }
+
+      body {
+        margin: 0;
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.75;
+      }
+
+      .container {
+        max-width: 760px;
+        margin: 0 auto;
+        padding: 22px 18px 60px 18px;
+      }
+
+    /* HEADER */
+      .header {
+        margin-bottom: 26px;
+      }
+
+      .kicker {
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        font-size: 0.75rem;
+        color: var(--accent);
+        margin-bottom: 8px;
+      }
+
+      h1 {
+        font-size: 2rem;
+        margin: 0 0 10px 0;
+        line-height: 1.2;
+      }
+
+      .subtitle {
+        color: var(--muted);
+        font-size: 1rem;
+      }
+
+    /* TEXT STYLING */
+      p {
+        margin: 0 0 16px 0;
+        font-size: 1.05rem;
+      }
+
+      .section-title {
+        margin-top: 28px;
+        margin-bottom: 10px;
+        font-size: 1.1rem;
+        color: var(--accent);
+        font-weight: 600;
+      }
+
+      .quote {
+        margin: 20px 0;
+        padding-left: 14px;
+        border-left: 3px solid var(--accent);
+        font-style: italic;
+        color: #333;
+      }
+
+      .sources {
+        margin-top: 40px;
+        font-size: 0.85rem;
+        color: var(--muted);
+        border-top: 1px solid #ddd;
+        padding-top: 14px;
+      }
+
+    /* jemný "magazine feel" spacing */
+      .spacer {
+        height: 10px;
+      }
+
+      .section-title {
+        margin-top: 30px;
+        margin-bottom: 10px;
+        font-size: 1.1rem;
+        color: var(--accent);
+        font-weight: 600;
+      }
+
+      .quote {
+        margin: 18px 0;
+        padding-left: 14px;
+        border-left: 3px solid var(--accent);
+        font-style: italic;
+        color: #333;
+      }
+
+      @media (max-width: 600px) {
+        h1 {
+          font-size: 1.6rem;
+        }
+
+        p {
+          font-size: 1rem;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+
+    <div class="container">
+
+    <!-- HEADER -->
+      <div class="header">
+        <div class="kicker">Ľudové tradície</div>
+        <h1>Na Juraja</h1>
+        <div class="subtitle">Jarné zvyky, ochranné rituály a kult svätého Juraja v Európe</div>
+      </div>
+
+    <!-- CONTENT -->
+      <p>
+        Deň svätého Juraja (24. 4.) predstavoval v minulosti začiatok jari, teda začiatok hospodárskeho roka (1,2).
+        Kult sv. Juraja sa po Európe rozšíril z Talianska, kde bol obzvlášť živý v oblastiach pod správou Benátok.
+        Tam sú dodnes uložené jeho relikvie (3).
+      </p>
+
+      <p>
+        V tejto oblasti sa zachovalo najviac legiend o Jurajovi ako hrdinovi, ktorý zabil draka,
+        no zároveň mal zázračnú moc oživiť zviera (1).
+        Postava sv. Juraja sa postupne prepojila s predstavami o jari, vegetácii a ochrane hospodárstva.
+      </p>
+
+      <div class="section-title">Jarné predstavy a ľudová tradícia</div>
+
+      <p>
+        <span class="quote">
+          „Do Ďura nerastie nič, a po Ďure všetko ide von…“
+        </span>
+        (2)
+      </p>
+
+      <p>
+        S týmto obdobím sa spájali predstavy o prechode prírody do aktívneho rastu.
+        Ženy zbierali rastliny so žltými kvetmi (podbeľ, záružlie) a pridávali ich do krmiva pre dobytok,
+        aby zabezpečili úžitok a ochranu. Byliny ako zimozeleň či žihľava mali ochrannú funkciu proti zlým silám (2).
+      </p>
+
+      <div class="section-title">Rituály a magické praktiky</div>
+
+      <p>
+        Rozšíreným zvykom bolo vité vencov. Dievčatá ich hádzali na stromy alebo do vody,
+        čím symbolicky zisťovali budúcnosť (2).
+      </p>
+
+      <p>
+        Ranná rosa sa zbierala ako magický prostriedok prosperity a plodnosti (2).
+      </p>
+
+      <p>
+        V Bošáckej doline sa po jurských ohňoch dievčatá váľali po oziminách,
+        aby zabezpečili vysokú úrodu žita (8).
+      </p>
+
+      <div class="section-title">Ochrana zvierat a hospodárstva</div>
+
+      <p>
+        Na Juraja sa po prvýkrát v roku vyháňal dobytok na pašu.
+        Stajne sa predtým vydymovali bylinami alebo posvätným dymom, aby sa zabezpečila ochrana a zdravie (4–7).
+      </p>
+
+      <p>
+        Používali sa rôzne byliny (palina, materina dúška, šípka…), kadidlo alebo uhlíky zo štedrovečernej večere.
+        Okiadzanie malo ochranný charakter a jeho rozšírenie naprieč regiónmi poukazuje na jeho archaický pôvod.
+      </p>
+
+
+    <!-- KVÍZ -->
+      <div class="section-title"  id="quiz">Kvíz</div>
+
+      <p>
+        Skús priradiť nahrávku Jurských spevov k obci, odkiaľ spev pochádza:
+      </p>
+
+      <p>
+        1. Selec<br/>
+        2. Chocholná-Velčice – kopanica Kykula<br/>
+        3. Trenčianska Turná
+      </p>
+
+      <p class="quote">
+        Tip: všímaj si štýl spevu, rytmus a regionálne odlišnosti.
+      </p>
+
+<!-- FUN FACT -->
+      <div class="section-title">Fun fact</div>
+
+      <p>
+        V Európe je kladenie ohňa vo výročnom zvykosloví spojené hlavne s letným slnovratom,
+        obradné ohne boli však dôležité aj na Juraja.
+      </p>
+
+      <p>
+        V Rybanoch (okres Topoľčany) boli jurské ohne od roku 1970 zakázané.
+        Dôvodom bolo nedorozumenie – miestne ohne boli tak veľké, že boli viditeľné zo susednej obce Chynorany,
+        odkiaľ boli vyslaní hasiči v domnienke, že ide o požiar.
+      </p>
+
+      <p>
+        Aj keď sa situácia vysvetlila, tradícia kladenia ohňov na Juraja sa tam už neobnovila (4).
+      </p>
+
+
+    <!-- SOURCES -->
+      <div class="sources">
+        <strong>Zdroje:</strong><br/>
+        (1) Kováčová 1989 • (2) Horváthová 1986 • (3) Ábelová 1993 • (4) Olejník 1976<br/>
+        (5) Húsek & Niederle 1932 • (6) Ábelová 1971 • (7) Mintalová 2015 • (8) Holuby 1958
+      </div>
+
+    </div>
+
+  </body>
+</html>

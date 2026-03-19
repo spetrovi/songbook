@@ -110,7 +110,7 @@ def homepage(request: Request, session: Session = Depends(db.yield_session)):
 
 
 @app.get("/landing", response_class=HTMLResponse)
-def landing_view(request: Request, session):
+def juraj1_view(request: Request, session):
     context = {}
     context["sources"] = session.exec(
         select(Source).where(Source.public.is_(True))
@@ -130,6 +130,12 @@ def landing_view(request: Request, session):
         for source in context["sources"]
     }
     return render(request, "landing.html", context)
+
+
+@app.get("/juraj", response_class=HTMLResponse)
+def landing_view(request: Request, session):
+    context = {}
+    return render(request, "articles/juraj1.html", context)
 
 
 @app.get("/login", response_class=HTMLResponse)
