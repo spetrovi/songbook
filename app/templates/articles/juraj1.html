@@ -3,6 +3,18 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://unpkg.com/htmx.org@1.7.0/dist/htmx.min.js"></script>
+    <script src="https://raw.githack.com/SortableJS/Sortable/master/Sortable.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/combine/npm/tone@14.7.58,npm/@magenta/music@1.22.1/es6/core.js,npm/focus-visible@5,npm/html-midi-player@1.4.0"></script>
+    <script src=" https://cdn.jsdelivr.net/npm/@yaireo/tagify@4.31.3/dist/tagify.min.js "></script>
+    <link href=" https://cdn.jsdelivr.net/npm/@yaireo/tagify@4.31.3/dist/tagify.min.css " rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
     <title>Na Juraja</title>
 
     <style>
@@ -182,40 +194,72 @@
       </p>
 
 
+
+
+      <div class="accordion" id="jurajAccordion">
+
     <!-- KVÍZ -->
-      <div class="section-title"  id="quiz">Kvíz</div>
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="quizHeading">
+            <button class="accordion-button collapsed" type="button"
+                    data-bs-toggle="collapse" data-bs-target="#quiz"
+                    aria-expanded="false" aria-controls="quiz">
+              🎧 Kvíz – Jurské spevy
+            </button>
+          </h2>
 
-      <p>
-        Skús priradiť nahrávku Jurských spevov k obci, odkiaľ spev pochádza:
-      </p>
+          <div id="quiz" class="accordion-collapse collapse"
+               aria-labelledby="quizHeading"
+               data-bs-parent="#jurajAccordion">
 
-      <p>
-        1. Selec<br/>
-        2. Chocholná-Velčice – kopanica Kykula<br/>
-        3. Trenčianska Turná
-      </p>
+            <div class="accordion-body">
+              <p>Skús priradiť nahrávku Jurských spevov k obci:</p>
 
-      <p class="quote">
-        Tip: všímaj si štýl spevu, rytmus a regionálne odlišnosti.
-      </p>
+              <ol>
+                <li>Selec</li>
+                <li>Chocholná-Velčice – kopanica Kykula</li>
+                <li>Trenčianska Turná</li>
+              </ol>
+            </div>
+          </div>
+        </div>
 
-<!-- FUN FACT -->
-      <div class="section-title">Fun fact</div>
+    <!-- FUN FACT -->
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="factHeading">
+            <button class="accordion-button collapsed" type="button"
+                    data-bs-toggle="collapse" data-bs-target="#funfact"
+                    aria-expanded="false" aria-controls="funfact">
+              🔥 Fun fact – Jurské ohne
+            </button>
+          </h2>
 
-      <p>
-        V Európe je kladenie ohňa vo výročnom zvykosloví spojené hlavne s letným slnovratom,
-        obradné ohne boli však dôležité aj na Juraja.
-      </p>
+          <div id="funfact" class="accordion-collapse collapse"
+               aria-labelledby="factHeading"
+               data-bs-parent="#jurajAccordion">
 
-      <p>
-        V Rybanoch (okres Topoľčany) boli jurské ohne od roku 1970 zakázané.
-        Dôvodom bolo nedorozumenie – miestne ohne boli tak veľké, že boli viditeľné zo susednej obce Chynorany,
-        odkiaľ boli vyslaní hasiči v domnienke, že ide o požiar.
-      </p>
+            <div class="accordion-body">
+              <p>
+                V Európe je kladenie ohňa spojené najmä s letným slnovratom,
+                no dôležité bolo aj na Juraja.
+              </p>
 
-      <p>
-        Aj keď sa situácia vysvetlila, tradícia kladenia ohňov na Juraja sa tam už neobnovila (4).
-      </p>
+              <p>
+                V Rybanoch (okres Topoľčany) boli jurské ohne od roku 1970 zakázané,
+                keďže boli viditeľné až do Chynorian, kde si mysleli, že ide o požiar.
+              </p>
+
+              <p>
+                Tradícia sa už neobnovila (4).
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+
 
 
     <!-- SOURCES -->
