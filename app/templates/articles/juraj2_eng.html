@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <script src="https://unpkg.com/htmx.org@1.7.0/dist/htmx.min.js"></script>
+    <script src="https://raw.githack.com/SortableJS/Sortable/master/Sortable.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/combine/npm/tone@14.7.58,npm/@magenta/music@1.22.1/es6/core.js,npm/focus-visible@5,npm/html-midi-player@1.4.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify@4.31.3/dist/tagify.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/@yaireo/tagify@4.31.3/dist/tagify.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+
+    <title>St. George’s songs</title>
+
+    <style>
+      :root {
+        --bg: #f4f4f4;
+        --text: #1d1d1d;
+        --muted: #666;
+        --accent: #5a6b5c;
+      }
+
+      body {
+        margin: 0;
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.75;
+      }
+
+      .container {
+        max-width: 760px;
+        margin: 0 auto;
+        padding: 22px 18px 60px 18px;
+      }
+
+      .header { margin-bottom: 26px; }
+
+      .kicker {
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        font-size: 0.75rem;
+        color: var(--accent);
+        margin-bottom: 8px;
+      }
+
+      h1 {
+        font-size: 2rem;
+        margin: 0 0 10px 0;
+        line-height: 1.2;
+      }
+
+      .subtitle {
+        color: var(--muted);
+        font-size: 1rem;
+      }
+
+      p {
+        margin: 0 0 16px 0;
+        font-size: 1.05rem;
+      }
+
+      .section-title {
+        margin-top: 30px;
+        margin-bottom: 10px;
+        font-size: 1.1rem;
+        color: var(--accent);
+        font-weight: 600;
+      }
+
+      .quote {
+        margin: 18px 0;
+        padding-left: 14px;
+        border-left: 3px solid var(--accent);
+        font-style: italic;
+        color: #333;
+      }
+
+      .sources {
+        margin-top: 40px;
+        font-size: 0.85rem;
+        color: var(--muted);
+        border-top: 1px solid #ddd;
+        padding-top: 14px;
+      }
+
+      #article {
+        margin-top: 100vh;
+      }
+
+      .quiz-option {
+        display: block;
+        padding: 8px 10px;
+        border-radius: 6px;
+        cursor: pointer;
+      }
+
+      .quiz-option.correct {
+        background-color: #d4edda;
+        color: #155724;
+      }
+
+      .quiz-option.wrong {
+        background-color: #f8d7da;
+        color: #721c24;
+      }
+
+
+
+      .quiz-option.correct {
+        background-color: #d4edda;
+        color: #155724;
+      }
+
+      .quiz-option.wrong {
+        background-color: #f8d7da;
+        color: #721c24;
+      }
+
+
+
+
+    </style>
+  </head>
+
+  <body>
+
+    <div class="container">
+
+      <!-- HEADER -->
+      <div class="header">
+        <div class="kicker">Folk traditions</div>
+        <h1>St. George’s songs</h1>
+      </div>
+
+      <div class="accordion" id="jurajAccordion">
+
+        <!-- QUIZ -->
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="quizHeading">
+            <button class="accordion-button collapsed" type="button"
+                    data-bs-toggle="collapse" data-bs-target="#quizCollapse"
+                    aria-expanded="false" aria-controls="quizCollapse">
+              🏆 Quiz
+            </button>
+          </h2>
+
+          <div id="quizCollapse" class="accordion-collapse collapse"
+               aria-labelledby="quizHeading"
+               data-bs-parent="#jurajAccordion">
+
+            <div class="accordion-body">
+              <p>In many St. George songs, the phrase “the earth opens” appears. Which of the following beliefs did people associate with Saint George and the awakening of the earth?</p>
+
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="a">
+                <label class="form-check-label quiz-option" for="a" data-correct="false">
+                  A. On Saint George’s Day, treasures emerge from the earth.
+                </label>
+              </div>
+
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="b">
+                <label class="form-check-label quiz-option" for="b" data-correct="true">
+                  B. If someone encounters a snake before Saint George’s Day, they must kill it to have good luck.
+                </label>
+              </div>
+
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="c">
+                <label class="form-check-label quiz-option" for="c" data-correct="true">
+                  C. If someone encounters a snake before Saint George’s Day, they must not kill it — a living snake means good luck.
+                </label>
+              </div>
+
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="d">
+                <label class="form-check-label quiz-option" for="d" data-correct="true">
+                  D. If someone catches a mole before Saint George’s Day, they should extract its heart and give it as feed to livestock.
+                </label>
+              </div>
+              <button id="checkQuiz" class="btn btn-dark mt-3">
+                Check answers
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- FUN FACT -->
+        <div class="accordion-item mb-1">
+          <h2 class="accordion-header" id="factHeading">
+            <button class="accordion-button collapsed" type="button"
+                    data-bs-toggle="collapse" data-bs-target="#funfactCollapse"
+                    aria-expanded="false" aria-controls="funfactCollapse">
+              🔥 Fun fact
+            </button>
+          </h2>
+
+          <div id="funfactCollapse" class="accordion-collapse collapse"
+               aria-labelledby="factHeading"
+               data-bs-parent="#jurajAccordion">
+
+            <div class="accordion-body">
+              <p>
+                In Europe, the lighting of fires within annual folk traditions is mainly associated with the summer solstice; however, ritual fires were also important on Saint George’s Day.
+              </p>
+
+              <p>
+                In Rybany, in the Topoľčany district, St. George’s fires were banned in 1970. Locals had been lighting such large fires that they were visible from the neighboring village of Chynorany, from where firefighters were dispatched under the assumption that it was an actual fire.
+              </p>
+
+              <p>
+                Although the misunderstanding was quickly clarified, fires have not been allowed to be lit on Saint George’s Day in Rybany since then (4).
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+      <a href="#article" class="btn btn-outline-dark read-more-btn">
+        Read more ↓
+      </a>
+
+      <!-- ARTICLE -->
+      <div id="article">
+        <div class="header">
+          <div class="kicker">Folk traditions</div>
+          <h1>St. George’s songs</h1>
+          <div class="subtitle">Ritual songs, seasonal symbolism, and oral tradition in St. George’s Day customs</div>
+        </div>
+
+        <p>
+          Springtime customs associated with Saint George’s Day are closely connected with archaic ritual songs that were characteristic of the lower part of the Trenčín region and the upper part of the Nitra region (1,2). These songs were primarily performed by girls, either daily or on selected days of the week, roughly from Easter to Saint George’s Day — the exact period varied by locality (3). Singing usually took place in the evening hours, until around nine or ten o’clock. On the eve of Saint George’s Day, this singing was combined with the lighting of St. George’s fires and other ritual practices, often extending into the late night hours (3).
+        </p>
+
+        <p>
+          The places where St. George’s songs were sung were determined by the layout and relief of the village and its surroundings. The location was typically elevated so that the sound would carry as far as possible — the distance over which the singing could be heard symbolically indicated the expected quality of the harvest (3).
+        </p>
+
+        <p>
+          The singing usually began with the words:
+        </p>
+
+        <p class="quote">
+          Saint George is coming,<br>
+          bringing us the summer,<br>
+          and that summer for us,<br>
+          honest maidens.
+        </p>
+
+        <p>
+          or with variants of this stanza.
+          The rest of the song content varied widely, often expressing a wish for the beginning of spring, for example:
+        </p>
+
+        <p class="quote">
+          Little Saint George,<br>
+          open up the field,<br>
+          so that Janíčko may go<br>
+          to plow in the morning.
+        </p>
+
+        <p>
+          There were also love-themed, humorous, or mocking songs:
+        </p>
+
+        <p class="quote">
+          He went from plowing,<br>
+          sat down beside me,<br>
+          tell me, my dear,<br>
+          will you marry me.
+        </p>
+
+        <p class="quote">
+          He went from plowing,<br>
+          fell into the mud,<br>
+          so he called, my dear,<br>
+          mend my trousers.
+        </p>
+
+        <p>
+          The songs were therefore quite diverse. A unifying and identifying element across them were refrains such as “Hój, hoja Ďura hój!” or “Come, summer, don’t delay, come summer come!”. These refrains often transformed even songs that were not originally related to the St. George’s tradition into St. George’s songs (3).
+        </p>
+
+        <p>
+          Singing on the eve of Saint George’s Day typically ended around the St. George’s fires, where young people continued to socialize into the late hours. In the village of Selec, a chorovod dance called “mešice” has been preserved as part of the conclusion of singing, in which girls gradually move by passing under a “gate” structure while descending from the elevated place where they had been singing. This dance, the only one of its kind in the Lower Trenčín region, belongs to the oldest layer of folk dances, and girls in Selec continue to preserve this tradition today.
+        </p>
+
+        <div class="section-title">Sources</div>
+        <p class="source">
+          1. Jozef Ľudovít Holuby, 1836–1923. Ethnographic Works. (Slovak Academy of Sciences, Bratislava, 1958).<br>
+          2. Socháň, P. Ancient Customs of Slovak Farmers in Field Work. Vol. 2 (Slobodné učenie sedliacke, Bratislava, 1930).<br>
+          3. Juliana Kováčová. Girls’ Songs in Spring Ritual Traditions in Slovakia. Musicologica Slovaca 14, 20–70 (1989).<br>
+          4. Emília Horváthová, 1931–1996. The Year in the Customs of Our People. (Tatran, Bratislava, 1986).
+        </p>
+
+      </div>
+
+
+
+    </div>
+  </body>
+  <script>
+    document.getElementById("checkQuiz").addEventListener("click", () => {
+
+      const options = document.querySelectorAll(".form-check");
+
+      options.forEach(item => {
+        const checkbox = item.querySelector(".form-check-input");
+        const label = item.querySelector(".quiz-option");
+        const isCorrect = label.dataset.correct === "true";
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            // reset
+        label.classList.remove("correct", "wrong");
+
+        if (checkbox.checked) {
+          if (isCorrect) {
+            label.classList.add("correct");
+          } else {
+            label.classList.add("wrong");
+          }
+        } else {
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             // môžeš (voliteľne) zvýrazniť správne odpovede aj keď neboli kliknuté
+          if (isCorrect) {
+            label.classList.add("correct");
+          }
+        }
+      });
+
+    });
+  </script>
+</html>

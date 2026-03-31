@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="sk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://unpkg.com/htmx.org@1.7.0/dist/htmx.min.js"></script>
+    <script src="https://raw.githack.com/SortableJS/Sortable/master/Sortable.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/combine/npm/tone@14.7.58,npm/@magenta/music@1.22.1/es6/core.js,npm/focus-visible@5,npm/html-midi-player@1.4.0"></script>
+    <script src=" https://cdn.jsdelivr.net/npm/@yaireo/tagify@4.31.3/dist/tagify.min.js "></script>
+    <link href=" https://cdn.jsdelivr.net/npm/@yaireo/tagify@4.31.3/dist/tagify.min.css " rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+    <title>Na Juraja</title>
+
+    <style>
+      :root {
+        --bg: #f4f4f4;
+        --text: #1d1d1d;
+        --muted: #666;
+        --accent: #5a6b5c;
+      }
+
+      body {
+        margin: 0;
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.75;
+      }
+
+      .container {
+        max-width: 760px;
+        margin: 0 auto;
+        padding: 22px 18px 60px 18px;
+      }
+
+    /* HEADER */
+      .header {
+        margin-bottom: 26px;
+      }
+
+      .kicker {
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        font-size: 0.75rem;
+        color: var(--accent);
+        margin-bottom: 8px;
+      }
+
+      h1 {
+        font-size: 2rem;
+        margin: 0 0 10px 0;
+        line-height: 1.2;
+      }
+
+      .subtitle {
+        color: var(--muted);
+        font-size: 1rem;
+      }
+
+    /* TEXT STYLING */
+      p {
+        margin: 0 0 16px 0;
+        font-size: 1.05rem;
+      }
+
+      .section-title {
+        margin-top: 28px;
+        margin-bottom: 10px;
+        font-size: 1.1rem;
+        color: var(--accent);
+        font-weight: 600;
+      }
+
+      .quote {
+        margin: 20px 0;
+        padding-left: 14px;
+        border-left: 3px solid var(--accent);
+        font-style: italic;
+        color: #333;
+      }
+
+      .sources {
+        margin-top: 40px;
+        font-size: 0.85rem;
+        color: var(--muted);
+        border-top: 1px solid #ddd;
+        padding-top: 14px;
+      }
+
+    /* jemný "magazine feel" spacing */
+      .spacer {
+        height: 10px;
+      }
+
+      .section-title {
+        margin-top: 30px;
+        margin-bottom: 10px;
+        font-size: 1.1rem;
+        color: var(--accent);
+        font-weight: 600;
+      }
+
+      .quote {
+        margin: 18px 0;
+        padding-left: 14px;
+        border-left: 3px solid var(--accent);
+        font-style: italic;
+        color: #333;
+      }
+
+      @media (max-width: 600px) {
+        h1 {
+          font-size: 1.6rem;
+        }
+
+        p {
+          font-size: 1rem;
+        }
+      }
+
+      #article {
+        margin-top: 100vh;
+      }
+
+
+      .quiz-option.correct {
+        background-color: #d4edda;
+        color: #155724;
+      }
+
+      .quiz-option.wrong {
+        background-color: #f8d7da;
+        color: #721c24;
+      }
+
+
+
+
+    </style>
+  </head>
+
+  <body>
+
+    <div class="container">
+
+    <!-- HEADER -->
+      <div class="header">
+        <div class="kicker">Ľudové tradície</div>
+        <h1>Jurské spevy</h1>
+      </div>
+
+
+      <div class="accordion" id="jurajAccordion">
+
+
+  <!-- KVÍZ -->
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="quizHeading">
+            <button class="accordion-button collapsed" type="button"
+                    data-bs-toggle="collapse" data-bs-target="#quizCollapse"
+                    aria-expanded="false" aria-controls="quizCollapse">
+              🏆 Kvíz
+            </button>
+          </h2>
+
+          <div id="quizCollapse" class="accordion-collapse collapse"
+               aria-labelledby="quizHeading"
+               data-bs-parent="#jurajAccordion">
+
+            <div class="accordion-body">
+              <p>V mnohých jurských spevoch sa spieva „zem sa otvára“. Čomu z uvedených tvrdení ľudia v súvislosti s Jurajom a ožívaním zeme verili?</p>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="a">
+                <label class="form-check-label quiz-option" for="a" data-correct="false">
+                  A. Na Juraja vyvierajú zo zeme poklady.
+                </label>
+              </div>
+
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="b">
+                <label class="form-check-label quiz-option" for="b" data-correct="true">
+                  B. Kto pred Jurajom stretne hada, musí ho zabiť, aby mal šťastie.
+                </label>
+              </div>
+
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="c">
+                <label class="form-check-label quiz-option" for="c" data-correct="true">
+                  C. Kto pred Jurajom stretne hada, nesmie ho zabiť – živý had = šťastie.
+                </label>
+              </div>
+
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="d">
+                <label class="form-check-label quiz-option" for="d" data-correct="true">
+                  D. Kto pred Jurajom chytí krtka, má mu vybrať srdce a dať ho do krmiva pre dobytok.
+                </label>
+              </div>
+              <button id="checkQuiz" class="btn btn-dark mt-3">
+                Overiť
+              </button>
+            </div>
+          </div>
+        </div>
+
+
+  <!-- FUN FACT -->
+        <div class="accordion-item mb-1">
+          <h2 class="accordion-header" id="factHeading">
+            <button class="accordion-button collapsed" type="button"
+                    data-bs-toggle="collapse" data-bs-target="#funfactCollapse"
+                    aria-expanded="false" aria-controls="funfactCollapse">
+              🔥 Fun fact
+            </button>
+          </h2>
+
+          <div id="funfactCollapse" class="accordion-collapse collapse"
+               aria-labelledby="factHeading"
+               data-bs-parent="#jurajAccordion">
+
+            <div class="accordion-body">
+              <p>
+                V Európe je kladenie ohňa v rámci výročného zvykoslovia spojené najmä s letným slnovratom, obradné ohne však boli dôležité aj na Juraja.
+              </p>
+
+              <p>V Rybanoch, v okrese Topoľčany, boli však od roku 1970 jurské ohne zakázané. Miestni totiž zakladali také veľké ohne, že ich bolo dobre vidieť až do susednej obce Chynorany, odkiaľ vyslali hasičov v domnení, že ide o požiar.
+              </p>
+              <p>Aj keď sa nedorozumenie rýchlo vysvetlilo, ohne sa na Juraja už odvtedy v Rybanoch klásť nemohli.(4)</p>
+
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+      <a href="juraj2_eng" class="btn btn-outline-dark read-more-btn">
+        English version
+      </a>
+
+
+
+    </div>
+  </body>
+  <script>
+    document.getElementById("checkQuiz").addEventListener("click", () => {
+
+      const options = document.querySelectorAll(".form-check");
+
+      options.forEach(item => {
+        const checkbox = item.querySelector(".form-check-input");
+        const label = item.querySelector(".quiz-option");
+        const isCorrect = label.dataset.correct === "true";
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 // reset
+        label.classList.remove("correct", "wrong");
+
+        if (checkbox.checked) {
+          if (isCorrect) {
+            label.classList.add("correct");
+          } else {
+            label.classList.add("wrong");
+          }
+        } else {
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             // môžeš (voliteľne) zvýrazniť správne odpovede aj keď neboli kliknuté
+          if (isCorrect) {
+            label.classList.add("correct");
+          }
+        }
+      });
+
+    });
+  </script>
+</html>
