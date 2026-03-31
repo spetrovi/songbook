@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="sk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://unpkg.com/htmx.org@1.7.0/dist/htmx.min.js"></script>
+    <script src="https://raw.githack.com/SortableJS/Sortable/master/Sortable.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/combine/npm/tone@14.7.58,npm/@magenta/music@1.22.1/es6/core.js,npm/focus-visible@5,npm/html-midi-player@1.4.0"></script>
+    <script src=" https://cdn.jsdelivr.net/npm/@yaireo/tagify@4.31.3/dist/tagify.min.js "></script>
+    <link href=" https://cdn.jsdelivr.net/npm/@yaireo/tagify@4.31.3/dist/tagify.min.css " rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+    <title>Na Juraja</title>
+
+    <style>
+      :root {
+        --bg: #f4f4f4;
+        --text: #1d1d1d;
+        --muted: #666;
+        --accent: #5a6b5c;
+      }
+
+      body {
+        margin: 0;
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.75;
+      }
+
+      .container {
+        max-width: 760px;
+        margin: 0 auto;
+        padding: 22px 18px 60px 18px;
+      }
+
+    /* HEADER */
+      .header {
+        margin-bottom: 26px;
+      }
+
+      .kicker {
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        font-size: 0.75rem;
+        color: var(--accent);
+        margin-bottom: 8px;
+      }
+
+      h1 {
+        font-size: 2rem;
+        margin: 0 0 10px 0;
+        line-height: 1.2;
+      }
+
+      .subtitle {
+        color: var(--muted);
+        font-size: 1rem;
+      }
+
+    /* TEXT STYLING */
+      p {
+        margin: 0 0 16px 0;
+        font-size: 1.05rem;
+      }
+
+      .section-title {
+        margin-top: 28px;
+        margin-bottom: 10px;
+        font-size: 1.1rem;
+        color: var(--accent);
+        font-weight: 600;
+      }
+
+      .quote {
+        margin: 20px 0;
+        padding-left: 14px;
+        border-left: 3px solid var(--accent);
+        font-style: italic;
+        color: #333;
+      }
+
+      .sources {
+        margin-top: 40px;
+        font-size: 0.85rem;
+        color: var(--muted);
+        border-top: 1px solid #ddd;
+        padding-top: 14px;
+      }
+
+    /* jemný "magazine feel" spacing */
+      .spacer {
+        height: 10px;
+      }
+
+      .section-title {
+        margin-top: 30px;
+        margin-bottom: 10px;
+        font-size: 1.1rem;
+        color: var(--accent);
+        font-weight: 600;
+      }
+
+      .quote {
+        margin: 18px 0;
+        padding-left: 14px;
+        border-left: 3px solid var(--accent);
+        font-style: italic;
+        color: #333;
+      }
+
+      @media (max-width: 600px) {
+        h1 {
+          font-size: 1.6rem;
+        }
+
+        p {
+          font-size: 1rem;
+        }
+      }
+
+      #article {
+        margin-top: 100vh;
+      }
+    </style>
+  </head>
+
+  <body>
+
+    <div class="container">
+
+    <!-- HEADER -->
+      <div class="header">
+        <div class="kicker">Ľudové tradície</div>
+        <h1>Na Juraja</h1>
+      </div>
+
+
+      <div class="accordion" id="jurajAccordion">
+
+  <!-- KVÍZ -->
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="quizHeading">
+            <button class="accordion-button collapsed" type="button"
+                    data-bs-toggle="collapse" data-bs-target="#quizCollapse"
+                    aria-expanded="false" aria-controls="quizCollapse">
+              🎧 Kvíz – Jurské spevy
+            </button>
+          </h2>
+
+          <div id="quizCollapse" class="accordion-collapse collapse"
+               aria-labelledby="quizHeading"
+               data-bs-parent="#jurajAccordion">
+
+            <div class="accordion-body">
+              <p>Skús priradiť nahrávku Jurských spevov k obci:</p>
+
+              <ol>
+                <li>Selec</li>
+                <li>Chocholná-Velčice – kopanica Kykula</li>
+                <li>Trenčianska Turná</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+
+  <!-- FUN FACT -->
+        <div class="accordion-item mb-1">
+          <h2 class="accordion-header" id="factHeading">
+            <button class="accordion-button collapsed" type="button"
+                    data-bs-toggle="collapse" data-bs-target="#funfactCollapse"
+                    aria-expanded="false" aria-controls="funfactCollapse">
+              🔥 Not so funfact - Đurđevdan 1942
+            </button>
+          </h2>
+
+          <div id="funfactCollapse" class="accordion-collapse collapse"
+               aria-labelledby="factHeading"
+               data-bs-parent="#jurajAccordion">
+
+            <div class="accordion-body">
+
+              <p>
+                V roku 1942 v Sarajeve prebiehali v noci z 5. mája na 6. mája
+                (23. – 24. apríla v juliánskom kalendári) oslavy sviatku sv. Juraja
+                (srbsky Đurđevdan, rómsky Ederlezi).
+              </p>
+
+              <p>
+                Tieto oslavy boli prerušené ustašovskou políciou, ktorá zadržala
+                sarajevských Srbov, Rómov či Židov a naložila ich do transportných vagónov.
+                Jeden vagón bol určený pre 7 koní alebo 40 vojakov, no podľa svedectiev
+                bolo do jedného vagóna naložených približne 200 väzňov.
+              </p>
+
+              <p>
+                Väzňov transportovali do koncentračného tábora Jasenovac.
+                Podľa preživšieho Žarka Vidovića začal po nástupe do vagóna jeden z väzňov
+                spievať jurskú pieseň so slovami:
+              </p>
+
+              <p class="quote">
+                „Proljeće na moje rame slijeće, đurđevak zeleni, svima osim meni – Đurđevdan je!“
+              </p>
+
+              <p>
+                K piesni sa postupne pridali ostatní, čo vyprovokovalo ustašovcov
+                k ešte tvrdším represáliám. Z približne 3000 deportovaných väzňov
+                prežilo cestu asi 2000.
+              </p>
+
+              <p>
+                Celkový počet obetí v koncentračnom tábore Jasenovac sa odhaduje
+                na 500 000 až 700 000.
+              </p>
+
+              <p>
+                Túto pieseň spracoval aj Goran Bregović pre film Emira Kusturicu
+                <em>Dom pre obesencov (Time of the Gypsies, 1988)</em>.
+                Rómska verzia „Ederlezi“ sa stala symbolickou spomienkou na tieto udalosti.
+              </p>
+
+              <p>
+                Filmovú verziu si môžete vypočuť napríklad tu:
+                <a href="https://youtu.be/EZf00ad3G6o?list=RDEZf00ad3G6o" target="_blank" rel="noopener">
+                  Goran Bregović – Ederlezi
+                </a>
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+      <a href="#article" class="btn btn-outline-dark read-more-btn">
+        Čítať viac ↓
+      </a>
+
+
+      <div id="article" class="article-container">
+
+  <!-- HEADER -->
+        <div class="article-header mb-4">
+
+          <div class="kicker">
+            Interkultúrne súvislosti
+          </div>
+
+          <h1>
+            Juraj v interetnickom kontexte
+          </h1>
+
+          <p class="subtitle">
+            Kult svätého Juraja naprieč Európou a jeho paralely v rôznych kultúrach
+          </p>
+
+        </div>
+
+  <!-- CONTENT -->
+        <div class="article-body">
+
+          <p>
+            Kult svätého Juraja nie je lokálnym fenoménom strednej Európy.
+            V západných krajinách sa viac spája s legendou o zabití draka
+            a sv. Juraj sa tu vzýva ako patrón bojovníkov, rytierov a vojakov.
+            Na jeho počesť sa konajú jazdecké preteky (Rakúsko, Bavorsko),
+            či tancujú šabľové tance (Piemontsko) (1,2).
+          </p>
+
+          <p>
+            Vo východnej a strednej Európe sa však sv. Juraj vníma najmä
+            ako ochranca vegetácie.
+          </p>
+
+          <div class="section-title">
+            Zelený Juraj a jarné obchôdzky
+          </div>
+
+          <p>
+            V severozápadnej časti Chorvátska, niektorých častiach Slovinska,
+            Rakúska či Bavorska (1,3,4) sa 23. – 24. apríla konávali obchôdzky
+            so Zeleným Jurajom — postavou mládenca ozdobenou vetvičkami
+            či obilnými klasmi.
+          </p>
+
+          <p>
+            Obchôdzky sú sprevádzané spevmi o Zelenom Jurajovi,
+            ktorý priniesol jar. Podobný „Jack in the Green“ je v Anglicku
+            súčasťou prvomájového sprievodu.
+          </p>
+
+          <div class="section-title">
+            Paralely s mýtom Jarila
+          </div>
+
+          <p>
+            Obchôdzky so Zeleným Jurajom nápadne pripomínajú jarné oslavy
+            boha plodnosti Jarila u východných Slovanov.
+            V Rusku, Bielorusku či na Ukrajine (1,5) sa na jeho počesť
+            koná slávnosť jari.
+          </p>
+
+          <p>
+            Pri slávnosti stvárňovala Jarila slamená bábka, mládenec
+            alebo dievčina na koni s vencom na hlave a zväzkom obilných
+            klasov či zelenými vetvičkami v ruke.
+          </p>
+
+          <p class="quote">
+            „Kam postava stvárňujúca Jarila vkročí, tam bude dobrá úroda,
+            kam sa pozrie všetko rozkvitne.“
+          </p>
+
+          <div class="section-title">
+            Hidirellez a islamské tradície
+          </div>
+
+          <p>
+            Oslavy jari sa v tomto období konajú aj medzi moslimami
+            ako sviatok Hidirellez (Turecko, Balkán).
+            Moslimovia stotožňujú sv. Juraja s prorokom Eliášom (7).
+          </p>
+
+          <p>
+            Sviatok sa koná 5. – 6. mája (v juliánskom kalendári 23. – 24. apríla)
+            a zahŕňa pálenie obradných ohňov, preskakovanie cez ne,
+            hostiny a výzdobu z kvetov a vencov.
+          </p>
+
+          <p>
+            Zaujímavou paralelou je aj vyzdobovanie stromčekov farebnými stužkami,
+            ktoré predstavujú priania ľudí. Tento zvyk pripomína letečko,
+            máj či májku v stredoeurópskej tradícii.
+          </p>
+
+          <p>
+            V roku 2017 bol sviatok Hidirellez zapísaný do zoznamu
+            svetového nehmotného kultúrneho dedičstva UNESCO (8).
+          </p>
+
+          <div class="section-title">
+            Kalendárne a symbolické súvislosti
+          </div>
+
+          <p>
+            Anatolijský kalendár používaný v starom Turecku rozdeľoval rok
+            na studené obdobie (od 28. októbra) a božie obdobie
+            (od 24. apríla).
+          </p>
+
+          <p>
+            Toto delenie odpovedá hospodárskemu roku v našej tradícii,
+            kde letné obdobie začínalo vyhnaním dobytka na pašu
+            24. apríla (na Juraja) a končilo poslednou pašou
+            na Demetra 28. októbra.
+          </p>
+
+          <p>
+            Tieto dátumy súvisia s pozorovateľnosťou súhvezdia Plejád,
+            viditeľného len počas zimného obdobia.
+            V gréckej mytológii bola Demeter bohyňa zeme a poľnohospodárstva
+            a jej dcéra Persefóna trávila časť roka v podsvetí —
+            práve v období, keď sú Plejády viditeľné (7).
+          </p>
+
+          <p>
+            Naprieč kontinentom sa tak objavujú prekvapivé paralely,
+            ktoré ukazujú, ako podobne rôzne kultúry vnímajú cykly prírody,
+            napriek ich geografickej a historickej odlišnosti.
+          </p>
+
+        </div>
+
+  <!-- SOURCES -->
+        <hr class="my-5">
+
+        <div class="sources text-muted small">
+          <strong class="text-dark">Zdroje:</strong><br><br>
+          (1) Kováčová 1989 • (2) Toschi 1999 • (3) Pisk & Kunej 2024 • (4) Frazer 1854<br>
+          (5) Grokipedia – Yarilo • (6) Terzic et al. 2018 • (7) Couroucli 2012 • (8) UNESCO 2017
+        </div>
+
+      </div>
+
+    </div>
+  </body>
+</html>

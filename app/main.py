@@ -132,10 +132,16 @@ def landing_view(request: Request, session):
     return render(request, "landing.html", context)
 
 
-@app.get("/juraj", response_class=HTMLResponse)
+@app.get("/juraj1", response_class=HTMLResponse)
 def juraj1_view(request: Request):
     context = {}
     return render(request, "articles/juraj1.html", context)
+
+
+@app.get("/juraj2", response_class=HTMLResponse)
+def juraj2_view(request: Request):
+    context = {}
+    return render(request, "articles/juraj2.html", context)
 
 
 @app.get("/login", response_class=HTMLResponse)
