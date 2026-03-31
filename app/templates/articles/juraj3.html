@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 
-    <title>Na Juraja</title>
+    <title>Juraj v interetnickom kontexte</title>
 
     <style>
       :root {
@@ -127,6 +127,21 @@
       #article {
         margin-top: 100vh;
       }
+
+
+
+      .quiz-option.correct {
+        background-color: #d4edda;
+        color: #155724;
+      }
+
+      .quiz-option.wrong {
+        background-color: #f8d7da;
+        color: #721c24;
+      }
+
+
+
     </style>
   </head>
 
@@ -137,7 +152,7 @@
     <!-- HEADER -->
       <div class="header">
         <div class="kicker">Ľudové tradície</div>
-        <h1>Na Juraja</h1>
+        <h1>Juraj v interetnickom kontexte</h1>
       </div>
 
 
@@ -149,7 +164,7 @@
             <button class="accordion-button collapsed" type="button"
                     data-bs-toggle="collapse" data-bs-target="#quizCollapse"
                     aria-expanded="false" aria-controls="quizCollapse">
-              🎧 Kvíz – Jurské spevy
+              🏆 Kvíz – Tradície na Juraja
             </button>
           </h2>
 
@@ -158,13 +173,34 @@
                data-bs-parent="#jurajAccordion">
 
             <div class="accordion-body">
-              <p>Skús priradiť nahrávku Jurských spevov k obci:</p>
+              <p>V mnohých jurských spevoch sa spieva „zem sa otvára“. Čomu z uvedených tvrdení ľudia v súvislosti s Jurajom a ožívaním zeme verili?</p>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="a">
+                <label class="form-check-label quiz-option" for="a" data-correct="false">
+                  A. Na Juraja vyvierajú zo zeme poklady.
+                </label>
+              </div>
 
-              <ol>
-                <li>Selec</li>
-                <li>Chocholná-Velčice – kopanica Kykula</li>
-                <li>Trenčianska Turná</li>
-              </ol>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="b">
+                <label class="form-check-label quiz-option" for="b" data-correct="true">
+                  B. Kto pred Jurajom stretne hada, musí ho zabiť, aby mal šťastie.
+                </label>
+              </div>
+
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="c">
+                <label class="form-check-label quiz-option" for="c" data-correct="true">
+                  C. Kto pred Jurajom stretne hada, nesmie ho zabiť – živý had = šťastie.
+                </label>
+              </div>
+
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="d">
+                <label class="form-check-label quiz-option" for="d" data-correct="true">
+                  D. Kto pred Jurajom chytí krtka, má mu vybrať srdce a dať ho do krmiva pre dobytok.
+                </label>
+              </div>
             </div>
           </div>
         </div>
@@ -175,7 +211,7 @@
             <button class="accordion-button collapsed" type="button"
                     data-bs-toggle="collapse" data-bs-target="#funfactCollapse"
                     aria-expanded="false" aria-controls="funfactCollapse">
-              🔥 Not so funfact - Đurđevdan 1942
+              🕯️ Not so funfact - Đurđevdan 1942
             </button>
           </h2>
 
@@ -207,6 +243,9 @@
               <p class="quote">
                 „Proljeće na moje rame slijeće, đurđevak zeleni, svima osim meni – Đurđevdan je!“
               </p>
+              <p class="quote">
+                „Jar si sadla na moje ramená, konvalinka zelená, pre všetkých okrem mňa – je sviatok sv. Juraja“ - voľný preklad
+              </p>
 
               <p>
                 K piesni sa postupne pridali ostatní, čo vyprovokovalo ustašovcov
@@ -226,7 +265,7 @@
               </p>
 
               <p>
-                Filmovú verziu si môžete vypočuť napríklad tu:
+                Filmovú verziu si môžete vypočuť tu:
                 <a href="https://youtu.be/EZf00ad3G6o?list=RDEZf00ad3G6o" target="_blank" rel="noopener">
                   Goran Bregović – Ederlezi
                 </a>
@@ -390,4 +429,30 @@
 
     </div>
   </body>
+
+  <script>
+    document.querySelectorAll(".quiz-option").forEach(label => {
+      label.addEventListener("click", function () {
+
+        const checkbox = document.getElementById(this.getAttribute("for"));
+
+        const isCorrect = this.dataset.correct === "true";
+
+    // vyčistenie predchádzajúcich tried
+        this.classList.remove("correct", "wrong");
+
+    // vyfarbenie
+        if (isCorrect) {
+          this.classList.add("correct");
+        } else {
+          this.classList.add("wrong");
+        }
+
+    // synchronizácia checkboxu (vizuálne ho nechceme)
+        if (checkbox) {
+          checkbox.checked = true;
+        }
+      });
+    });
+  </script>
 </html>

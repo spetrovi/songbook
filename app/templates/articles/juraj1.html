@@ -127,6 +127,21 @@
       #article {
         margin-top: 100vh;
       }
+
+
+      .quiz-option.correct {
+        background-color: #d4edda;
+        color: #155724;
+      }
+
+      .quiz-option.wrong {
+        background-color: #f8d7da;
+        color: #721c24;
+      }
+
+
+
+
     </style>
   </head>
 
@@ -144,12 +159,14 @@
       <div class="accordion" id="jurajAccordion">
 
   <!-- KVÍZ -->
+
+  <!-- KVÍZ -->
         <div class="accordion-item">
           <h2 class="accordion-header" id="quizHeading">
             <button class="accordion-button collapsed" type="button"
                     data-bs-toggle="collapse" data-bs-target="#quizCollapse"
                     aria-expanded="false" aria-controls="quizCollapse">
-              🎧 Kvíz – Jurské spevy
+              🏆 Kvíz – Tradície na Juraja
             </button>
           </h2>
 
@@ -158,16 +175,38 @@
                data-bs-parent="#jurajAccordion">
 
             <div class="accordion-body">
-              <p>Skús priradiť nahrávku Jurských spevov k obci:</p>
+              <p>V mnohých jurských spevoch sa spieva „zem sa otvára“. Čomu z uvedených tvrdení ľudia v súvislosti s Jurajom a ožívaním zeme verili?</p>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="a">
+                <label class="form-check-label quiz-option" for="a" data-correct="false">
+                  A. Na Juraja vyvierajú zo zeme poklady.
+                </label>
+              </div>
 
-              <ol>
-                <li>Selec</li>
-                <li>Chocholná-Velčice – kopanica Kykula</li>
-                <li>Trenčianska Turná</li>
-              </ol>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="b">
+                <label class="form-check-label quiz-option" for="b" data-correct="true">
+                  B. Kto pred Jurajom stretne hada, musí ho zabiť, aby mal šťastie.
+                </label>
+              </div>
+
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="c">
+                <label class="form-check-label quiz-option" for="c" data-correct="true">
+                  C. Kto pred Jurajom stretne hada, nesmie ho zabiť – živý had = šťastie.
+                </label>
+              </div>
+
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="d">
+                <label class="form-check-label quiz-option" for="d" data-correct="true">
+                  D. Kto pred Jurajom chytí krtka, má mu vybrať srdce a dať ho do krmiva pre dobytok.
+                </label>
+              </div>
             </div>
           </div>
         </div>
+
 
   <!-- FUN FACT -->
         <div class="accordion-item mb-1">
@@ -185,17 +224,13 @@
 
             <div class="accordion-body">
               <p>
-                V Európe je kladenie ohňa spojené najmä s letným slnovratom,
-                no dôležité bolo aj na Juraja.
+                V Európe je kladenie ohňa v rámci výročného zvykoslovia spojené najmä s letným slnovratom, obradné ohne však boli dôležité aj na Juraja.
               </p>
 
-              <p>
-                V Rybanoch (okres Topoľčany) boli jurské ohne od roku 1970 zakázané.
+              <p>V Rybanoch, v okrese Topoľčany, boli však od roku 1970 jurské ohne zakázané. Miestni totiž zakladali také veľké ohne, že ich bolo dobre vidieť až do susednej obce Chynorany, odkiaľ vyslali hasičov v domnení, že ide o požiar.
               </p>
+              <p>Aj keď sa nedorozumenie rýchlo vysvetlilo, ohne sa na Juraja už odvtedy v Rybanoch klásť nemohli.(4)</p>
 
-              <p>
-                Tradícia sa už neobnovila (4).
-              </p>
             </div>
 
           </div>
@@ -203,90 +238,38 @@
 
       </div>
 
-      <a href="#article" class="btn btn-outline-dark read-more-btn">
-        Čítať viac ↓
+      <a href="juraj1_eng" class="btn btn-outline-dark read-more-btn">
+        English version
       </a>
 
 
-    <!-- HEADER -->
-      <div id="article">
-        <div class="header">
-          <div class="kicker">Ľudové tradície</div>
-          <h1>Na Juraja</h1>
-          <div class="subtitle">Jarné zvyky, ochranné rituály a kult svätého Juraja v Európe</div>
-        </div>
 
-
-    <!-- CONTENT -->
-        <p>
-          Deň svätého Juraja (24. 4.) predstavoval v minulosti začiatok jari, teda začiatok hospodárskeho roka (1,2).
-          Kult sv. Juraja sa po Európe rozšíril z Talianska, kde bol obzvlášť živý v oblastiach pod správou Benátok.
-          Tam sú dodnes uložené jeho relikvie (3).
-        </p>
-
-        <p>
-          V tejto oblasti sa zachovalo najviac legiend o Jurajovi ako hrdinovi, ktorý zabil draka,
-          no zároveň mal zázračnú moc oživiť zviera (1).
-          Postava sv. Juraja sa postupne prepojila s predstavami o jari, vegetácii a ochrane hospodárstva.
-        </p>
-
-        <div class="section-title">Jarné predstavy a ľudová tradícia</div>
-
-        <p>
-          <span class="quote">
-            „Do Ďura nerastie nič, a po Ďure všetko ide von…“
-          </span>
-          (2)
-        </p>
-
-        <p>
-          S týmto obdobím sa spájali predstavy o prechode prírody do aktívneho rastu.
-          Ženy zbierali rastliny so žltými kvetmi (podbeľ, záružlie) a pridávali ich do krmiva pre dobytok,
-          aby zabezpečili úžitok a ochranu. Byliny ako zimozeleň či žihľava mali ochrannú funkciu proti zlým silám (2).
-        </p>
-
-        <div class="section-title">Rituály a magické praktiky</div>
-
-        <p>
-          Rozšíreným zvykom bolo vité vencov. Dievčatá ich hádzali na stromy alebo do vody,
-          čím symbolicky zisťovali budúcnosť (2).
-        </p>
-
-        <p>
-          Ranná rosa sa zbierala ako magický prostriedok prosperity a plodnosti (2).
-        </p>
-
-        <p>
-          V Bošáckej doline sa po jurských ohňoch dievčatá váľali po oziminách,
-          aby zabezpečili vysokú úrodu žita (8).
-        </p>
-
-        <div class="section-title">Ochrana zvierat a hospodárstva</div>
-
-        <p>
-          Na Juraja sa po prvýkrát v roku vyháňal dobytok na pašu.
-          Stajne sa predtým vydymovali bylinami alebo posvätným dymom, aby sa zabezpečila ochrana a zdravie (4–7).
-        </p>
-
-        <p>
-          Používali sa rôzne byliny (palina, materina dúška, šípka…), kadidlo alebo uhlíky zo štedrovečernej večere.
-          Okiadzanie malo ochranný charakter a jeho rozšírenie naprieč regiónmi poukazuje na jeho archaický pôvod.
-        </p>
-
-
-
-
-
-
-
-    <!-- SOURCES -->
-        <div class="sources">
-          <strong>Zdroje:</strong><br/>
-          (1) Kováčová 1989 • (2) Horváthová 1986 • (3) Ábelová 1993 • (4) Olejník 1976<br/>
-          (5) Húsek & Niederle 1932 • (6) Ábelová 1971 • (7) Mintalová 2015 • (8) Holuby 1958
-        </div>
-
-      </div>
     </div>
   </body>
+  <script>
+    document.querySelectorAll(".form-check").forEach(item => {
+      item.addEventListener("click", function (e) {
+
+        const label = this.querySelector(".quiz-option");
+        const checkbox = this.querySelector(".form-check-input");
+
+        const isCorrect = label.dataset.correct === "true";
+
+    // vyfarbenie
+        label.classList.remove("correct", "wrong");
+
+        if (isCorrect) {
+          label.classList.add("correct");
+        } else {
+          label.classList.add("wrong");
+        }
+
+    // sync checkbox (aby bol vždy zaskrtnutý)
+        if (checkbox) {
+          checkbox.checked = true;
+        }
+
+      });
+    });
+  </script>
 </html>

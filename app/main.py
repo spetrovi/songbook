@@ -138,10 +138,22 @@ def juraj1_view(request: Request):
     return render(request, "articles/juraj1.html", context)
 
 
+@app.get("/juraj1_eng", response_class=HTMLResponse)
+def juraj1eng_view(request: Request):
+    context = {}
+    return render(request, "articles/juraj1_eng.html", context)
+
+
 @app.get("/juraj2", response_class=HTMLResponse)
 def juraj2_view(request: Request):
     context = {}
     return render(request, "articles/juraj2.html", context)
+
+
+@app.get("/juraj3", response_class=HTMLResponse)
+def juraj3_view(request: Request):
+    context = {}
+    return render(request, "articles/juraj3.html", context)
 
 
 @app.get("/login", response_class=HTMLResponse)
