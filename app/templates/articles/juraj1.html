@@ -159,14 +159,12 @@
       <div class="accordion" id="jurajAccordion">
 
   <!-- KVÍZ -->
-
-  <!-- KVÍZ -->
         <div class="accordion-item">
           <h2 class="accordion-header" id="quizHeading">
             <button class="accordion-button collapsed" type="button"
                     data-bs-toggle="collapse" data-bs-target="#quizCollapse"
                     aria-expanded="false" aria-controls="quizCollapse">
-              🏆 Kvíz – Tradície na Juraja
+              🏆 Kvíz
             </button>
           </h2>
 
@@ -175,34 +173,38 @@
                data-bs-parent="#jurajAccordion">
 
             <div class="accordion-body">
-              <p>V mnohých jurských spevoch sa spieva „zem sa otvára“. Čomu z uvedených tvrdení ľudia v súvislosti s Jurajom a ožívaním zeme verili?</p>
+              <p>„Okiadzanie“ bolo častou súčasťou ľudovej mágie a liečiteľstva. Zaujímavým zdrojom o okiadzaní sú súdne procesy s čarodejnicami Zuzanou Ščedronou z Beluše, Dorotou Kalmovou zo Streženíc, Annou Žgeňou z Malej Prúbky, Annou Pastierčinou z Handlovej, či Annou Píšovou z Čerenian. </p><p>
+                Čo myslíš, ktorá z ingrediencií na okiadzanie sa NEnachádza v odporúčaniach od týchto žien?</p>
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="a">
+                <input class="form-check-input" type="radio" name="quiz1" id="a">
                 <label class="form-check-label quiz-option" for="a" data-correct="false">
-                  A. Na Juraja vyvierajú zo zeme poklady.
+                  A. Časť čarodejnicinho odevu.
                 </label>
               </div>
 
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="b">
+                <input class="form-check-input" type="radio" name="quiz1" id="b">
                 <label class="form-check-label quiz-option" for="b" data-correct="true">
-                  B. Kto pred Jurajom stretne hada, musí ho zabiť, aby mal šťastie.
+                  B. Trus liečeného dobytka
                 </label>
               </div>
 
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="c">
-                <label class="form-check-label quiz-option" for="c" data-correct="true">
-                  C. Kto pred Jurajom stretne hada, nesmie ho zabiť – živý had = šťastie.
+                <input class="form-check-input" type="radio" name="quiz1" id="c">
+                <label class="form-check-label quiz-option" for="c" data-correct="false">
+                  C. Chlieb.
                 </label>
               </div>
 
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="d">
-                <label class="form-check-label quiz-option" for="d" data-correct="true">
-                  D. Kto pred Jurajom chytí krtka, má mu vybrať srdce a dať ho do krmiva pre dobytok.
+                <input class="form-check-input" type="radio" name="quiz1" id="d">
+                <label class="form-check-label quiz-option" for="d" data-correct="false">
+                  D. Slama zo susedovej strechy
                 </label>
               </div>
+              <button id="checkQuiz" class="btn btn-dark mt-3">
+                Overiť
+              </button>
             </div>
           </div>
         </div>
@@ -214,7 +216,7 @@
             <button class="accordion-button collapsed" type="button"
                     data-bs-toggle="collapse" data-bs-target="#funfactCollapse"
                     aria-expanded="false" aria-controls="funfactCollapse">
-              🔥 Fun fact – Jurské ohne
+              🔥 Fun fact
             </button>
           </h2>
 
@@ -223,20 +225,17 @@
                data-bs-parent="#jurajAccordion">
 
             <div class="accordion-body">
-              <p>
-                V Európe je kladenie ohňa v rámci výročného zvykoslovia spojené najmä s letným slnovratom, obradné ohne však boli dôležité aj na Juraja.
+              <p>K zaujímavým zvykom v predvečer Juraja patrí „zavlekuvanie“. Mrkni čo to je, a ako to vyzerá v dnešnj dobe:
+                <a href="https://drive.google.com/file/d/1r3ZGaGBYjiPa-6a3v1XijghDOg7rRMk3/view?usp=drivesdk">Reportáž</a>
               </p>
-
-              <p>V Rybanoch, v okrese Topoľčany, boli však od roku 1970 jurské ohne zakázané. Miestni totiž zakladali také veľké ohne, že ich bolo dobre vidieť až do susednej obce Chynorany, odkiaľ vyslali hasičov v domnení, že ide o požiar.
-              </p>
-              <p>Aj keď sa nedorozumenie rýchlo vysvetlilo, ohne sa na Juraja už odvtedy v Rybanoch klásť nemohli.(4)</p>
-
             </div>
 
           </div>
         </div>
 
       </div>
+
+
 
       <a href="juraj1_eng" class="btn btn-outline-dark read-more-btn">
         English version
@@ -247,29 +246,32 @@
     </div>
   </body>
   <script>
-    document.querySelectorAll(".form-check").forEach(item => {
-      item.addEventListener("click", function (e) {
+    document.getElementById("checkQuiz").addEventListener("click", () => {
 
-        const label = this.querySelector(".quiz-option");
-        const checkbox = this.querySelector(".form-check-input");
+      const options = document.querySelectorAll(".form-check");
 
+      options.forEach(item => {
+        const checkbox = item.querySelector(".form-check-input");
+        const label = item.querySelector(".quiz-option");
         const isCorrect = label.dataset.correct === "true";
 
-    // vyfarbenie
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 // reset
         label.classList.remove("correct", "wrong");
 
-        if (isCorrect) {
-          label.classList.add("correct");
+        if (checkbox.checked) {
+          if (isCorrect) {
+            label.classList.add("correct");
+          } else {
+            label.classList.add("wrong");
+          }
         } else {
-          label.classList.add("wrong");
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             // môžeš (voliteľne) zvýrazniť správne odpovede aj keď neboli kliknuté
+          if (isCorrect) {
+            label.classList.add("correct");
+          }
         }
-
-    // sync checkbox (aby bol vždy zaskrtnutý)
-        if (checkbox) {
-          checkbox.checked = true;
-        }
-
       });
+
     });
   </script>
 </html>

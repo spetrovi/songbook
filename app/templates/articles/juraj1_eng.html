@@ -144,7 +144,7 @@
             <button class="accordion-button collapsed" type="button"
                     data-bs-toggle="collapse" data-bs-target="#quizCollapse"
                     aria-expanded="false" aria-controls="quizCollapse">
-              🏆 Quiz – Traditions of Saint George
+              🏆 Quiz
             </button>
           </h2>
 
@@ -153,36 +153,44 @@
                data-bs-parent="#jurajAccordion">
 
             <div class="accordion-body">
-              <p>In many St. George songs, the phrase “the earth opens” appears. Which of the following beliefs did people associate with Saint George and the awakening of the earth?</p>
+              <p>
+                “Fumigation” was a common part of folk magic and healing practices. An interesting source on fumigation comes from witch trials involving Zuzana Ščedroná from Beluša, Dorota Kalmová from Streženice, Anna Žgeňa from Malá Prúbka, Anna Pastierčina from Handlová, and Anna Píšová from Čereňany.
+              </p>
+
+              <p>
+                Which of the following ingredients do you think was NOT included in their recommended fumigation practices?
+              </p>
 
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="a">
+                <input class="form-check-input" type="radio" name="quiz1" id="a">
                 <label class="form-check-label quiz-option" for="a" data-correct="false">
-                  A. On Saint George’s Day, treasures emerge from the earth.
+                  A. A piece of a witch’s clothing
                 </label>
               </div>
 
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="b">
+                <input class="form-check-input" type="radio" name="quiz1" id="b">
                 <label class="form-check-label quiz-option" for="b" data-correct="true">
-                  B. If someone encounters a snake before Saint George’s Day, they must kill it to have good luck.
+                  B. Dung from treated livestock
                 </label>
               </div>
 
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="c">
-                <label class="form-check-label quiz-option" for="c" data-correct="true">
-                  C. If someone encounters a snake before Saint George’s Day, they must not kill it — a living snake means good luck.
+                <input class="form-check-input" type="radio" name="quiz1" id="c">
+                <label class="form-check-label quiz-option" for="c" data-correct="false">
+                  C. Bread
                 </label>
               </div>
 
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="d">
-                <label class="form-check-label quiz-option" for="d" data-correct="true">
-                  D. If someone catches a mole before Saint George’s Day, they should extract its heart and give it as feed to livestock.
+                <input class="form-check-input" type="radio" name="quiz1" id="d">
+                <label class="form-check-label quiz-option" for="d" data-correct="false">
+                  D. Straw from a neighbor’s roof
                 </label>
               </div>
-
+              <button id="checkQuiz" class="btn btn-dark mt-3">
+                Check answers
+              </button>
             </div>
           </div>
         </div>
@@ -193,7 +201,7 @@
             <button class="accordion-button collapsed" type="button"
                     data-bs-toggle="collapse" data-bs-target="#funfactCollapse"
                     aria-expanded="false" aria-controls="funfactCollapse">
-              🔥 Fun fact – St. George’s fires
+              🔥 Fun fact
             </button>
           </h2>
 
@@ -203,16 +211,10 @@
 
             <div class="accordion-body">
               <p>
-                In Europe, the lighting of fires within annual folk traditions is mainly associated with the summer solstice; however, ritual fires were also important on Saint George’s Day.
+                One of the more curious customs on the eve of Saint George’s Day is known as “zavlekuvanie.” Find out what it involves and how it is practiced today:  <a href="https://drive.google.com/file/d/1r3ZGaGBYjiPa-6a3v1XijghDOg7rRMk3/view?usp=drivesdk">       News report
+                </a>
               </p>
 
-              <p>
-                In Rybany, in the Topoľčany district, St. George’s fires were banned in 1970. Locals had been lighting such large fires that they were visible from the neighboring village of Chynorany, from where firefighters were dispatched under the assumption that it was an actual fire.
-              </p>
-
-              <p>
-                Although the misunderstanding was quickly clarified, fires have not been allowed to be lit on Saint George’s Day in Rybany since then (4).
-              </p>
             </div>
 
           </div>
@@ -224,7 +226,7 @@
         Read more ↓
       </a>
 
-      <!-- ARTICLE -->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <!-- ARTICLE -->
       <div id="article">
         <div class="header">
           <div class="kicker">Folk traditions</div>
@@ -287,29 +289,32 @@
     </div>
   </body>
   <script>
-    document.querySelectorAll(".form-check").forEach(item => {
-      item.addEventListener("click", function (e) {
+    document.getElementById("checkQuiz").addEventListener("click", () => {
 
-        const label = this.querySelector(".quiz-option");
-        const checkbox = this.querySelector(".form-check-input");
+      const options = document.querySelectorAll(".form-check");
 
+      options.forEach(item => {
+        const checkbox = item.querySelector(".form-check-input");
+        const label = item.querySelector(".quiz-option");
         const isCorrect = label.dataset.correct === "true";
 
-    // vyfarbenie
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            // reset
         label.classList.remove("correct", "wrong");
 
-        if (isCorrect) {
-          label.classList.add("correct");
+        if (checkbox.checked) {
+          if (isCorrect) {
+            label.classList.add("correct");
+          } else {
+            label.classList.add("wrong");
+          }
         } else {
-          label.classList.add("wrong");
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             // môžeš (voliteľne) zvýrazniť správne odpovede aj keď neboli kliknuté
+          if (isCorrect) {
+            label.classList.add("correct");
+          }
         }
-
-    // sync checkbox (aby bol vždy zaskrtnutý)
-        if (checkbox) {
-          checkbox.checked = true;
-        }
-
       });
+
     });
   </script>
 </html>
