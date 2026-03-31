@@ -162,6 +162,12 @@ def juraj3_view(request: Request):
     return render(request, "articles/juraj3.html", context)
 
 
+@app.get("/juraj3_eng", response_class=HTMLResponse)
+def juraj3eng_view(request: Request):
+    context = {}
+    return render(request, "articles/juraj3_eng.html", context)
+
+
 @app.get("/login", response_class=HTMLResponse)
 def login_get_view(request: Request):
     return render(request, "auth/login.html", {})
